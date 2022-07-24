@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Main from '../../Layouts/Main'
 
 type Props = {
   auth: any
@@ -11,7 +12,9 @@ export default class Home extends Component<Props, State> {
 
   render() {
     return (
-      <div>Home</div>
+      <Main>
+        main
+      </Main>
     )
   }
 }
