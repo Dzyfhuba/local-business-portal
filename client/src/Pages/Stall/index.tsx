@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Main from '../../Layouts/Main'
 
 type Props = {}
 
@@ -9,7 +10,9 @@ export default class Stall extends Component<Props, State> {
 
   render() {
     return (
-      <div>Stall</div>
+      <Main>
+        Stall
+      </Main>
     )
   }
 }

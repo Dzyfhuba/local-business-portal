@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Brand from '../Components/Brand'
 import Button from '../Components/Button'
 import { MdClose, MdMenu } from 'react-icons/md'
@@ -52,13 +52,22 @@ export default class Navbar extends Component {
         onClick={() => this.handleSidebarToggle()}
         >
           <div id="sidebarContainer" 
-          className='fixed top-0 h-screen w-4/5 bg-base flex justify-center items-start' 
+          className='fixed flex-col top-0 h-screen w-4/5 bg-base flex justify-start items-center' 
           onClick={e => e.stopPropagation()}
           style={{ transform: 'translateX(-100%)' }}
           >
-            <Button onClick={() => this.handleSidebarToggle()}>
-              <MdClose className='text-2xl' />
-            </Button>
+            <div className="block w-full text-center bg-secondary">
+              <Button onClick={() => this.handleSidebarToggle()}
+              className='px-8 py-4'
+              >
+                <MdClose className='text-2xl' />
+              </Button>
+            </div>
+            <div id="content" className='w-full'>
+            <NavLink to={'/'} className='flex items-center justify-center h-11'>Home</NavLink>
+              <NavLink to={'/stall'} className='flex items-center justify-center h-11'>Stall</NavLink>
+              <NavLink to={'/post'} className='flex items-center justify-center h-11'>Posts</NavLink>
+            </div>
           </div>
         </div>
         <Link to='/'>
