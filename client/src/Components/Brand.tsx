@@ -12,7 +12,7 @@ export default class Brand extends Component<Props, State> {
 
   render() {
     return (
-        <span className={`tracking-wider uppercase ${this.props.className}`} {...this.props}>
+        <span className={`tracking-wider uppercase font-black ${this.props.className}`} {...this.props}>
             {this.props.children}
         </span>
     )

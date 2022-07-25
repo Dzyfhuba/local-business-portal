@@ -58,15 +58,16 @@ export default class Navbar extends Component {
           >
             <div className="block w-full text-center bg-secondary">
               <Button onClick={() => this.handleSidebarToggle()}
-              className='px-8 py-4'
+              className='px-8 py-4 active:shadow-2xl'
               >
                 <MdClose className='text-2xl' />
               </Button>
             </div>
             <div id="content" className='w-full'>
-            <NavLink to={'/'} className='flex items-center justify-center h-11'>Home</NavLink>
+              <NavLink to={'/'} className='flex items-center justify-center h-11'>Home</NavLink>
               <NavLink to={'/stall'} className='flex items-center justify-center h-11'>Stall</NavLink>
               <NavLink to={'/post'} className='flex items-center justify-center h-11'>Posts</NavLink>
+              <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary'>Login</NavLink>
             </div>
           </div>
         </div>
