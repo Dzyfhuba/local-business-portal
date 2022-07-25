@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Navbar from '../Containers/Navbar'
 
 type Props = {
     children: any
@@ -12,6 +13,7 @@ export default class Main extends Component<Props, State> {
   render() {
     return (
       <div className="bg-base min-h-screen">
+        <Navbar />
         {this.props.children}
       </div>
     )
