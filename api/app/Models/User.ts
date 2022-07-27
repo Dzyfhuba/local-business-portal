@@ -1,6 +1,9 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, hasOne, computed, HasOne } from '@ioc:Adonis/Lucid/Orm'
+import UserHasRole from './UserHasRole'
+import Role from './Role'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -29,5 +32,29 @@ export default class User extends BaseModel {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }
+  }
+
+  @hasOne(() => UserHasRole)
+  public userHasRole: HasOne<typeof UserHasRole>
+
+  @hasOne(() => Role)
+  public role: HasOne<typeof Role>
+
+  @computed()
+  public get getRole () {
+    return this.userHasRole.id
+  }
+
+  public async setRole (role: string) {
+    const rolesOne = await Database.from('roles').where('role', role).first()
+    const result = await UserHasRole.firstOrCreate(
+      {
+        user_id: this.id,
+      },
+      {
+        role_id:  rolesOne.id,
+      }
+    )
+    return result
   }
 }
