@@ -24,4 +24,4 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.get('/register', 'AuthController.register')
+Route.post('/register', 'AuthController.register')

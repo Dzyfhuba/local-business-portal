@@ -1,17 +1,20 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import User from 'App/Models/User'
+import RegisterValidator from 'App/Validators/RegisterValidator'
 
 export default class AuthController {
   public async register ({request, response}) {
-    const user = await User.find(2)
-    console.log(request.body())
+    const body = await request.validate(RegisterValidator)
     try {
+      const user = await User.create(body)
+      await user.setRole('stall')
+
       return response.send({
         error: false,
-        status: 'succces',
+        status: 'success',
         message: 'User has been registered',
-        data: await user?.getRole(),
+        data: user,
       })
     } catch (error) {
       return response.send({
