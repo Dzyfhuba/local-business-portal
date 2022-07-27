@@ -4,14 +4,14 @@ import User from 'App/Models/User'
 
 export default class AuthController {
   public async register ({request, response}) {
-    const user = await User.find(1)
+    const user = await User.find(2)
     console.log(request.body())
     try {
       return response.send({
         error: false,
         status: 'succces',
         message: 'User has been registered',
-        // data: user?.getRole(),
+        data: await user?.getRole(),
       })
     } catch (error) {
       return response.send({

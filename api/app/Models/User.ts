@@ -41,8 +41,12 @@ export default class User extends BaseModel {
   public role: HasOne<typeof Role>
 
   @computed()
-  public get getRole () {
-    return this.userHasRole.id
+  public async getRole () {
+    const role = await Database.from('user_has_roles')
+      .join('roles', 'user_has_roles.role_id', '=', 'roles.id')
+      .where('user_has_roles.user_id', this.id)
+      .select('roles.role').first()
+    return role.role
   }
 
   public async setRole (role: string) {
@@ -58,3 +62,4 @@ export default class User extends BaseModel {
     return result
   }
 }
+
