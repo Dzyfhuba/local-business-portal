@@ -4,14 +4,19 @@ import Brand from '../Components/Brand'
 import Button from '../Components/Button'
 import { MdClose, MdMenu } from 'react-icons/md'
 import anime from 'animejs'
+import Logout from '../Components/Logout'
 
 export default class Navbar extends Component {
   state = {
-    sidebarDisplay: 'hidden'
+    sidebarDisplay: 'hidden',
+    auth: Object
   }
 
   componentDidMount(){
     console.log(this.props.auth)
+    this.setState({
+      auth: this.props.auth
+    })
   }
 
   handleSidebarToggle () {
@@ -67,7 +72,11 @@ export default class Navbar extends Component {
               <NavLink to={'/'} className='flex items-center justify-center h-11'>Home</NavLink>
               <NavLink to={'/stall'} className='flex items-center justify-center h-11'>Stall</NavLink>
               <NavLink to={'/post'} className='flex items-center justify-center h-11'>Posts</NavLink>
-              <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary'>Login</NavLink>
+              {this.state.auth ? (
+                <Logout className={'flex items-center justify-center w-full h-11 bg-secondary'} />
+              ) : (
+                <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary'>Login</NavLink>
+              )}
             </div>
           </div>
         </div>

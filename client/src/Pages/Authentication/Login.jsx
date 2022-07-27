@@ -8,6 +8,7 @@ import axios from 'axios'
 import Hosts from '../../Config/Hosts'
 import { useCookies } from 'react-cookie'
 import swal from 'sweetalert';
+import Auth from '../../Config/Auth'
 
 export default function Login () {
   const [cookies, setCookies] = useCookies(['token'])
@@ -29,13 +30,15 @@ export default function Login () {
         console.log(res.data.token.token)
         setCookies('token', res.data.token.token)
         swal('Success', 'Login has been successfully', 'success')
-          .then(() => {
-            localStorage.setItem('auth', res.data.user)
-            navigate('/')
-          })
+        .then(() => {
+          Auth.setUser(res.data.user)
+          window.location.href = '/'
+        })
       } else if (res.data.status === 'warning') {
         swal('Warning', res.data.message, 'warning')
-          .then(() => navigate('/'))
+        .then(() => {
+          window.location.href = '/'
+        })
       } else if (res.data.error) {
         swal('Error', res.data.message, res.data.status)
       }
