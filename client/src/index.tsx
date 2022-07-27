@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import Routes from './Routes'
+import Router from './Router'
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Routes />
+    <Router />
   </React.StrictMode>
 );
 

@@ -11,7 +11,7 @@ export default class Navbar extends Component {
   }
 
   componentDidMount(){
-    console.log(this.state.sidebarDisplay)
+    console.log(this.props.auth)
   }
 
   handleSidebarToggle () {

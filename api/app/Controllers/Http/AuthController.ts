@@ -92,4 +92,41 @@ export default class AuthController {
       })
     }
   }
+
+  public async logout ({auth, response}) {
+    await auth.use('api').revoke()
+    return response.send({
+      error: false,
+      status: 'success',
+      message: 'Logout has successfully',
+    })
+  }
+
+  public async authCheck ({auth, response}) {
+    try {
+      await auth.use('api').authenticate()
+
+      if (auth.use('api').user!) {
+        return response.send({
+          error: false,
+          status: 'success',
+          message: 'You have logged in',
+          user: auth.use('api').user,
+        })
+      }
+
+      return response.send({
+        status: 'error',
+        error: true,
+        message: 'You are not logged in',
+      })
+    } catch (e) {
+      return response.send({
+        status: 'error',
+        error: true,
+        message: 'Somethings bad is happen',
+        e ,
+      })
+    }
+  }
 }
