@@ -7,11 +7,8 @@ import PropTypes from 'prop-types'
 import Button from './Button'
 
 const Logout = props => {
-	const [cookie, removeCookie] = useCookies()
     
 	const handleSubmit = (e) => {
-		console.log(cookie)
-		removeCookie('token')
 		localStorage.clear()
 		
 		e.preventDefault()

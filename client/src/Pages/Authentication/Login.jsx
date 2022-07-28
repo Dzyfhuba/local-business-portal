@@ -11,7 +11,6 @@ import swal from 'sweetalert';
 import Auth from '../../Config/Auth'
 
 export default function Login() {
-  const [cookies, setCookies] = useCookies(['token'])
 
   const handleForm = (e) => {
     e.preventDefault()
@@ -21,13 +20,14 @@ export default function Login() {
     }
     axios.post(Hosts.main + '/login', data, {
       headers: {
-        'Authorization': `Bearer ${cookies.token}`
+        'Authorization': `Bearer ${Auth.getToken()}`
       },
     })
       .then(res => {
         if (res.data.status === 'success') {
           console.log(res.data.token.token)
-          setCookies('token', res.data.token.token)
+          // setCookies('token', res.data.token.token)
+          Auth.setToken(res.data.token.token)
           swal('Success', 'Login has been successfully', 'success')
             .then(() => {
               Auth.setUser(res.data.user)

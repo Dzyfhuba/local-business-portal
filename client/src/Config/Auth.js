@@ -6,6 +6,14 @@ const Auth = {
     },
     setUser: (json) => {
         localStorage.setItem('user', JSON.stringify(json))
+    },
+    setToken: (token) => {
+        localStorage.setItem('token', token)
+    },
+    getToken: () => {
+        const token = localStorage.getItem('token')
+        return token
+        
     }
 }
 

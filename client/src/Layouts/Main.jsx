@@ -7,23 +7,24 @@ import { useCookies } from 'react-cookie'
 import Auth from '../Config/Auth'
 
 const Main = props => {
-  const [cookies, ] = useCookies(['token'])
   const [, setAuth] = useState(Array)
 
   useEffect(() => {
     axios.get(Hosts.main + '/auth/check', {
       headers: {
-        'Authorization': `Bearer ${cookies.token}`
+        'Authorization': `Bearer ${Auth.getToken()}`
       },
     })
       .then(res => {
         if(res.data.status === 'success') {
           Auth.setUser(res.data.user)
           setAuth(res.data.user)
+        } else if (res.data.status === 'error') {
+          localStorage.clear()
         }
-        // console.log(res.data)
+        console.log(res.data)
       })
-  }, [cookies.token])
+  }, [])
 
   return (
     <div className="bg-base min-h-screen">

@@ -5,15 +5,15 @@ import ButtonAnchor from '../../../Components/ButtonAnchor'
 import axios from 'axios'
 import Hosts from '../../../Config/Hosts'
 import { useCookies } from 'react-cookie'
+import Auth from '../../../Config/Auth'
 
 const Home = props => {
-    const [cookies,] = useCookies(['token'])
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
         axios.get(Hosts.main + '/posts/all', {
             headers: {
-                'Authorization': `Bearer ${cookies.token}`
+                'Authorization': `Bearer ${Auth.getToken()}`
             },
         })
             .then(res => setPosts(res.data.posts))
