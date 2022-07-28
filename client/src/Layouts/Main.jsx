@@ -21,7 +21,7 @@ const Main = props => {
           Auth.setUser(res.data.user)
           setAuth(res.data.user)
         }
-        console.log(res.data)
+        // console.log(res.data)
       })
   }, [cookies.token])
 

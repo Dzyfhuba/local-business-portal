@@ -12,7 +12,7 @@ export default function Navbar(props) {
 
   useEffect(() => {
     setAuth(props.auth)
-    console.log(props.auth)
+    // console.log(props.auth)
   }, [props.auth])
 
   const handleSidebarToggle = () => {
@@ -63,7 +63,7 @@ export default function Navbar(props) {
             <NavLink to={'/stall'} className='flex items-center justify-center h-11'>Stall</NavLink>
             <NavLink to={'/post'} className='flex items-center justify-center h-11'>Posts</NavLink>
             {auth ? (
-              <NavLink to={`/admin/${auth.role}`} className={'flex items-center justify-center w-full h-11 capitalize'}>{`${auth.role} Page`}</NavLink>
+              <NavLink to={`/control/${auth.role}`} className={'flex items-center justify-center w-full h-11 capitalize'}>{`${auth.role} Page`}</NavLink>
             ) : ''}
             {auth ? (
               <Logout className={'flex items-center justify-center w-full h-11 bg-secondary'} />
