@@ -73,6 +73,9 @@ export default class Navbar extends Component {
               <NavLink to={'/stall'} className='flex items-center justify-center h-11'>Stall</NavLink>
               <NavLink to={'/post'} className='flex items-center justify-center h-11'>Posts</NavLink>
               {this.state.auth ? (
+                <NavLink to={`/${this.state.auth.role}`} className={'flex items-center justify-center w-full h-11 capitalize'}>{`${this.state.auth.role} Page`}</NavLink>
+              ) : ''}
+              {this.state.auth ? (
                 <Logout className={'flex items-center justify-center w-full h-11 bg-secondary'} />
               ) : (
                 <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary'>Login</NavLink>

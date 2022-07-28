@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Brand from '../../Components/Brand'
 import Button from '../../Components/Button'
 import Input from '../../Components/Input'
@@ -12,7 +12,6 @@ import Auth from '../../Config/Auth'
 
 export default function Login () {
   const [cookies, setCookies] = useCookies(['token'])
-  const navigate = useNavigate()
   
   const handleForm = (e)  =>{
     e.preventDefault()

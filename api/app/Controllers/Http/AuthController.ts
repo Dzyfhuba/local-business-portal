@@ -107,11 +107,20 @@ export default class AuthController {
       await auth.use('api').authenticate()
 
       if (auth.use('api').user!) {
+        const user = await User.find(auth.use('api').user.id)
+        const role = await user?.getRole()
+
+        let user4Response = user?.serializeAttributes()
+        user4Response = {
+          ...user4Response,
+          role,
+        }
+
         return response.send({
           error: false,
           status: 'success',
           message: 'You have logged in',
-          user: auth.use('api').user,
+          user: user4Response,
         })
       }
 

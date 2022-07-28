@@ -8,7 +8,7 @@ import Auth from '../Config/Auth'
 
 const Main = props => {
   const [cookies, ] = useCookies(['token'])
-  const [auth, setAuth] = useState([])
+  const [auth, setAuth] = useState(Array)
 
   useEffect(() => {
     axios.get(Hosts.main + '/auth/check', {
@@ -21,8 +21,9 @@ const Main = props => {
           Auth.setUser(res.data.user)
           setAuth(res.data.user)
         }
+        console.log(res.data)
       })
-  }, [cookies.token, auth])
+  }, [cookies.token])
 
   return (
     <div className="bg-base min-h-screen">
