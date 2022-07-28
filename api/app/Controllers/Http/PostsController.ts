@@ -22,4 +22,20 @@ export default class PostsController {
       })
     }
   }
+
+  public async get ({request, response}) {
+    try {
+      const { stall, slug } = request.params()
+
+      return response.send({
+        error: false,
+        status: 'success',
+        data: 'data',
+        stall,
+        slug,
+      })
+    } catch (error) {
+
+    }
+  }
 }

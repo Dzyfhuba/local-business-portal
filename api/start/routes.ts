@@ -29,4 +29,5 @@ Route.post('/login', 'AuthController.login')
 Route.post('/logout', 'AuthController.logout')
 Route.get('/auth/check', 'AuthController.authCheck')
 
-Route.get('/posts/all', 'PostsController.all')
+Route.get('/post/all', 'PostsController.all')
+Route.get('/post/get/:stall/:slug', 'PostsController.get')

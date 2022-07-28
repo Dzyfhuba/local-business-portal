@@ -11,7 +11,7 @@ const Home = props => {
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
-        axios.get(Hosts.main + '/posts/all', {
+        axios.get(Hosts.main + '/post/all', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             },
@@ -42,7 +42,7 @@ const Home = props => {
                                     posts.map((post, i) => (
                                         <tr key={i}>
                                             <td>
-                                                <Link to={`/post/${post.slug}`}>{post.title}</Link>
+                                                <Link to={`/post/${post.user_id}/${post.slug}`}>{post.title}</Link>
                                             </td>
                                             <td>{post.updated_at}</td>
                                             <td><ButtonAnchor className={'bg-yellow-300'} to={`/control/post/${post.id}/edit`}>Edit</ButtonAnchor></td>
