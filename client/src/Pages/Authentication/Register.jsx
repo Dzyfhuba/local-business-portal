@@ -45,7 +45,7 @@ export default function Register(props) {
                 </div>
                 <form className="" onSubmit={handleSubmit}>
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Name..." required />
+                    <Input id="name" placeholder="Name..." autoFocus required />
                     <Label htmlFor="username">Username</Label>
                     <Input id="username" placeholder="Username..." required />
                     <Label htmlFor="email">Email</Label>
