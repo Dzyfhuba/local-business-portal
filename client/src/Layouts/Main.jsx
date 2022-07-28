@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Navbar from '../Containers/Navbar'
 import axios from 'axios'
 import Hosts from '../Config/Hosts'
-import { useCookies } from 'react-cookie'
 import Auth from '../Config/Auth'
 
 const Main = props => {

@@ -1,7 +1,6 @@
 // import axios from 'axios'
 import axios from 'axios'
 import React from 'react'
-import { useCookies } from 'react-cookie'
 import swal from 'sweetalert'
 import PropTypes from 'prop-types'
 import Button from './Button'

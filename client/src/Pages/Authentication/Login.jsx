@@ -6,7 +6,6 @@ import Input from '../../Components/Input'
 import Label from '../../Components/Label'
 import axios from 'axios'
 import Hosts from '../../Config/Hosts'
-import { useCookies } from 'react-cookie'
 import swal from 'sweetalert';
 import Auth from '../../Config/Auth'
 

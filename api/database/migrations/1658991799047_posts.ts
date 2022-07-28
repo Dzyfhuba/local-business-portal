@@ -7,10 +7,11 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.integer('user_id').unsigned().references('id').inTable('users')
-      table.string('title')
-      table.text('images')
-      table.text('content')
+      table.integer('user_id').unsigned().references('id').inTable('users').notNullable()
+      table.string('title').unique().notNullable()
+      table.string('slug').unique().notNullable()
+      table.text('images').notNullable()
+      table.text('content').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
