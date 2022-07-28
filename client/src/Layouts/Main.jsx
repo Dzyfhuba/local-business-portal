@@ -8,7 +8,7 @@ import Auth from '../Config/Auth'
 
 const Main = props => {
   const [cookies, ] = useCookies(['token'])
-  const [auth, setAuth] = useState(Array)
+  const [, setAuth] = useState(Array)
 
   useEffect(() => {
     axios.get(Hosts.main + '/auth/check', {
