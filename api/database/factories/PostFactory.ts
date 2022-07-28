@@ -5,7 +5,7 @@ export default Factory.define(Post, ({ faker }) => {
   return {
     user_id: Math.floor(Math.random() * 12 + 1),
     title: faker.lorem.words(),
-    images: `${faker.image.imageUrl()};${faker.image.imageUrl()};${faker.image.imageUrl()};${faker.image.imageUrl()}`,
+    images: 'Screenshot (34).png;Screenshot (34).png;Screenshot (34).png;Screenshot (34).png',
     content: faker.lorem.paragraphs(10),
   }
 }).build()
