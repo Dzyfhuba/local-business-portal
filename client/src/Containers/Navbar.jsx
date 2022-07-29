@@ -43,7 +43,7 @@ export default function Navbar(props) {
         <MdMenu className='text-2xl' />
       </Button>
       <div id="sidebar"
-        className={`${sidebarDisplay} fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50`}
+        className={`${sidebarDisplay} fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 z-50`}
         onClick={handleSidebarToggle}
       >
         <div id="sidebarContainer"

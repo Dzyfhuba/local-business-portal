@@ -42,7 +42,7 @@ const Home = props => {
                                     posts.map((post, i) => (
                                         <tr key={i}>
                                             <td>
-                                                <Link to={`/post/${post.user_id}/${post.slug}`}>{post.title}</Link>
+                                                <Link to={`/post/${post.username}/${post.slug}`}>{post.title}</Link>
                                             </td>
                                             <td>{post.updated_at}</td>
                                             <td><ButtonAnchor className={'bg-yellow-300'} to={`/control/post/${post.id}/edit`}>Edit</ButtonAnchor></td>
