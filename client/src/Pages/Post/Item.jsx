@@ -7,6 +7,9 @@ import Main from '../../Layouts/Main'
 import Image404 from '../../Images/404.jpg'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
 
 // import PropTypes from 'prop-types'
 
@@ -47,10 +50,12 @@ const Item = props => {
 
     return (
         <Main>
-            <Carousel>
+            <Carousel showArrows={false}>
                 {
                     images.map((image, i) => (
-                        <img src={image} alt={`${post.title} ${i}`} key={i} className={'max-h-80 object-cover'} />
+                        <Zoom>
+                                <img src={image} alt={`${post.title} ${i}`} key={i} style={{maxHeight: 300  , objectFit: 'cover'}} />
+                        </Zoom>
                     ))
                 }
             </Carousel>
