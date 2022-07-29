@@ -31,7 +31,10 @@ export default class PostsController {
     try {
       const { stall, slug } = request.params()
 
-      const post = await Database.from('posts').where('slug', slug).first()
+      const post = await Database.from('posts').where('slug', slug)
+        .join('users', 'users.id', 'posts.user_id')
+        .select('posts.*')
+        .select('users.name').first()
 
       return response.send({
         error: false,

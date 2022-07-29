@@ -54,12 +54,15 @@ const Item = props => {
                 {
                     images.map((image, i) => (
                         <Zoom>
-                                <img src={image} alt={`${post.title} ${i}`} key={i} style={{maxHeight: 300  , objectFit: 'cover'}} />
+                                <img src={image} alt={`${post.title} ${i}`} key={i} style={{maxHeight: 300}} />
                         </Zoom>
                     ))
                 }
             </Carousel>
-            <article className='mx-5 mt-3'>
+            <article className='mx-5 mt-3 bg-white rounded p-5'>
+                <h1>{post.name}</h1>
+            </article>
+            <article className='mx-5 mt-3 bg-white rounded p-5'>
                 <h1 className='font-black text-3xl'>{post.title}</h1>
                 <small>{post.updated_at}</small>
                 {/* <h3>{post.name}</h3> */}
