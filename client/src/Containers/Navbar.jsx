@@ -45,7 +45,7 @@ export default function Navbar(props) {
 
   const menu = (
     <Menu>
-      <MenuItem key={1} className='px-5 py-2.5 border-b hover:cursor-pointer text-center'>Profile</MenuItem>
+      <MenuItem key={1} className='px-5 py-2.5 border-b hover:cursor-pointer text-center' onClick={() => navigate(`/control/${auth.role}/profile`)}>Profile</MenuItem>
       <Divider />
       <MenuItem key={2} className='px-5 py-2.5 capitalize hover:cursor-pointer text-center' onClick={() => navigate(`/control/${auth.role}`)}>
         {`${auth.role} Page`}

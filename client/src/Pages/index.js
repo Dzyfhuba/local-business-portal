@@ -7,5 +7,6 @@ import Register from './Authentication/Register'
 import ControlStallHome from './Control/Stall/Home'
 import ControlStallCreate from './Control/Stall/Create'
 import ControlAdminHome from './Control/Admin/Home'
+import ControlStallProfile from './Control/Stall/Profile'
 
-export {Home, Post, Stall, Login, Register, ControlAdminHome, ControlStallHome, ControlStallCreate, PostItem}
+export {Home, Post, Stall, Login, Register, ControlAdminHome, ControlStallHome, ControlStallCreate, PostItem, ControlStallProfile}
