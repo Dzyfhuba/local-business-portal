@@ -103,7 +103,7 @@ export default function Navbar(props) {
           animation="slide-up"
         >
           <button>
-            <CgProfile className='text-2xl' />
+            <CgProfile className='text-3xl' />
           </button>
         </Dropdown>
       ) : ''}
