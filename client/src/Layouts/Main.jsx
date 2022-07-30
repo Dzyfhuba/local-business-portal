@@ -20,6 +20,9 @@ const Main = props => {
           setAuth(res.data.user)
         } else if (res.data.status === 'error') {
           localStorage.clear()
+          Auth.setUser({
+            role: 'guest'
+          })
         }
         console.log(res.data)
       })

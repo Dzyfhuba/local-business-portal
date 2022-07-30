@@ -4,8 +4,10 @@ import React from 'react'
 import swal from 'sweetalert'
 import PropTypes from 'prop-types'
 import Button from './Button'
+import { useNavigate } from 'react-router-dom'
 
 const Logout = props => {
+	const navigate = useNavigate()
     
 	const handleSubmit = (e) => {
 		localStorage.clear()
@@ -16,7 +18,7 @@ const Logout = props => {
 			if(res.data.status === 'success') {
 					swal('Success', res.data.message, res.data.status)
 						.then(() => {
-							window.location.reload(false)
+							window.location.href = '/'
 						})
 				}
 			})

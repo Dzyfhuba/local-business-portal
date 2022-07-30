@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Main from '../../../Layouts/Main'
 import ButtonAnchor from '../../../Components/ButtonAnchor'
 import axios from 'axios'
@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 
 const Home = props => {
     const [posts, setPosts] = useState([])
+    const [auth, setAuth] = useState(props.auth)
 
     useEffect(() => {
         axios.get(Hosts.main + '/post/all', {
@@ -62,6 +63,8 @@ const Home = props => {
     )
 }
 
-Home.propTypes = {}
+Home.propTypes = {
+    auth: PropTypes.object
+}
 
 export default Home
