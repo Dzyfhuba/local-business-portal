@@ -5,6 +5,7 @@ import swal from 'sweetalert'
 import PropTypes from 'prop-types'
 import Button from './Button'
 import Auth from '../Config/Auth'
+import Hosts from '../Config/Hosts'
 
 const Logout = props => {
     
@@ -12,7 +13,7 @@ const Logout = props => {
 		localStorage.clear()
 		
 		e.preventDefault()
-		axios.post('http://localhost:3333/logout')
+		axios.post(Hosts.main + '/logout')
 		.then(res => {
 			if(res.data.status === 'success') {
 					swal('Success', res.data.message, res.data.status)
