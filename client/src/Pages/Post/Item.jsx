@@ -28,7 +28,7 @@ const Item = props => {
                 setPost(res.data.data)
                 getSupabaseImages(res.data.data.images)
             })
-    }, [])
+    }, )
 
     const getSupabaseImages = async (images) => {
         images = images.slice(-1) === ';' ? images.slice(0, -1) : images

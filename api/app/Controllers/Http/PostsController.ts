@@ -17,12 +17,16 @@ export default class PostsController {
         .select('users.username')
 
       return response.send({
-        posts,
+        error: false,
+        status: 'success',
+        data: posts,
       })
       //   const posts = await Post.query().where('user')
     } catch (error) {
       return response.send({
-        error,
+        error: true,
+        status: 'error',
+        data: error,
       })
     }
   }

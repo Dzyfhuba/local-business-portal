@@ -16,7 +16,10 @@ const Home = props => {
                 'Authorization': `Bearer ${Auth.getToken()}`
             },
         })
-            .then(res => setPosts(res.data.posts))
+            .then(res => {
+                const mapped = res.data.data
+                setPosts(res.data.data)
+            })
     }, [])
     console.log(posts)
     

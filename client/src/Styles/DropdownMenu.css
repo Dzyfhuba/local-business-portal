@@ -1,0 +1,7 @@
+div[role='menu'] {
+    visibility: hidden;
+}
+
+div[role='menu'].visible {
+    visibility: visible;
+}

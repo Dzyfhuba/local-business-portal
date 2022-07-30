@@ -3,8 +3,12 @@ import { Link, NavLink } from 'react-router-dom'
 import Brand from '../Components/Brand'
 import Button from '../Components/Button'
 import { MdClose, MdMenu } from 'react-icons/md'
+import { CgProfile } from 'react-icons/cg'
 import anime from 'animejs'
 import Logout from '../Components/Logout'
+import Dropdown from 'rc-dropdown'
+import 'rc-dropdown/assets/index.css';
+import Menu, { MenuItem } from 'rc-menu'
 
 export default function Navbar(props) {
   const [sidebarDisplay, setSidebarDisplay] = useState('hidden')
@@ -16,7 +20,7 @@ export default function Navbar(props) {
   }, [props.auth])
 
   const handleSidebarToggle = () => {
-    if(sidebarDisplay === 'hidden') {
+    if (sidebarDisplay === 'hidden') {
       setSidebarDisplay('flex')
       anime({
         targets: '#sidebarContainer',
@@ -36,6 +40,15 @@ export default function Navbar(props) {
       }, 500);
     }
   }
+
+  const menu = (
+    <Menu>
+      <MenuItem>Item 1</MenuItem>
+      <MenuItem>Item 2</MenuItem>
+      <MenuItem>Item 3</MenuItem>
+      <MenuItem>Item 4</MenuItem>
+    </Menu>
+  )
 
   return (
     <nav className='bg-primary h-14 flex items-center justify-between px-5'>
@@ -76,6 +89,16 @@ export default function Navbar(props) {
       <Link to='/'>
         <Brand className='font-black text-xl'>BULULANJANG</Brand>
       </Link>
+      <button>
+        <CgProfile />
+      </button>
+      <Dropdown
+      trigger={['click']}
+      overlay={menu}
+      animation="slide-up"
+      >
+        <button>open</button>
+      </Dropdown>
     </nav>
   )
 }
