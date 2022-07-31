@@ -41,12 +41,14 @@ export default class ProfilesController {
         phone,
         description,
         name,
+        profile,
       } = request.body()
 
-      const profile = await Profile.updateOrCreate({user_id: userId}, {
+      const profile1 = await Profile.updateOrCreate({user_id: userId}, {
         address,
         phone,
         description,
+        profile,
       })
       const user = await User.findOrFail(userId)
       user.name = name
@@ -55,7 +57,7 @@ export default class ProfilesController {
       return response.send({
         error: false,
         status: 'success',
-        data: profile,
+        data: profile1,
       })
     } catch (error) {
       return response.send({

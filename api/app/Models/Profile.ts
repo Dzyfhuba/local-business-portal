@@ -9,6 +9,9 @@ export default class Profile extends BaseModel {
   public user_id: number
 
   @column()
+  public profile: string
+
+  @column()
   public address: string
 
   @column()

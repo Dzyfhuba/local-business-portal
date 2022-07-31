@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 const Home = props => {
     const [posts, setPosts] = useState([])
-    const [auth, setAuth] = useState(props.auth)
+    // const [auth, setAuth] = useState(props.auth)
 
     useEffect(() => {
         axios.get(Hosts.main + '/post/all', {

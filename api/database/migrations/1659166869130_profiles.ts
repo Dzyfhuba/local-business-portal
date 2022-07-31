@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
 
       table.integer('user_id').unsigned().references('id').inTable('users').notNullable()
+      table.string('profile')
       table.string('address').notNullable()
       table.text('description')
       table.string('phone').notNullable()

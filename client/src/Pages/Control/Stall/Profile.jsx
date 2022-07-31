@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import Main from '../../../Layouts/Main'
 import Label from '../../../Components/Label'
 import Input from '../../../Components/Input'
@@ -42,11 +42,10 @@ const Profile = props => {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        
-        const imageExtension = images[0].file.name.split('.').pop();
+
         const data = {
             name: name,
-            images: `${Auth.getUser().username}.${imageExtension}`,
+            profile: `profile/${Auth.getUser().username}`,
             address: address,
             phone: phone,
             description: description,
@@ -58,9 +57,19 @@ const Profile = props => {
             },
         }).then(async res => {
             if (res.data.status === 'success') {
-                const {uploaded, error} = await supabase.storage.from('profile').upload(`${Auth.getUser().username}.${imageExtension}`, images[0].file)
-                console.log(uploaded, error);
+                const { data, error } = await supabase.storage.from('profile').list()
+                console.log('error', error)
+                console.log('data', data.map(item => item.name).includes(Auth.getUser().username))
+                const isExist = data.map(item => item.name).includes(Auth.getUser().username)
+                if (isExist) {
+                    const { data, error } = await supabase.storage.from('profile').update(`${Auth.getUser().username}`, images[0].file)
+                    console.log(data, error);
+                } else {
+                    const { data, error } = await supabase.storage.from('profile').upload(`${Auth.getUser().username}`, images[0].file)
+                    console.log(data, error);
+                }
                 setEditable(false)
+                setImages([])
                 swal('Success', 'Profil berhasil diubah', 'success')
             }
             if (res.data.status === 'error') {
@@ -79,6 +88,8 @@ const Profile = props => {
                     onChange={imageList => setImages(imageList)}
                     maxNumber={1}
                     dataURLKey="data_url"
+                    maxFileSize={500000}
+                    onError={e => console.log(e)}
                 >
                     {({
                         imageList,
@@ -88,6 +99,7 @@ const Profile = props => {
                         onImageRemove,
                         isDragging,
                         dragProps,
+                        errors
                     }) => (
                         // write your building UI
                         <div className="flex flex-col justify-between">
@@ -100,10 +112,15 @@ const Profile = props => {
                             >
                                 Click or Drop here
                             </Button>
+                            {(
+                                errors && <div>
+                                    {errors.maxFileSize && <span className='text-red-500'>Gambar yang dipilih melebihi 500kb</span>}
+                                </div>
+                            )}
                             &nbsp;
                             {imageList.map((image, index) => (
                                 <div key={index} className="flex justify-between w-full mb-3 gap-1">
-                                    <Zoom wrapStyle={{width: '50%', maxHeight: 100, objectFit: 'contain', overflow: 'hidden'}}>
+                                    <Zoom wrapStyle={{ width: '50%', maxHeight: 100, objectFit: 'contain', overflow: 'hidden' }}>
                                         <img src={image['data_url']} alt="" className='h-full w-full object-contain' />
                                     </Zoom>
                                     <div className="flex flex-col justify-center gap-1 w-1/2">
