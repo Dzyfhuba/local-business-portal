@@ -24,7 +24,6 @@ const Main = props => {
             role: 'guest'
           })
         }
-        console.log(res.data)
       })
   }, [])
 

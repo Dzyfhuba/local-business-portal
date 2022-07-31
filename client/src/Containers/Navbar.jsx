@@ -18,7 +18,6 @@ export default function Navbar(props) {
 
   useEffect(() => {
     setAuth(props.auth)
-    console.log(auth)
   }, [props.auth, auth])
 
   const handleSidebarToggle = () => {

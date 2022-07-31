@@ -33,3 +33,4 @@ Route.get('/post/all', 'Control/PostsController.all')
 Route.get('/post/:stall/:slug', 'Control/PostsController.get')
 
 Route.get('/control/:stall/profile', 'Control/ProfilesController.get')
+Route.put('/control/:stall/profile', 'Control/ProfilesController.update')
