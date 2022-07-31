@@ -12,7 +12,7 @@ const Home = props => {
     // const [auth, setAuth] = useState(props.auth)
 
     useEffect(() => {
-        axios.get(Hosts.main + '/post/all', {
+        axios.get(Hosts.main + '/post/all-by-stall', {
             headers: {
                 'Authorization': `Bearer ${Auth.getToken()}`
             },

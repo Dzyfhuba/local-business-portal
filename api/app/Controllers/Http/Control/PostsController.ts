@@ -6,7 +6,7 @@ import Post from 'App/Models/Post'
 // import Post from 'App/Models/Post'
 
 export default class PostsController {
-  public async all ({ auth, response }) {
+  public async allByStall ({ auth, response }) {
     try {
       await auth.use('api').authenticate()
       const userId = auth.use('api').user.id
