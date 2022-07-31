@@ -17,12 +17,17 @@ const Home = props => {
                 'Authorization': `Bearer ${Auth.getToken()}`
             },
         })
-            .then(res => {
-                const mapped = res.data.data
-                setPosts(res.data.data)
+            .then(async res => {
+                const mapped = await res.data.data.map(item => {
+                    const date = new Date(item.updated_at)
+                    return {
+                        ...item,
+                        updated_at : date.toLocaleString(),
+                    }
+                })
+                setPosts(mapped)
             })
     }, [])
-    console.log(posts)
     
     return (
         <Main>
@@ -32,7 +37,7 @@ const Home = props => {
                 <div id="table-container" className='overflow-x-scroll'>
                     <table className='w-full table-auto'>
                         <thead className='bg-primary'>
-                            <tr>
+                            <tr className='h-11'>
                                 <th>Judul</th>
                                 <th>Terakhir Diubah</th>
                                 <th>Edit</th>
@@ -45,12 +50,14 @@ const Home = props => {
                                 (
                                     posts.map((post, i) => (
                                         <tr key={i}>
-                                            <td>
-                                                <Link to={`/post/${post.username}/${post.slug}`}>{post.title}</Link>
+                                            <td className='table-cell border p-3'>
+                                                <Link to={`/post/${post.username}/${post.slug}`}
+                                                className='text-blue-700 underline whitespace-nowrap'
+                                                >{post.title}</Link>
                                             </td>
-                                            <td>{post.updated_at}</td>
-                                            <td><ButtonAnchor className={'bg-yellow-300'} to={`/control/post/${post.id}/edit`}>Edit</ButtonAnchor></td>
-                                            <td><ButtonAnchor className={'bg-red-600'} to={`/control/post/${post.id}`}>Hapus</ButtonAnchor></td>
+                                            <td className='whitespace-nowrap table-cell border p-3'>{post.updated_at}</td>
+                                            <td><ButtonAnchor className={'bg-yellow-300 table-cell border p-3'} to={`/control/post/${post.id}/edit`}>Edit</ButtonAnchor></td>
+                                            <td><ButtonAnchor className={'bg-red-600 table-cell border p-3'} to={`/control/post/${post.id}`}>Hapus</ButtonAnchor></td>
                                         </tr>
                                     ))
                                 ) : null

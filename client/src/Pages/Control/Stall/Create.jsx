@@ -10,9 +10,9 @@ const Create = props => {
     }, [])
 
     const getImage = async () => {
-        const { data, error } = await supabase.storage.from('post-images').getPublicUrl('Screenshot (34).png')
+        const { data, error } = await supabase.storage.from('profile').list()
         console.log('error', error)
-        console.log('data', data)
+        console.log('data', data.map(item => item.name.split('.')[0]).includes('uba21id'))
         return data.publicURL
     }
 

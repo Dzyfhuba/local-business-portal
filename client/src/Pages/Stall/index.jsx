@@ -4,8 +4,10 @@ import Main from '../../Layouts/Main'
 
 const Home = props => {
   return (
-    <Main id="container">
-      Stall
+    <Main>
+      <div id="container" className='mx-5 mt-3'>
+        Stall
+      </div>
     </Main>
   )
 }

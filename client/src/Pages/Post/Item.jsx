@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Hosts from '../../Config/Hosts'
 import { supabase } from '../../Config/SupabaseClient'
 import Main from '../../Layouts/Main'
@@ -9,6 +9,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import { CgProfile } from 'react-icons/cg'
 
 
 // import PropTypes from 'prop-types'
@@ -24,7 +25,6 @@ const Item = props => {
                 const date = new Date(res.data.data.updated_at)
                 res.data.data.updated_at = date.toLocaleString()
                 // console.log(date)
-                console.log(typeof res.data.data.updated_at)
                 setPost(res.data.data)
                 getSupabaseImages(res.data.data.images)
             })
@@ -45,7 +45,6 @@ const Item = props => {
             supabaseImages.push(data.publicURL)
         });
         setImage(supabaseImages)
-        console.log(supabaseImages)
     }
 
     return (
@@ -53,16 +52,19 @@ const Item = props => {
             <Carousel showArrows={false}>
                 {
                     images.map((image, i) => (
-                        <Zoom>
-                                <img src={image} alt={`${post.title} ${i}`} key={i} style={{maxHeight: 300}} />
+                        <Zoom key={i}>
+                            <img src={image} alt={`${post.title} ${i}`} key={i} style={{maxHeight: 300}} />
                         </Zoom>
                     ))
                 }
             </Carousel>
-            <article className='mx-5 mt-3 bg-white rounded p-5'>
-                <h1>{post.name}</h1>
+            <article className='mx-5 mt-3 bg-white rounded p-5 shadow grid  '>
+                <CgProfile className='text-3xl'/>
+                <Link to='/'>
+                    <h1>{post.name}</h1>
+                </Link>
             </article>
-            <article className='mx-5 mt-3 bg-white rounded p-5'>
+            <article className='mx-5 mt-3 bg-white rounded p-5 shadow'>
                 <h1 className='font-black text-3xl'>{post.title}</h1>
                 <small>{post.updated_at}</small>
                 {/* <h3>{post.name}</h3> */}
