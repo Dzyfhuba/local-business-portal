@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { supabase } from '../../Config/SupabaseClient'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import image404 from '../../Images/404.jpg'
+import { ScrollToTop } from '../../Components/ScrollToTop'
 
 const Home = props => {
   const [posts, setPosts] = useLocalStorage('posts')
@@ -48,7 +49,7 @@ const Home = props => {
             <LazyLoadImage
             src={images[i]}
             placeholder={<span>asdasd</span>}
-            placeholderSrc='http://localhost:3000/404.jpg'
+            placeholderSrc={image404}
             width='100%'
             className={'h-24'}
             />
@@ -60,6 +61,7 @@ const Home = props => {
           </div>
         )) : null}
       </div>
+      <ScrollToTop />
     </Main>
   )
 }
