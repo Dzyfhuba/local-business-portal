@@ -37,11 +37,11 @@ const Home = props => {
         // if (res.data.status === 'error') console.log(res.data);
       })
   }, [setPosts])
-
+  console.log(posts);
   return (
     <Main>
       <div id="container" className='grid grid-cols-2 gap-3 mx-5 mt-3'>
-        {posts.length ? posts.map((post, i) => (
+        {posts ? posts.map((post, i) => (
           <div id="card" key={post.id}
             className='bg-white p-1 rounded shadow-md'
           >

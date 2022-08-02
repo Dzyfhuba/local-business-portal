@@ -14,11 +14,15 @@ import 'rc-dropdown/assets/index.css'
 export default function Navbar(props) {
   const [sidebarDisplay, setSidebarDisplay] = useState('hidden')
   const [auth, setAuth] = useState({ role: 'guest' })
+  const [position, setPosition] = useState(Number)
   const navigate = useNavigate()
 
   useEffect(() => {
     setAuth(props.auth)
-  }, [props.auth, auth])
+    window.addEventListener('scroll', () => {
+      setPosition(window.scrollY)
+  })
+  }, [props.auth, auth, position])
 
   const handleSidebarToggle = () => {
     if (sidebarDisplay === 'hidden') {
@@ -54,9 +58,9 @@ export default function Navbar(props) {
   )
 
   return (
-    <nav className='bg-primary h-14 flex items-center justify-between px-5'>
+    <nav className={`bg-primary h-14 flex items-center justify-between px-5 sticky w-full shadow-md${position >= 10 ? ' bg-opacity-50': ''}`} style={{top: 0}}>
       <Button id='#sidebar' onClick={handleSidebarToggle}>
-        <MdMenu className='text-2xl' />
+        <MdMenu className='text-2xl text-white' />
       </Button>
       <div id="sidebar"
         className={`${sidebarDisplay} fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 z-50`}
@@ -67,7 +71,7 @@ export default function Navbar(props) {
           onClick={e => e.stopPropagation()}
           style={{ transform: 'translateX(-100%)' }}
         >
-          <div className="block w-full text-center bg-secondary">
+          <div className="block w-full text-center bg-secondary text-white">
             <Button onClick={handleSidebarToggle}
               className='px-8 py-4 active:shadow-2xl'
             >
@@ -82,14 +86,14 @@ export default function Navbar(props) {
               <NavLink to={`/control/${auth.role}`} className={'flex items-center justify-center w-full h-11 capitalize'}>{`${auth.role} Page`}</NavLink>
             ) : ''}
             {auth.role !== 'guest' ? (
-              <Logout className={'flex items-center justify-center w-full h-11 bg-secondary'} />
+              <Logout className={'flex items-center justify-center w-full h-11 bg-secondary text-white'} />
             ) : (
-              <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary'>Login</NavLink>
+              <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary text-white'>Login</NavLink>
             )}
           </div>
         </div>
       </div>
-      <Link to='/'>
+      <Link to='/' className='text-white'>
         <Brand className='font-black text-xl'>BULULANJANG</Brand>
       </Link>
       {/* <button>
@@ -102,7 +106,7 @@ export default function Navbar(props) {
           animation="slide-up"
         >
           <button>
-            <CgProfile className='text-3xl' />
+            <CgProfile className='text-3xl text-white' />
           </button>
         </Dropdown>
       ) : ''}

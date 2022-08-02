@@ -33,7 +33,7 @@ export default function Register(props) {
     }
 
     return (
-        <div className="bg-base w-full h-full fixed flex justify-center items-center">
+        <div className="bg-base w-full h-full fixed flex justify-center items-center text-white">
             <div id="card" className="w-4/5 bg-primary p-3 rounded">
                 <div id="header">
                     <Link to={"/"}>
@@ -74,7 +74,7 @@ export default function Register(props) {
                 </form>
                 <div
                     id="footer"
-                    className="mt-5 text-center text-black text-opacity-50 hover:text-secondary"
+                    className="mt-5 text-center text-white text-opacity-70 underline hover:text-secondary"
                 >
                     <Link to={"/login"}>Already have any account? Login</Link>
                 </div>
