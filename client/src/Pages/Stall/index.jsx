@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Main from '../../Layouts/Main'
 import useLocalStorage from '@rehooks/local-storage'
@@ -24,7 +24,7 @@ const Home = props => {
               return
             }
             const imageName = item.profile.split(';')[0]
-            const { data, error } = await supabase.storage.from('profile').getPublicUrl(imageName)
+            const { data,  } = await supabase.storage.from('profile').getPublicUrl(imageName)
             // imageMap.push(data.publicURL)
             res.data.data[i].profile = data.publicURL
           });

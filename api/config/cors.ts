@@ -44,7 +44,11 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: '*',
+  origin: [
+    'http://localhost:3000',
+    'https://kkn-bululanjang.hafidzubaidillah.com',
+    'http://kkn-bululanjang.hafidzubaidillah.com',
+  ],
 
   /*
   |--------------------------------------------------------------------------

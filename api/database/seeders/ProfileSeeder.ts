@@ -1,4 +1,3 @@
-import Database from '@ioc:Adonis/Lucid/Database'
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import Profile from 'App/Models/Profile'
 

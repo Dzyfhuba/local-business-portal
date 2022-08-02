@@ -1,7 +1,6 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Database from '@ioc:Adonis/Lucid/Database'
-import Post from 'App/Models/Post'
 
 // import Post from 'App/Models/Post'
 
@@ -33,7 +32,7 @@ export default class PostsController {
 
   public async get ({request, response}) {
     try {
-      const { stall, slug } = request.params()
+      const { slug } = request.params()
 
       const post = await Database.from('posts').where('slug', slug)
         .join('users', 'users.id', 'posts.user_id')

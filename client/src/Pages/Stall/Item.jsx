@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import Main from '../../Layouts/Main'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -19,7 +19,7 @@ const Item = props => {
     useEffect(() => {
         axios.get(`${Hosts.main}/stall/${stall}`)
             .then(async res => {
-                const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.stall.profile)
+                const { data,  } = await supabase.storage.from('profile').getPublicUrl(res.data.data.stall.profile)
                 res.data.data.stall.profile = data.publicURL
 
                 setItem(res.data.data.stall)
