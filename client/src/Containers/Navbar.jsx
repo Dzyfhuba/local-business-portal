@@ -9,19 +9,34 @@ import Logout from '../Components/Logout'
 import Dropdown from 'rc-dropdown'
 import Menu, { Divider, Item as MenuItem } from 'rc-menu'
 import 'rc-dropdown/assets/index.css'
-
+import axios from 'axios'
+import Hosts from '../Config/Hosts'
+import Auth from '../Config/Auth'
+import { supabase } from '../Config/SupabaseClient'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 export default function Navbar(props) {
   const [sidebarDisplay, setSidebarDisplay] = useState('hidden')
   const [auth, setAuth] = useState({ role: 'guest' })
   const [position, setPosition] = useState(Number)
   const navigate = useNavigate()
+  const [image, setImage] = useState(String)
 
   useEffect(() => {
     setAuth(props.auth)
     window.addEventListener('scroll', () => {
       setPosition(window.scrollY)
-  })
+    })
+    axios.get(Hosts.main + '/profile', {
+      headers: {
+        'Authorization': `Bearer ${Auth.getToken()}`
+      },
+    })
+      .then(async res => {
+        const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
+        console.log(data, error);
+        setImage(data.publicURL)
+      })
   }, [props.auth, auth, position])
 
   const handleSidebarToggle = () => {
@@ -58,7 +73,7 @@ export default function Navbar(props) {
   )
 
   return (
-    <nav className={`bg-primary h-14 flex items-center justify-between px-5 sticky w-full z-50 shadow-md${position >= 10 ? ' bg-opacity-50': ''}`} style={{top: 0}}>
+    <nav className={`bg-primary h-14 flex items-center justify-between px-5 sticky w-full z-50 shadow-md${position >= 10 ? ' bg-opacity-50' : ''}`} style={{ top: 0 }}>
       <Button id='#sidebar' onClick={handleSidebarToggle}>
         <MdMenu className='text-2xl text-white' />
       </Button>
@@ -105,8 +120,14 @@ export default function Navbar(props) {
           overlay={menu}
           animation="slide-up"
         >
-          <button>
-            <CgProfile className='text-3xl text-white' />
+          <button className='aspect-square w-11 h-11'>
+            {/* <CgProfile className='text-3xl text-white' /> */}
+          <LazyLoadImage
+          src={image}
+          placeholder={<span>asdasd</span>}
+          placeholderSrc={'https://cdn2.iconfinder.com/data/icons/users-6/100/USER10-128.png'}
+          className={'w-full aspect-square object-cover shadow-md rounded-full'}
+          />
           </button>
         </Dropdown>
       ) : ''}

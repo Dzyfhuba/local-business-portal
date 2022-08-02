@@ -67,4 +67,36 @@ export default class ProfilesController {
       })
     }
   }
+
+  public async image ({auth, response}) {
+    try {
+      await auth.use('api').authenticate()
+
+      if (auth.use('api').user!) {
+        const profile = await Database.from('profiles')
+          .where('user_id', auth.use('api').user.id)
+          .select('profile')
+          .first()
+
+        return response.send({
+          error: false,
+          status: 'success',
+          data: profile,
+        })
+      }
+      return response.send({
+        error: true,
+        status: 'error',
+        data: {
+          not: 'found',
+        },
+      })
+    } catch (error) {
+      return response.send({
+        error: true,
+        status: 'error',
+        data: error,
+      })
+    }
+  }
 }
