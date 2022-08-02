@@ -31,6 +31,7 @@ Route.get('/auth/check', 'AuthController.authCheck')
 
 Route.get('/post', 'PostsController.index')
 Route.get('/stall', 'StallsController.index')
+Route.get('/stall/:stall', 'StallsController.show')
 
 Route.get('/post/all-by-stall', 'Control/PostsController.allByStall')
 Route.get('/post/:stall/:slug', 'Control/PostsController.get')

@@ -41,13 +41,15 @@ const Home = props => {
           <div id="card" key={stall.id}
             className={`bg-white p-1 rounded shadow-md${!stall.profile ? ' order-last': ''}`}
           >
-            <LazyLoadImage
-            src={stall.profile}
-            placeholder={<span>asdasd</span>}
-            placeholderSrc={Image404}
-            width='100%'
-            className={'h-24 object-cover'}
-            />
+            <Link to={`/stall/${stall.username}`}>
+              <LazyLoadImage
+              src={stall.profile}
+              placeholder={<span>asdasd</span>}
+              placeholderSrc={Image404}
+              width='100%'
+              className={'h-24 object-cover'}
+              />
+            </Link>
             <div id="card-body" className='grid grid-cols-1 gap-1'>
               <h1 className='font-semibold'><Link to={`/stall/${stall.username}`}>{stall.name}</Link></h1>
               <h5 className='text-xs self-end'>{stall.address}</h5>

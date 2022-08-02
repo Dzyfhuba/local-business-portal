@@ -23,7 +23,7 @@ const Home = props => {
               return
             }
             const imageName = item.images.split(';')[0]
-            const { data, error } = await supabase.storage.from('post-images').getPublicUrl(imageName)
+            const { data,  } = await supabase.storage.from('post-images').getPublicUrl(imageName)
             res.data.data[i].images = data.publicURL
 
             const date = new Date(item.updated_at)
