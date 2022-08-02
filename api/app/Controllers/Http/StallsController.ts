@@ -49,10 +49,20 @@ export default class StallsController {
         .select('profiles.description')
         .first()
 
+      const posts = await Database.from('posts')
+        .join('users', 'users.id', 'posts.user_id')
+        .where('users.username', stall)
+        .select('posts.title')
+        .select('posts.images')
+        .select('posts.slug')
+
       return response.send({
         error: false,
         status: 'success',
-        data: result,
+        data: {
+          stall: result,
+          posts,
+        },
       })
     } catch (error) {
       return response.send({

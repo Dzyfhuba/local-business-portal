@@ -19,11 +19,10 @@ const Item = props => {
     useEffect(() => {
         axios.get(`${Hosts.main}/stall/${stall}`)
             .then(async res => {
-                console.log(res.data.data)
-                const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
-                res.data.data.profile = data.publicURL
+                const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.stall.profile)
+                res.data.data.stall.profile = data.publicURL
 
-                setItem(res.data.data)
+                setItem(res.data.data.stall)
             })
     }, [setItem, stall])
 
@@ -31,12 +30,12 @@ const Item = props => {
         <Main>
             <div id="container" className='mx-5 mt-3'>
                 <article>
-                    <Zoom>
+                    <Zoom wrapStyle={{width: '100%'}}>
                         <LazyLoadImage
                             src={item.profile}
                             placeholder={<span>asdasd</span>}
                             placeholderSrc={Image404}
-                            width='100%'
+                            width={'100%'}
                             className={'min-h-[25vh] max-h-[33vh] object-cover shadow-md mb-3'}
                         />
                     </Zoom>
@@ -72,6 +71,8 @@ const Item = props => {
                         {item.description}
                     </div>
                 </article>
+                <section>
+                </section>
             </div>
         </Main>
     )
