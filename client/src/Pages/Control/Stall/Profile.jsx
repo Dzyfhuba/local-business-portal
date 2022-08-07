@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // import PropTypes from 'prop-types'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import ProfileSVG from '../../../Images/profile.svg'
 import Main from '../../../Layouts/Main'
 import Label from '../../../Components/Label'
 import Input from '../../../Components/Input'
@@ -27,30 +29,22 @@ const Profile = props => {
 
     useEffect(() => {
         axios.get(`${Hosts.main}/control/${Auth.getUser().username}/profile`)
-            .then(res => {
+            .then(async res => {
                 console.log(res.data);
                 if (res.data.status === 'success') {
-                    const data = res.data.data
-                    document.querySelector('input#name').value = data.name
-                    // setName(data.name)
-                    document.querySelector('input#address').value = data.address
-                    // setAddress(data.address)
-                    // document.querySelector('input.PhoneInputInput').value = data.phone
-                    setPhone(data.phone)
-                    document.querySelector('textarea#description').value = data.description
+                    document.querySelector('input#name').value = res.data.data.name
+                    // setName(res.data.data.name)
+                    document.querySelector('input#address').value = res.data.data.address
+                    // setAddres.data.datas(res.data.data.addres.data.datas)
+                    // document.querySelector('input.PhoneInputInput').value = res.data.data.phone
+                    setPhone(res.data.data.phone)
+                    document.querySelector('textarea#description').value = res.data.data.description
                     // setDescription(data.description)
+                    const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
+                    console.log(data, res.data.data.profile);
+                    document.querySelector('#profilePreview').setAttribute('src', data.publicURL)
                 }
             })
-
-            const test = async () => {
-                const { data, error } = await supabase.storage.from('profile').list()
-                console.log('error', error)
-                console.log('data', images[0])
-                const isExist = data.map(item => item.name.includes(Auth.getUser().username))
-                console.log(isExist.includes(true));
-            }
-
-            test()
     }, [images])
 
     const handleSubmit = async e => {
@@ -154,6 +148,14 @@ const Profile = props => {
                         </div>
                     )}
                 </ImageUploading>
+                <Zoom wrapStyle={{width: '100%'}} >
+                    <img
+                        src={'/profile.svg'}
+                        id={'profilePreview'}
+                        className={'min-h-[25vh] max-h-[33vh] object-cover shadow-md mb-3 object-center rounded-full aspect-square mx-auto'}
+                        alt={'profile preview'}
+                    />
+                </Zoom>
                 <form onSubmit={handleSubmit}>
                     <div className="flex justify-end">
                         <Button type='button' className={`px-5 py-2.5 rounded shadow bg-yellow-400${!editable ? ' block' : ' hidden'}`} onClick={() => setEditable(true)}>Edit</Button>
