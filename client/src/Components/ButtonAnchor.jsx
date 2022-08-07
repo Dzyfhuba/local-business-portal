@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const ButtonAnchor = props => {
   return (
-    <Link to={props.to} className={`px-5 py-2.5 block text-center rounded ${props.className}`}>{props.children}</Link>
+    <Link to={props.to} className={`px-5 py-2.5 block text-center text-white rounded ${props.className}`}>{props.children}</Link>
   )
 }
 

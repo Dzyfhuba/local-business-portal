@@ -14,7 +14,6 @@ import Auth from '../Config/Auth'
 import { supabase } from '../Config/SupabaseClient'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { CgProfile } from 'react-icons/cg'
-import {useSelector} from 'react-redux'
 
 export default function Navbar(props) {
   const [sidebarDisplay, setSidebarDisplay] = useState('hidden')
