@@ -22,7 +22,8 @@ export default function Login() {
         'Authorization': `Bearer ${Auth.getToken()}`
       },
     })
-      .then(res => {
+    .then(res => {
+      console.log('asd');
         if (res.data.status === 'success') {
           console.log(res.data.token.token)
           // setCookies('token', res.data.token.token)

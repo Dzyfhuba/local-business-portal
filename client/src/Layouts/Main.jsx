@@ -18,6 +18,14 @@ const Main = props => {
         if(res.data.status === 'success') {
           Auth.setUser(res.data.user)
           setAuth(res.data.user)
+          axios.get(Hosts.main + '/profile', {
+            headers: {
+              'Authorization': `Bearer ${Auth.getToken()}`
+            }
+          })
+            .then(res => {
+              console.log(res.data.data.profile);
+            })
         } else if (res.data.status === 'error') {
           localStorage.clear()
           Auth.setUser({

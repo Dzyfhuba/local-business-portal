@@ -14,6 +14,7 @@ import swal from 'sweetalert'
 import ImageUploading from 'react-images-uploading'
 import Zoom from 'react-medium-image-zoom'
 import { supabase } from '../../../Config/SupabaseClient'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = props => {
     const [name, setName] = useState()
@@ -22,30 +23,44 @@ const Profile = props => {
     const [description, setDescription] = useState()
     const [editable, setEditable] = useState(false)
     const [images, setImages] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get(`${Hosts.main}/control/${Auth.getUser().username}/profile`)
             .then(res => {
+                console.log(res.data);
                 if (res.data.status === 'success') {
                     const data = res.data.data
                     document.querySelector('input#name').value = data.name
-                    setName(data.name)
+                    // setName(data.name)
                     document.querySelector('input#address').value = data.address
-                    setAddress(data.address)
-                    document.querySelector('input.PhoneInputInput').value = data.phone
+                    // setAddress(data.address)
+                    // document.querySelector('input.PhoneInputInput').value = data.phone
                     setPhone(data.phone)
                     document.querySelector('textarea#description').value = data.description
-                    setDescription(data.description)
+                    // setDescription(data.description)
                 }
             })
-    }, [])
+
+            const test = async () => {
+                const { data, error } = await supabase.storage.from('profile').list()
+                console.log('error', error)
+                console.log('data', images[0])
+                const isExist = data.map(item => item.name.includes(Auth.getUser().username))
+                console.log(isExist.includes(true));
+            }
+
+            test()
+    }, [images])
 
     const handleSubmit = async e => {
         e.preventDefault()
 
+        const profileFileName = `${Auth.getUser().username}${(new Date()).getTime()}`
+
         const data = {
             name: name,
-            profile: Auth.getUser().username,
+            profile: profileFileName,
             address: address,
             phone: phone,
             description: description,
@@ -59,18 +74,25 @@ const Profile = props => {
             if (res.data.status === 'success') {
                 const { data, error } = await supabase.storage.from('profile').list()
                 console.log('error', error)
-                console.log('data', data.map(item => item.name).includes(Auth.getUser().username))
-                const isExist = data.map(item => item.name).includes(Auth.getUser().username)
-                if (isExist) {
-                    const { data, error } = await supabase.storage.from('profile').update(`${Auth.getUser().username}`, images[0].file)
+                console.log('data', images[0])
+                const isExist = data.map(item => item.name.includes(Auth.getUser().username))
+                console.log(isExist.includes(true));
+                if (isExist.includes(true)) {
+                    await supabase.storage.from('profile').remove(`${Auth.getUser().username}${(new Date(Auth.getUser().updated_at)).getTime()}`)
+                    const { data, error } = await supabase.storage.from('profile').upload(profileFileName, images[0].file)
                     console.log(data, error);
                 } else {
-                    const { data, error } = await supabase.storage.from('profile').upload(`${Auth.getUser().username}`, images[0].file)
+                    const { data, error } = await supabase.storage.from('profile').upload(profileFileName, images[0].file)
                     console.log(data, error);
                 }
                 setEditable(false)
                 setImages([])
                 swal('Success', 'Profil berhasil diubah', 'success')
+                    .then(() => {
+                        navigate(0)
+                        // document.querySelector('nav button img').setAttribute('src', images[0].data_url)
+                        
+                    })
             }
             if (res.data.status === 'error') {
                 swal('Failed', 'Profil gagal diubah. Hubungi pengembang untuk perbaikan. Terima kasih.', 'failed')

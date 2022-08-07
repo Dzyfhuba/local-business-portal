@@ -46,8 +46,12 @@ const corsConfig: CorsConfig = {
   */
   origin: [
     'http://localhost:3000',
-    'https://kkn-bululanjang.hafidzubaidillah.com',
-    'http://kkn-bululanjang.hafidzubaidillah.com',
+    'http://192.168.1.16:3000',
+    'http://192.168.1.8:3000',
+    'http://20.20.20.240:3000',
+    'http://127.0.0.1:3000',
+    'https://kknbululanjang.hafidzubaidillah.com',
+    'http://kknbululanjang.hafidzubaidillah.com',
   ],
 
   /*

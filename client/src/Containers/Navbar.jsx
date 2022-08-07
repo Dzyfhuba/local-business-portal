@@ -13,16 +13,16 @@ import Hosts from '../Config/Hosts'
 import Auth from '../Config/Auth'
 import { supabase } from '../Config/SupabaseClient'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { CgProfile } from 'react-icons/cg'
+import {useSelector} from 'react-redux'
 
 export default function Navbar(props) {
   const [sidebarDisplay, setSidebarDisplay] = useState('hidden')
-  const [auth, setAuth] = useState({ role: 'guest' })
   const [position, setPosition] = useState(Number)
   const navigate = useNavigate()
   const [image, setImage] = useState(String)
 
   useEffect(() => {
-    setAuth(props.auth)
     window.addEventListener('scroll', () => {
       setPosition(window.scrollY)
     })
@@ -32,11 +32,19 @@ export default function Navbar(props) {
       },
     })
       .then(async res => {
-        const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
-        console.log(data, error);
-        setImage(data.publicURL)
+        if (res.data.status === 'success') {
+          console.log(res.data);
+          if (res.data.data.profile) {
+            const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
+            console.log(data, error)
+            setImage(data.publicURL)
+          } else {
+            setImage(null)
+            return
+          }
+        }
       })
-  }, [props.auth, auth, position])
+  }, [])
 
   const handleSidebarToggle = () => {
     if (sidebarDisplay === 'hidden') {
@@ -59,17 +67,17 @@ export default function Navbar(props) {
       }, 500);
     }
   }
-
-  const menu = (
+  // console.log(props.auth);
+  const menu = props.auth ? (
     <Menu>
-      <MenuItem key={1} className='px-5 py-2.5 border-b hover:cursor-pointer text-center' onClick={() => navigate(`/control/${auth.role}/profile`)}>Profile</MenuItem>
+      <MenuItem key={1} className='px-5 py-2.5 border-b hover:cursor-pointer text-center' onClick={() => navigate(`/control/${Auth.getRole()}/profile`)}>Profile</MenuItem>
       <Divider />
-      <MenuItem key={2} className='px-5 py-2.5 capitalize hover:cursor-pointer text-center' onClick={() => navigate(`/control/${auth.role}`)}>
-        {`${auth.role} Page`}
+      <MenuItem key={2} className='px-5 py-2.5 capitalize hover:cursor-pointer text-center' onClick={() => navigate(`/control/${Auth.getRole()}`)}>
+        {`${Auth.getRole()} Page`}
       </MenuItem>
       <MenuItem key={3} className='border-t'><Logout className={'px-5 py-2.5 w-full'} /></MenuItem>
     </Menu>
-  )
+  ) : null
 
   return (
     <nav className={`bg-primary h-14 flex items-center justify-between px-5 sticky w-full z-50 shadow-md${position >= 10 ? ' bg-opacity-50' : ''}`} style={{ top: 0 }}>
@@ -96,10 +104,10 @@ export default function Navbar(props) {
             <NavLink to={'/'} className='flex items-center justify-center h-11'>Home</NavLink>
             <NavLink to={'/stall'} className='flex items-center justify-center h-11'>Stall</NavLink>
             <NavLink to={'/post'} className='flex items-center justify-center h-11'>Posts</NavLink>
-            {auth.role !== 'guest' ? (
-              <NavLink to={`/control/${auth.role}`} className={'flex items-center justify-center w-full h-11 capitalize'}>{`${auth.role} Page`}</NavLink>
+            {Auth.getRole() !== 'guest' ? (
+              <NavLink to={`/control/${Auth.getRole()}`} className={'flex items-center justify-center w-full h-11 capitalize'}>{`${Auth.getRole()} Page`}</NavLink>
             ) : ''}
-            {auth.role !== 'guest' ? (
+            {Auth.getRole() !== 'guest' ? (
               <Logout className={'flex items-center justify-center w-full h-11 bg-secondary text-white'} />
             ) : (
               <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary text-white'>Login</NavLink>
@@ -113,20 +121,24 @@ export default function Navbar(props) {
       {/* <button>
         <CgProfile />
       </button> */}
-      {auth.role !== 'guest' ? (
+      {Auth.getRole() !== 'guest' ? (
         <Dropdown
           trigger={['click']}
           overlay={menu}
           animation="slide-up"
         >
           <button className='aspect-square w-11 h-11'>
-            {/* <CgProfile className='text-3xl text-white' /> */}
-          <LazyLoadImage
-          src={image}
-          placeholder={<span>asdasd</span>}
-          placeholderSrc={'https://cdn2.iconfinder.com/data/icons/users-6/100/USER10-128.png'}
-          className={'w-full aspect-square object-cover shadow-md rounded-full'}
-          />
+            {
+              image ? (
+                <LazyLoadImage
+                  src={image}
+                  className={'w-full aspect-square object-cover shadow-md rounded-full'}
+                  alt={'profile'}
+                />
+              ) : (
+                <CgProfile className='text-3xl text-white' />
+              )
+            }
           </button>
         </Dropdown>
       ) : ''}

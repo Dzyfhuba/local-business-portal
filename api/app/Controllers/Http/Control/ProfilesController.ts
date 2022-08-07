@@ -9,22 +9,26 @@ export default class ProfilesController {
     const {stall} = request.params()
 
     try {
-      const profile = await Database.from('profiles').join('users', 'users.id', 'profiles.user_id')
-        .where('username', stall)
+      const profile = await Database.from('profiles')
+        .join('users', 'users.id', 'profiles.user_id')
+        .where('users.username', stall)
         .select('users.username')
         .select('users.name')
         .select('profiles.*')
-        .first()
+        .firstOrFail()
+
       return response.send({
         error: false,
         status: 'success',
         data: profile,
+        stall,
       })
     } catch (error) {
       return response.send({
         error: true,
         status: 'error',
         data: error,
+        stall,
       })
     }
   }
