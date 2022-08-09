@@ -2,11 +2,12 @@
 
 import Database from '@ioc:Adonis/Lucid/Database'
 import Post from 'App/Models/Post'
+import slugify from 'slugify'
 
 // import Post from 'App/Models/Post'
 
 export default class PostsController {
-  public async allByStall ({ auth, response }) {
+  public async allByStall({ auth, response }) {
     try {
       await auth.use('api').authenticate()
       const userId = auth.use('api').user.id
@@ -15,6 +16,7 @@ export default class PostsController {
         .join('users', 'users.id', 'posts.user_id')
         .select('posts.*')
         .select('users.username')
+        .orderBy('posts.updated_at', 'desc')
 
       return response.send({
         error: false,
@@ -31,7 +33,7 @@ export default class PostsController {
     }
   }
 
-  public async get ({ request, response }) {
+  public async get({ request, response }) {
     try {
       const { slug } = request.params()
 
@@ -54,7 +56,7 @@ export default class PostsController {
     }
   }
 
-  public async store ({ request, response, auth }) {
+  public async store({ request, response, auth }) {
     try {
       await auth.use('api').authenticate()
 
@@ -71,7 +73,7 @@ export default class PostsController {
           data: post,
           request: request,
         })
-      }F
+      } F
     } catch (error) {
       return response.json({
         error: true,
@@ -82,7 +84,7 @@ export default class PostsController {
     }
   }
 
-  public async destroy ({request, response}) {
+  public async destroy ({ request, response }) {
     try {
       const { id } = request.params()
 
@@ -103,15 +105,46 @@ export default class PostsController {
     }
   }
 
-  public async edit ({request, response}) {
+  public async edit({ request, response }) {
     try {
-      const {id} = request.params()
+      const { id } = request.params()
       const post = await Post.findOrFail(id)
 
       return response.json({
         error: false,
         status: 'success',
         data: post,
+      })
+    } catch (error) {
+      return response.json({
+        error: true,
+        status: 'error',
+        data: error,
+      })
+    }
+  }
+
+  public async update({ request, response }) {
+    try {
+      const { id } = request.params()
+      const {
+        title,
+        images,
+        content,
+      } = request.body()
+
+      const data = await Post.updateOrCreate({ id }, {
+        title,
+        slug: slugify(title),
+        images,
+        content,
+      })
+
+      return response.json({
+        error: false,
+        status: 'success',
+        data,
+        request: request.body(),
       })
     } catch (error) {
       return response.json({

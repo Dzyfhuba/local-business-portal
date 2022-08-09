@@ -39,6 +39,7 @@ Route.get('/post/:stall/:slug', 'Control/PostsController.get')
 
 Route.post('/control/post', 'Control/PostsController.store')
 Route.get('/control/post/:id', 'Control/PostsController.edit')
+Route.put('/control/post/:id', 'Control/PostsController.update')
 Route.delete('/control/post/:id', 'Control/PostsController.destroy')
 
 Route.get('/control/:stall/profile', 'Control/ProfilesController.get')

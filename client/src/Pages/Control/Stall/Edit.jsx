@@ -6,8 +6,8 @@ import Main from '../../../Layouts/Main'
 import ImageUploading from 'react-images-uploading'
 import Button from '../../../Components/Button'
 import Zoom from 'react-medium-image-zoom'
-import {GrUpdate} from 'react-icons/gr'
-import {TbTrashX} from 'react-icons/tb'
+import { GrUpdate } from 'react-icons/gr'
+import { TbTrashX } from 'react-icons/tb'
 import Textarea from '../../../Components/Textarea'
 import axios from 'axios'
 import Hosts from '../../../Config/Hosts'
@@ -18,14 +18,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const Edit = () => {
     const [images, setImages] = useState([])
+    const [prevImages, setPrevImages] = useState([])
     const navigate = useNavigate()
-    const {id} = useParams()
+    const { id } = useParams()
 
     useEffect(() => {
         axios.get(Hosts.main + '/control/post/' + id)
             .then(async res => {
                 console.log(res.data)
-                if (res.data.status === 'success') { 
+                if (res.data.status === 'success') {
                     document.querySelector('input#title').value = res.data.data.title || ''
                     document.querySelector('textarea#content').value = res.data.data.content || ''
                     // setPost(res.data.data)
@@ -38,29 +39,13 @@ const Edit = () => {
                     // })
                     // // document.querySelector('#profilePreview').setAttribute('src', data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL)
                     // setImages(imagesListMapped)
-                    getSupabaseImages(res.data.data.images)
+                    setPrevImages(res.data.data.images.split(','))
                 }
             })
     }, [])
 
-    const getSupabaseImages = async (images) => {
-        const arrayOfImages = images.split(',')
-        const supabaseImages = []
+    console.log(prevImages);
 
-        await arrayOfImages.forEach(async image => {
-            const { data, error } = await supabase.storage.from('post-images').getPublicUrl(image)
-
-            if (error) {
-                supabaseImages.push(Image404)
-            }
-
-            supabaseImages.push({data_url: data.publicURL})
-        });
-        setImages(supabaseImages)
-    }
-
-    console.log(images);
-    
     const handleSubmit = async e => {
         e.preventDefault()
 
@@ -78,24 +63,30 @@ const Edit = () => {
             content: element.querySelector('#content').value
         }
 
+        data.images = data.images === '' ? prevImages.toString() : data.images
+
         console.log('data: ', data);
 
-        axios.post(Hosts.main + '/control/post', data, {
+        axios.put(Hosts.main + '/control/post/' + id, data, {
             headers: {
-              'Authorization': `Bearer ${Auth.getToken()}`
+                'Authorization': `Bearer ${Auth.getToken()}`
             }
-          })
+        })
             .then(res => {
                 if (res.data.status === 'success') {
                     swal('Success', 'Post berhasil dibuat', 'success')
                         .then(async () => {
+                            if (images.length) {
+                                prevImages.forEach(async image => {
+                                    const { error: errorImage } = await supabase.storage.from('post-images').remove(image)
+                                })
+                            }
+                            
                             images.map(async (image, i) => {
                                 const filename = `${title}${i}`
                                 const { error } = await supabase.storage.from('post-images').upload(filename, image.file)
                                 console.log(error);
                             })
-                            setImages([])
-                            element.reset()
                             navigate('/control')
                         })
                 } else if (res.data.status === 'error') {
@@ -136,7 +127,7 @@ const Edit = () => {
                         errors
                     }) => (
                         // write your building UI
-                        <div className="flex flex-col justify-between">
+                        <div className="flex flex-col justify-between gap-1">
                             <Button
                                 type='button'
                                 style={isDragging ? { color: 'red' } : undefined}
@@ -146,19 +137,25 @@ const Edit = () => {
                             >
                                 Click or Drop here
                             </Button>
+                            <Button
+                            type='button'
+                            className={`border border-secondary bg-transparent text-secondary px-5 py-2.5 rounded shadow${imageList.length ? '' : ' hidden'}`}
+                            onClick={onImageRemoveAll}
+                            >
+                                Delete All
+                            </Button>
                             {(
                                 errors && <div>
                                     {errors.maxFileSize && <span className='text-red-500'>Gambar yang dipilih melebihi 1MB</span>}
                                 </div>
                             )}
-                            &nbsp;
                             <div
-                            id="selected-image"
-                            className='flex snap-x overflow-x-scroll justify-start gap-1'
+                                id="selected-image"
+                                className='flex snap-x overflow-x-scroll justify-start gap-1'
                             >
-                                
+
                                 {imageList.map((image, index) => (
-                                    <div key={index} className="flex flex-col items-center w-full mb-3 gap-1 snap-center">
+                                    <div key={index} className="flex flex-col items-center w-full gap-1 snap-center">
                                         <Zoom wrapStyle={{ height: 96, width: '100%', objectFit: 'cover' }}>
                                             <img src={image['data_url']} alt="" className='h-full w-full object-cover' />
                                         </Zoom>
