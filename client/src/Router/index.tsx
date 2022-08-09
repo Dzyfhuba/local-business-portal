@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Auth from '../Config/Auth';
 import { ControlAdminHome, ControlStallCreate, ControlStallHome, ControlStallProfile, Home, Login, Post, PostItem, Register, Stall, StallItem } from '../Pages';
 
@@ -23,6 +23,7 @@ const Router = (props: Props) => {
           <Route path='/post/:stall/:slug' element={<PostItem />} />
           <Route path='/register' element={<Register />} />
 
+          <Route path='/control' element={<Navigate replace to="/control/stall" />}  />
           <Route path='/control/stall' element={Auth.getRole() === 'stall' ? <ControlStallHome /> : <>Page is not found</>}  />
           <Route path='/control/stall/profile' element={Auth.getRole() === 'stall' ? <ControlStallProfile /> : <>Page is not found</>}  />
           <Route path='/control/stall/create' element={Auth.getRole() === 'stall' ? <ControlStallCreate /> : <>Page is not found</>} />

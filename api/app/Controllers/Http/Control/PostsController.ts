@@ -81,4 +81,25 @@ export default class PostsController {
       })
     }
   }
+
+  public async destroy ({request, response}) {
+    try {
+      const { id } = request.params()
+
+      const data = await (await Post.findOrFail(id)).delete()
+
+      return response.status(201).json({
+        error: false,
+        status: 'success',
+        data,
+        request: request.params(),
+      })
+    } catch (error) {
+      return response.status(400).json({
+        error: true,
+        status: 'error',
+        data: error,
+      })
+    }
+  }
 }

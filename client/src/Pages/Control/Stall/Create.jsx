@@ -13,9 +13,11 @@ import Hosts from '../../../Config/Hosts'
 import Auth from '../../../Config/Auth'
 import swal from 'sweetalert'
 import { supabase } from '../../../Config/SupabaseClient'
+import { useNavigate } from 'react-router-dom'
 
 const Create = () => {
     const [images, setImages] = useState([])
+    const navigate = useNavigate()
     
     const handleSubmit = async e => {
         e.preventDefault()
@@ -52,6 +54,7 @@ const Create = () => {
                             })
                             setImages([])
                             element.reset()
+                            navigate('/control')
                         })
                 } else if (res.data.status === 'error') {
                     swal('Error', 'Post gagal dibuat, perisksa kembali', 'error')
