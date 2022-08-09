@@ -102,4 +102,23 @@ export default class PostsController {
       })
     }
   }
+
+  public async edit ({request, response}) {
+    try {
+      const {id} = request.params()
+      const post = await Post.findOrFail(id)
+
+      return response.json({
+        error: false,
+        status: 'success',
+        data: post,
+      })
+    } catch (error) {
+      return response.json({
+        error: true,
+        status: 'error',
+        data: error,
+      })
+    }
+  }
 }

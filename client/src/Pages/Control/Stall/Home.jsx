@@ -90,7 +90,7 @@ const Home = props => {
                                                     >{post.title}</Link>
                                                 </td>
                                                 <td className='whitespace-nowrap table-cell border p-3'>{post.updated_at}</td>
-                                                <td><ButtonAnchor className={'bg-yellow-300 table-cell border p-3 text-black'} to={`/control/post/${post.id}/ text-whiteedit`}>Edit</ButtonAnchor></td>
+                                                <td><ButtonAnchor className={'bg-yellow-300 table-cell border p-3 text-black'} to={`/control/stall/${post.id}/edit`}>Edit</ButtonAnchor></td>
                                                 <td><Button className={'bg-red-600 table-cell border p-3 text-white'}
                                                     onClick={e => handleDelete(e.target, post.id)}
                                                 >Hapus</Button></td>
