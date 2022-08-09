@@ -41,8 +41,9 @@ const Profile = props => {
                     document.querySelector('textarea#description').value = res.data.data.description
                     // setDescription(data.description)
                     const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
-                    console.log(data, res.data.data.profile);
-                    document.querySelector('#profilePreview').setAttribute('src', data.publicURL)
+                    console.log('data:', data);
+                    console.log('error:', error);
+                    document.querySelector('#profilePreview').setAttribute('src', data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL)
                 }
             })
     }, [images])
@@ -120,7 +121,7 @@ const Profile = props => {
                         // write your building UI
                         <div className="flex flex-col justify-between">
                             <Button
-                                type='text'
+                                type='button'
                                 style={isDragging ? { color: 'red' } : undefined}
                                 className={`bg-secondary text-white px-5 py-2.5 rounded shadow${editable && !images.length ? ' block' : ' hidden'}`}
                                 onClick={onImageUpload}
@@ -137,7 +138,7 @@ const Profile = props => {
                             {imageList.map((image, index) => (
                                 <div key={index} className="flex justify-between w-full mb-3 gap-1">
                                     <Zoom wrapStyle={{ width: '50%', maxHeight: 100, objectFit: 'contain', overflow: 'hidden' }}>
-                                        <img src={image['data_url']} alt="" className='h-full w-full object-contain' />
+                                        <LazyLoadImage src={image['data_url']} alt="" className='h-full w-full object-contain' />
                                     </Zoom>
                                     <div className="flex flex-col justify-center gap-1 w-1/2">
                                         <button onClick={() => onImageUpdate(index)} className={'px-5 py-2.5 bg-yellow-500 text-white rounded shadow'}>Update</button>
