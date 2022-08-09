@@ -1,6 +1,7 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Database from '@ioc:Adonis/Lucid/Database'
+import Post from 'App/Models/Post'
 
 // import Post from 'App/Models/Post'
 
@@ -30,7 +31,7 @@ export default class PostsController {
     }
   }
 
-  public async get ({request, response}) {
+  public async get ({ request, response }) {
     try {
       const { slug } = request.params()
 
@@ -49,6 +50,34 @@ export default class PostsController {
         error: true,
         status: 'error',
         data: error,
+      })
+    }
+  }
+
+  public async store ({ request, response, auth }) {
+    try {
+      await auth.use('api').authenticate()
+
+      if (auth.use('api').user!) {
+        const body = request.body()
+        body.user_id = auth.use('api').user.id
+        body.slug = body.title
+
+        const post = await Post.create(body)
+
+        return response.status(201).json({
+          error: false,
+          status: 'success',
+          data: post,
+          request: request,
+        })
+      }F
+    } catch (error) {
+      return response.json({
+        error: true,
+        status: 'error',
+        data: error,
+        body: request.body(),
       })
     }
   }

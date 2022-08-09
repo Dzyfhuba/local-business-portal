@@ -8,7 +8,7 @@ export default Factory.define(Post, ({ faker }) => {
     user_id: Math.floor(Math.random() * 12 + 1),
     title: title,
     slug: slugify(title),
-    images: 'Screenshot (34).png;Screenshot (34).png;Screenshot (34).png;Screenshot (34).png',
+    images: 'hafidz21ub0,hafidz21ub1,hafidz21ub2,hafidz21ub3,hafidz21ub4,hafidz21ub5',
     content: faker.lorem.paragraphs(10),
   }
 }).build()

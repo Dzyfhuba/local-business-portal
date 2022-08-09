@@ -8,25 +8,68 @@ import Zoom from 'react-medium-image-zoom'
 import {GrUpdate} from 'react-icons/gr'
 import {TbTrashX} from 'react-icons/tb'
 import Textarea from '../../../Components/Textarea'
+import axios from 'axios'
+import Hosts from '../../../Config/Hosts'
+import Auth from '../../../Config/Auth'
+import swal from 'sweetalert'
+import { supabase } from '../../../Config/SupabaseClient'
 
 const Create = () => {
     const [images, setImages] = useState([])
     
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault()
-    }
 
-    const handleResize = (e) => {
-        const target = e.target
-        target.style.height = 'auto'
-        target.style.height = target.scrollHeight + 'px'
+        const element = e.target
+
+        console.log('images: ', images);
+
+        const title = element.querySelector('#title').value
+        const data = {
+            title: title,
+            images: images.map((image, i) => {
+                const filename = `${title}${i}`
+                return filename
+            }).toString(),
+            content: element.querySelector('#content').value
+        }
+
+        console.log('data: ', data);
+
+        axios.post(Hosts.main + '/control/post', data, {
+            headers: {
+              'Authorization': `Bearer ${Auth.getToken()}`
+            }
+          })
+            .then(res => {
+                if (res.data.status === 'success') {
+                    swal('Success', 'Post berhasil dibuat', 'success')
+                        .then(async () => {
+                            images.map(async (image, i) => {
+                                const filename = `${title}${i}`
+                                const { error } = await supabase.storage.from('profile').upload(filename, image.file)
+                                console.log(error);
+                            })
+                            setImages([])
+                            element.reset()
+                        })
+                } else if (res.data.status === 'error') {
+                    swal('Error', 'Post gagal dibuat, perisksa kembali', 'error')
+                } else {
+                    swal('Warning', res.data.message, res.data.status)
+                }
+                console.log(res.data);
+            })
     }
 
     return (
         <Main>
             <form className={'mx-5 my-3'} onSubmit={handleSubmit}>
+                <div id="wrap" className='text-right'>
+                    <Button type='submit' className='text-white bg-secondary py-2.5 px-5 rounded'>Simpan</Button>
+                </div>
                 <Label for={'title'}>Judul</Label>
-                <Input id={'title'} placeholder={'Judul...'} />
+                <Input id={'title'} placeholder={'Judul...'} required />
                 <Label for={'images'}>Images</Label>
                 <ImageUploading
                     value={images}
@@ -50,7 +93,7 @@ const Create = () => {
                         // write your building UI
                         <div className="flex flex-col justify-between">
                             <Button
-                                type='text'
+                                type='button'
                                 style={isDragging ? { color: 'red' } : undefined}
                                 className={`bg-secondary text-white px-5 py-2.5 rounded shadow`}
                                 onClick={onImageUpload}
@@ -89,7 +132,7 @@ const Create = () => {
                     )}
                 </ImageUploading>
                 <Label for='content'>Konten / Deskripsi Produk</Label>
-                <Textarea id='content' placeholder={'Konten atau deskripsi produk...'} onInput={handleResize} />
+                <Textarea id='content' placeholder={'Konten atau deskripsi produk...'} required />
             </form>
         </Main>
     )
