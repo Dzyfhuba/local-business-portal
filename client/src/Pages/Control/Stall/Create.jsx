@@ -47,7 +47,7 @@ const Create = () => {
                         .then(async () => {
                             images.map(async (image, i) => {
                                 const filename = `${title}${i}`
-                                const { error } = await supabase.storage.from('profile').upload(filename, image.file)
+                                const { error } = await supabase.storage.from('post-images').upload(filename, image.file)
                                 console.log(error);
                             })
                             setImages([])

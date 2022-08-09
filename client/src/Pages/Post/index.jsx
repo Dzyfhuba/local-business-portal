@@ -22,7 +22,7 @@ const Home = props => {
               res.data.data[i].images = null
               return
             }
-            const imageName = item.images.split(';')[0]
+            const imageName = item.images.split(',')[0]
             const { data,  } = await supabase.storage.from('post-images').getPublicUrl(imageName)
             res.data.data[i].images = data.publicURL
 
