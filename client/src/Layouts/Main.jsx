@@ -44,7 +44,7 @@ const Main = props => {
         <Title>{Var.APP_NAME}</Title>
       </Head>
       <Navbar auth={Auth.getUser()} />
-      <main>{props.children}</main>
+      <main className='pt-16 pb-5'>{props.children}</main>
       <Footer />
     </div>
   )
