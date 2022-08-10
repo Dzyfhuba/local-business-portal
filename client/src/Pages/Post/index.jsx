@@ -23,7 +23,7 @@ const Home = props => {
               return
             }
             const imageName = item.images.split(',')[0]
-            const { data,  } = await supabase.storage.from('post-images').getPublicUrl(imageName)
+            const { data, } = await supabase.storage.from('post-images').getPublicUrl(imageName)
             res.data.data[i].images = data.publicURL
 
             const date = new Date(item.updated_at)
@@ -37,19 +37,21 @@ const Home = props => {
   console.log(posts);
   return (
     <Main>
-      <div id="container" className='grid grid-cols-2 gap-3 mx-5 mt-3'>
+      <div id="container" className='grid grid-cols-2 gap-1 mx-5 mt-3'>
         {posts ? posts.map((post, i) => (
           <div id="card" key={post.id}
-            className={`bg-white p-1 rounded shadow-md${!post.images ? ' order-last': ''}`}
+            className={`bg-white p-1 rounded shadow-md${!post.images ? ' order-last' : ''}`}
           >
             {/* <img src={images[i]} alt="" /> */}
-            <LazyLoadImage
-            src={post.images}
-            placeholder={<span>asdasd</span>}
-            placeholderSrc={Image404}
-            width='100%'
-            className={'h-24 object-cover'}
-            />
+            <Link to={`/post/${post.slug}`}>
+              <LazyLoadImage
+                src={post.images}
+                placeholder={<span>asdasd</span>}
+                placeholderSrc={Image404}
+                width='100%'
+                className={'h-24 object-cover'}
+              />
+            </Link>
             <div id="card-body" className='grid grid-cols-2 gap-1'>
               <h1 className='font-semibold col-span-2'><Link to={`/post/${post.username}/${post.slug}`}>{post.title}</Link></h1>
               <h5 className='text-xs self-end'>{post.name}</h5>

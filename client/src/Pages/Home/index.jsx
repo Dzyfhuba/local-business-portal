@@ -7,7 +7,7 @@ import About from '../../Containers/About'
 const Home = () => {
   return (
     <Main id="container">
-      <div className="-mt-16 -mb-5">
+      <div className="-mt-14">
         <Welcome />
         <About />
       </div>
