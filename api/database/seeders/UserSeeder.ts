@@ -12,7 +12,7 @@ export default class extends BaseSeeder {
         password: '12345678',
       },
     )
-    await admin.setRole('admin')
+    await admin.setRole('superadmin')
 
     const stall = await User.create({
       name: 'Ubaidillah',

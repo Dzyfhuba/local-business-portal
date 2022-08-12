@@ -12,6 +12,8 @@ export default class extends BaseSchema {
       table.string('slug').unique().notNullable()
       table.text('images').notNullable()
       table.text('content').notNullable()
+      table.boolean('visible').defaultTo(true).notNullable()
+      table.datetime('approved_at').nullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

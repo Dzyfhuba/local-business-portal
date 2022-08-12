@@ -60,7 +60,6 @@ const Home = props => {
                     swal("Penghapusan dibatalkan");
                 }
             });
-
     }
 
     return (

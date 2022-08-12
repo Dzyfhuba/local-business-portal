@@ -4,7 +4,7 @@ import Profile from 'App/Models/Profile'
 export default class extends BaseSeeder {
   public async run () {
     // Write your database queries inside the run method
-    for (let i = 1; i <= 12; i++) {
+    for (let i = 1; i <= 102; i++) {
       await Profile.create({
         user_id: i,
         address: 'Bululanjang, Sangkapura, Gresik, Jawa Timur',
