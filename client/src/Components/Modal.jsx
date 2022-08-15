@@ -38,7 +38,9 @@ const Modal = props => {
             <Button className={props.triggerClassName} onClick={() => toggle(true)}>{props.triggerBody}</Button>
             <div
                 aria-label='modal'
-                className={`fixed h-screen w-screen bg-black bg-opacity-75 top-0 left-0 z-50 justify-center items-center modal${isShow ? ' block' : ' hidden'}`}>
+                className={`fixed h-screen w-screen bg-black bg-opacity-75 top-0 left-0 z-50 justify-center items-center modal${isShow ? ' block' : ' hidden'}`}
+                onClick={e => e.target === e.currentTarget ? toggle(false) : null}
+            >
                 <div
                     className='w-4/5 bg-base rounded fixed modal-core'
                     style={{
@@ -64,7 +66,8 @@ const Modal = props => {
 }
 
 Modal.defaultProps = {
-    triggerBody: 'Open Modal'
+    triggerBody: 'Open Modal',
+    body: 'Body',
 }
 
 Modal.propTypes = {
@@ -72,7 +75,7 @@ Modal.propTypes = {
     body: PropTypes.any.isRequired,
     foot: PropTypes.any,
     triggerClassName: PropTypes.string,
-    triggerBody: PropTypes.any
+    triggerBody: PropTypes.any.isRequired,
 }
 
 export default Modal

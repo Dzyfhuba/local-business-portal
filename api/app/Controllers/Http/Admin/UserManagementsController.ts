@@ -18,10 +18,18 @@ export default class UserManagementsController {
           'users.suspend_end',
         ])
 
+      const usersRemoveExpiredSuspend = users.map(user => {
+        const remainingSuspension = new Date(user.suspend_end - Date.now())
+        return {
+          ...user,
+          remaining_suspension: remainingSuspension.getTime(),
+        }
+      })
+
       return response.json({
         error: false,
         status: 'success',
-        data: users,
+        data: usersRemoveExpiredSuspend,
       })
     } catch (error) {
       return response.status(400).json({

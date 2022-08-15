@@ -23,4 +23,26 @@ export default class SuspendUsersController {
       })
     }
   }
+
+  public async destroy ({request, response}) {
+    try {
+      const {id} = request.params()
+
+      const user = await User.findOrFail(id)
+      user.suspend_end = DateTime.now()
+      await user.save()
+
+      return response.json({
+        error: false,
+        status: 'success',
+        data: user,
+      })
+    } catch (error) {
+      return response.json({
+        error: true,
+        status: 'error',
+        data: error,
+      })
+    }
+  }
 }

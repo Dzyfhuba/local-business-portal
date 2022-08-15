@@ -44,6 +44,7 @@ Route.delete('/control/post/:id', 'Control/PostsController.destroy')
 
 Route.get('/control/user-management', 'Admin/UserManagementsController.index')
 Route.post('/control/suspend', 'Admin/SuspendUsersController.store')
+Route.delete('/control/suspend/:id', 'Admin/SuspendUsersController.destroy')
 
 Route.get('/control/:stall/profile', 'Control/ProfilesController.get')
 Route.put('/control/:stall/profile', 'Control/ProfilesController.update')
