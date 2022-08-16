@@ -33,7 +33,6 @@ Route.get('/post', 'PostsController.index')
 Route.get('/stall', 'StallsController.index')
 Route.get('/stall/:stall', 'StallsController.show')
 
-
 Route.get('/post/all-by-stall', 'Control/PostsController.allByStall')
 Route.get('/post/:stall/:slug', 'Control/PostsController.get')
 
@@ -45,6 +44,9 @@ Route.delete('/control/post/:id', 'Control/PostsController.destroy')
 Route.get('/control/user-management', 'Admin/UserManagementsController.index')
 Route.post('/control/suspend', 'Admin/SuspendUsersController.store')
 Route.delete('/control/suspend/:id', 'Admin/SuspendUsersController.destroy')
+
+Route.get('/control/user-management/roles', 'Admin/UserManagementsController.getRoles')
+Route.put('/control/user-management/roles/:id', 'Admin/UserManagementsController.updateRole')
 
 Route.get('/control/:stall/profile', 'Control/ProfilesController.get')
 Route.put('/control/:stall/profile', 'Control/ProfilesController.update')

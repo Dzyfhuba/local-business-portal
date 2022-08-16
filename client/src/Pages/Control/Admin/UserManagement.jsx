@@ -19,6 +19,7 @@ const UserManagement = () => {
   const [suspendUser, setSuspendUser] = useState(null)
   const [suspendDuration, setSuspendDuration] = useState(null)
   const [suspendDurationUpdate, setSuspendDurationUpdate] = useState(null)
+  const [roles, setRoles] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -33,8 +34,12 @@ const UserManagement = () => {
         })
         setUsers(mapped)
       })
+    axios.get(Hosts.main + '/control/user-management/roles')
+      .then(res => {
+        setRoles(res.data.data)
+      })
   }, [])
-  console.log(users);
+  console.log(roles);
 
   const handleDelete = async (target, id) => {
     swal({
@@ -105,6 +110,13 @@ const UserManagement = () => {
       <Select id='username'
         value={suspendUser}
         onChange={setSuspendUser}
+        styles={{
+          container: (base) => ({
+            ...base,
+            minWidth: 160,
+            minHeight: 44
+          }),
+        }}
         options={
           users.filter(user => !user.suspend_end)
             .map(user => {
@@ -121,6 +133,13 @@ const UserManagement = () => {
       <Select id='duration'
         value={suspendDuration}
         onChange={setSuspendDuration}
+        styles={{
+          container: (base) => ({
+            ...base,
+            minWidth: 160,
+            minHeight: 44
+          }),
+        }}
         options={
           [
             { label: '1 Hari', value: '1 d' },
@@ -208,11 +227,40 @@ const UserManagement = () => {
       })
   }
 
+  const handleRoleChange = e => {
+    const { value, user_id, username, label } = e
+
+    swal({
+      title: "Apakah Anda Yakin?",
+      icon: "warning",
+      buttons: true,
+    })
+      .then((willChange) => {
+        if (willChange) {
+          axios.put(Hosts.main + '/control/user-management/roles/' + user_id, {
+            user_id,
+            value,
+          }).then(res => {
+            console.log(res.data)
+            if (res.data.status === 'success') {
+              swal(`Peran ${username} telah menjadi ${label}`, {
+                icon: "success",
+              });
+            } else {
+              swal(`Mengganti peran ${username} gagal`);
+            }
+          })
+        } else {
+          swal(`Mengganti peran ${username} gagal`);
+        }
+      });
+  }
+
   return (
     <Admin>
       <div id="container" className='mx-5 my-6'>
         <Modal
-          triggerClassName={'bg-secondary px-5 py-2.5 w-full text-white rounded mb-3 shadow-2xl sticky top-16'}
+          triggerClassName={'bg-secondary px-5 py-2.5 w-full text-white rounded mb-3 shadow-2xl sticky top-16 z-10'}
           head={'Tangguhkan Pengguna'}
           triggerBody={'Tangguhkan Pengguna'}
           body={suspendForm}
@@ -220,10 +268,20 @@ const UserManagement = () => {
 
         <div id="table-container" className='overflow-x-scroll'>
           <table className='w-full table-auto'>
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+            </colgroup>
             <thead className='bg-primary text-white'>
               <tr className={`h-11`}>
                 <th>Nama</th>
                 <th>Username</th>
+                <th>Peran</th>
                 <th>Ditangguhkan</th>
                 <th>Terakhir Diubah</th>
                 <th>Edit</th>
@@ -234,8 +292,8 @@ const UserManagement = () => {
               {
                 users.length > 0 ?
                   (
-                    users.map((user, i) => (
-                      <tr key={i} className={`${user.suspend_end ? ' bg-red-300' : null}`}>
+                    users.map((user) => (
+                      <tr key={user.id} className={`${user.suspend_end ? ' bg-red-300' : null}`}>
                         <td className='table-cell border p-3'>
                           <Link to={`/stall/${user.username}`}
                             className='text-blue-700 underline whitespace-nowrap'
@@ -245,6 +303,33 @@ const UserManagement = () => {
                           <Link to={`/stall/${user.username}`}
                             className='text-blue-700 underline whitespace-nowrap'
                           >{user.username}</Link>
+                        </td>
+                        <td className='table-cell border p-3'>
+                          <Select
+                            isSearchable={false}
+                            styles={{
+                              container: (base) => ({
+                                ...base,
+                                minWidth: 160,
+                                minHeight: 44,
+                              }),
+                            }}
+                            defaultValue={{
+                              label: user.role,
+                              value: user.role_id,
+                            }}
+                            onChange={handleRoleChange}
+                            options={
+                              roles.map(role => {
+                                return {
+                                  value: role.id,
+                                  label: role.role,
+                                  user_id: user.id,
+                                  username: user.username
+                                }
+                              })
+                            }
+                          />
                         </td>
                         <td className='whitespace-nowrap table-cell border'>
                           <Modal
@@ -271,7 +356,7 @@ const UserManagement = () => {
                                     value={suspendDurationUpdate}
                                     onChange={setSuspendDurationUpdate}
                                     styles={{
-                                      input: (base) => ({
+                                      container: (base) => ({
                                         ...base,
                                         minHeight: 44
                                       })
