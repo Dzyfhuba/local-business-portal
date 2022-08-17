@@ -26,6 +26,7 @@ const Profile = props => {
     const [editable, setEditable] = useState(false)
     const [images, setImages] = useState([])
     const navigate = useNavigate()
+    const [profile, setProfile] = useState({})
 
     useEffect(() => {
         axios.get(`${Hosts.main}/control/${Auth.getUser().username}/profile`)
@@ -44,6 +45,7 @@ const Profile = props => {
                     console.log('data:', data);
                     console.log('error:', error);
                     document.querySelector('#profilePreview').setAttribute('src', data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL)
+                    setProfile(res.data.data)
                 }
             })
     }, [images])
@@ -71,14 +73,17 @@ const Profile = props => {
                 console.log('error', error)
                 console.log('data', images[0])
                 const isExist = data.map(item => item.name.includes(Auth.getUser().username))
-                console.log(isExist.includes(true));
-                if (isExist.includes(true)) {
-                    await supabase.storage.from('profile').remove(`${Auth.getUser().username}${(new Date(Auth.getUser().updated_at)).getTime()}`)
-                    const { data, error } = await supabase.storage.from('profile').upload(profileFileName, images[0].file)
-                    console.log(data, error);
-                } else {
-                    const { data, error } = await supabase.storage.from('profile').upload(profileFileName, images[0].file)
-                    console.log(data, error);
+                console.log(isExist);
+                if (images.length) {
+                    if (isExist.includes(true)) {
+                        console.log((new Date(Auth.getUser().updated_at)).getTime());
+                        await supabase.storage.from('profile').remove(`${profile.profile}`)
+                        const { data, error } = await supabase.storage.from('profile').upload(profileFileName, images[0].file)
+                        console.log(data, error);
+                    } else {
+                        const { data, error } = await supabase.storage.from('profile').upload(profileFileName, images[0].file)
+                        console.log(data, error);
+                    }
                 }
                 setEditable(false)
                 setImages([])
@@ -86,7 +91,7 @@ const Profile = props => {
                     .then(() => {
                         navigate(0)
                         // document.querySelector('nav button img').setAttribute('src', images[0].data_url)
-                        
+
                     })
             }
             if (res.data.status === 'error') {
@@ -149,7 +154,7 @@ const Profile = props => {
                         </div>
                     )}
                 </ImageUploading>
-                <Zoom wrapStyle={{width: '100%'}} >
+                <Zoom wrapStyle={{ width: '100%' }} >
                     <img
                         src={'/profile.svg'}
                         id={'profilePreview'}
