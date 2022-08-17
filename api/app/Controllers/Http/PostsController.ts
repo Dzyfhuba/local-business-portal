@@ -8,6 +8,7 @@ export default class PostsController {
       const posts = await Database.from('posts')
         .join('users', 'users.id', 'posts.user_id')
         .join('profiles', 'profiles.user_id', 'users.id')
+        .whereNotNull('approved_at')
         .select('posts.id')
         .select('posts.title')
         .select('posts.slug')

@@ -47,7 +47,7 @@ const Admin = props => {
                 <Title>{Var.APP_NAME}</Title>
             </Head>
             <Navbar auth={Auth.getUser()} />
-            <nav className='fixed bottom-0 h-14 bg-secondary text-white w-full flex'>
+            <nav className='fixed bottom-0 h-14 bg-secondary text-white w-full flex z-10'>
                 <NavLink
                     to={'/control/admin/post-approval'}
                     className={`w-full h-full flex justify-center items-center hover:text-black transition duration-300`}

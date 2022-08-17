@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Main from '../../Layouts/Main'
 import { useLocalStorage } from '@rehooks/local-storage'
@@ -9,9 +9,13 @@ import { supabase } from '../../Config/SupabaseClient'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Image404 from '../../Images/404.jpg'
 import { ScrollToTop } from '../../Components/ScrollToTop'
+import Input from '../../Components/Input'
+import { MdSearch } from 'react-icons/md'
+import Button from '../../Components/Button'
 
 const Home = props => {
   const [posts, setPosts] = useLocalStorage('posts')
+  const [filter, setFilter] = useState(Object)
 
   useEffect(() => {
     axios.get(Hosts.main + '/post')
@@ -35,30 +39,57 @@ const Home = props => {
       })
   }, [setPosts])
   console.log(posts);
+
+  const searchPost = e => {
+    e.preventDefault()
+    const formElement = e.target
+
+    const data = {
+      title: formElement.querySelector('#title').value
+    }
+    setFilter(data)
+  }
+
   return (
     <Main>
-      <div id="container" className='grid grid-cols-2 gap-1 mx-5 mt-3'>
-        {posts ? posts.map((post, i) => (
-          <div id="card" key={post.id}
-            className={`bg-white p-1 rounded shadow-md${!post.images ? ' order-last' : ''}`}
-          >
-            {/* <img src={images[i]} alt="" /> */}
-            <Link to={`/post/${post.slug}`}>
-              <LazyLoadImage
-                src={post.images}
-                placeholder={<span>asdasd</span>}
-                placeholderSrc={Image404}
-                width='100%'
-                className={'h-24 object-cover'}
-              />
-            </Link>
-            <div id="card-body" className='grid grid-cols-2 gap-1'>
-              <h1 className='font-semibold col-span-2'><Link to={`/post/${post.username}/${post.slug}`}>{post.title}</Link></h1>
-              <h5 className='text-xs self-end'>{post.name}</h5>
-              <small className='text-end self-end'>{post.updated_at}</small>
+      <div className="mx-5 my-3">
+        <form
+          className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11"
+          onSubmit={searchPost}
+        >
+          <Input placeholder='Search...' className='outline-none p-3 w-full' id='title' />
+          <Button className='aspect-square h-full block'>
+            <MdSearch className='text-4xl mx-auto text-neutral-300' />
+          </Button>
+        </form>
+      </div>
+      <div id="container" className='grid grid-cols-2 gap-1 mx-5'>
+        {posts ? posts
+          .filter(post => {
+            if (filter.title) return post.title.includes(filter.title)
+            return post
+          })
+          .map((post, i) => (
+            <div id="card" key={post.id}
+              className={`bg-white p-1 rounded shadow-md${!post.images ? ' order-last' : ''}`}
+            >
+              {/* <img src={images[i]} alt="" /> */}
+              <Link to={`/post/${post.slug}`}>
+                <LazyLoadImage
+                  src={post.images}
+                  placeholder={<span>asdasd</span>}
+                  placeholderSrc={Image404}
+                  width='100%'
+                  className={'h-24 object-cover'}
+                />
+              </Link>
+              <div id="card-body" className='grid grid-cols-2 gap-1'>
+                <h1 className='font-semibold col-span-2'><Link to={`/post/${post.username}/${post.slug}`}>{post.title}</Link></h1>
+                <h5 className='text-xs self-end'>{post.name}</h5>
+                <small className='text-end self-end'>{post.updated_at}</small>
+              </div>
             </div>
-          </div>
-        )) : null}
+          )) : null}
       </div>
       <ScrollToTop />
     </Main>
