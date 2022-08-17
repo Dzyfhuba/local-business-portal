@@ -54,19 +54,21 @@ const Home = props => {
     <Main>
       <div className="mx-5 my-3">
         <form
-          className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11"
           onSubmit={searchPost}
         >
-          <Input placeholder='Search...' className='outline-none p-3 w-full' id='title' />
-          <Button className='aspect-square h-full block'>
-            <MdSearch className='text-4xl mx-auto text-neutral-300' />
-          </Button>
+          <div className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11">
+            <Input placeholder='Search...' className='outline-none p-3 w-full' id='title' />
+            <Button className='aspect-square h-full block'>
+              <MdSearch className='text-4xl mx-auto text-neutral-300' />
+            </Button>
+          </div>
+          <small className='text-xs opacity-50'>Isi dengan nama UMKM atau produk</small>
         </form>
       </div>
       <div id="container" className='grid grid-cols-2 gap-1 mx-5'>
         {posts ? posts
           .filter(post => {
-            if (filter.title) return post.title.includes(filter.title)
+            if (filter.title) return post.title.toLowerCase().includes(filter.title.toLowerCase()) || post.name.toLowerCase().includes(filter.title.toLowerCase())
             return post
           })
           .map((post, i) => (
