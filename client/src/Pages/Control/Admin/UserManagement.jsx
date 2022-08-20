@@ -154,7 +154,7 @@ const UserManagement = () => {
         required
       />
       <div className="text-end">
-        <Button type='submit' className='bg-secondary text-white px-5 py-2.5 rounded'>Submit</Button>
+        <Button type='submit' className='bg-secondary  px-5 py-2.5 rounded'>Submit</Button>
       </div>
     </form>
   )
@@ -260,7 +260,7 @@ const UserManagement = () => {
     <Admin>
       <div id="container" className='mx-5 my-6'>
         <Modal
-          triggerClassName={'bg-secondary px-5 py-2.5 w-full text-white rounded mb-3 shadow-2xl sticky top-16 z-10'}
+          triggerClassName={'bg-secondary px-5 py-2.5 w-full  rounded mb-3 shadow-2xl sticky top-16 z-10'}
           head={'Tangguhkan Pengguna'}
           triggerBody={'Tangguhkan Pengguna'}
           body={suspendForm}
@@ -277,7 +277,7 @@ const UserManagement = () => {
               <col />
               <col />
             </colgroup>
-            <thead className='bg-primary text-white'>
+            <thead className='bg-primary '>
               <tr className={`h-11`}>
                 <th>Nama</th>
                 <th>Username</th>
@@ -374,14 +374,14 @@ const UserManagement = () => {
                                     className={'mb-3'}
                                   />
                                   <div className="text-end">
-                                    <Button type='submit' className='bg-secondary text-white px-5 py-2.5 rounded'>Submit</Button>
+                                    <Button type='submit' className='bg-secondary  px-5 py-2.5 rounded'>Submit</Button>
                                   </div>
                                 </form>
                               )
                             }
                             foot={(
                               <Button
-                                className='px-5 py-2.5 bg-red-600 text-white rounded w-full'
+                                className='px-5 py-2.5 bg-red-600  rounded w-full'
                                 onClick={() => removeSuspend(user.id)}
                               >Hapus Penangguhan</Button>
                             )}
@@ -394,7 +394,7 @@ const UserManagement = () => {
                           </ButtonAnchor>
                         </td>
                         <td>
-                          <Button className={'bg-red-600 table-cell border p-3 text-white'}
+                          <Button className={'bg-red-600 table-cell border p-3 '}
                             onClick={e => handleDelete(e.target, user.id)}
                           >Hapus</Button>
                         </td>

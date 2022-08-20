@@ -48,7 +48,7 @@ export default function Login() {
     <div
       className='bg-base w-full h-full fixed flex justify-center items-center'
     >
-      <div id="card" className='w-4/5 bg-primary p-3 rounded text-white'>
+      <div id="card" className='w-4/5 bg-primary p-3 rounded '>
         <div id="header">
           <Link to={'/'}>
             <h1 className='text-center text-xl'>
@@ -66,7 +66,7 @@ export default function Login() {
             <Button level='secondary' type='submit'>Submit</Button>
           </div>
         </form>
-        <div id="footer" className='mt-5 text-center text-white text-opacity-70 hover:text-black underline'>
+        <div id="footer" className='mt-5 text-center  text-opacity-70 hover:text-black underline'>
           <Link to={'/register'}>Doesn't have any account? Register</Link>
         </div>
       </div>

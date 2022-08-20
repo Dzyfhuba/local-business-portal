@@ -69,7 +69,7 @@ const Home = props => {
 
                 <div id="table-container" className='overflow-x-scroll'>
                     <table className='w-full table-auto'>
-                        <thead className='bg-primary text-white'>
+                        <thead className='bg-primary '>
                             <tr className='h-11'>
                                 <th>Judul</th>
                                 <th>Terakhir Diubah</th>
@@ -90,7 +90,7 @@ const Home = props => {
                                                 </td>
                                                 <td className='whitespace-nowrap table-cell border p-3'>{post.updated_at}</td>
                                                 <td><ButtonAnchor className={'bg-yellow-300 table-cell border p-3 text-black'} to={`/control/stall/${post.id}/edit`}>Edit</ButtonAnchor></td>
-                                                <td><Button className={'bg-red-600 table-cell border p-3 text-white'}
+                                                <td><Button className={'bg-red-600 table-cell border p-3 '}
                                                     onClick={e => handleDelete(e.target, post.id)}
                                                 >Hapus</Button></td>
                                             </tr>

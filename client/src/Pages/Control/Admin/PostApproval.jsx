@@ -1,9 +1,12 @@
 import React from 'react'
+import PostApprovalContainer from '../../../Containers/PostApprovalContainer'
 import Admin from '../../../Layouts/Admin'
 
 const PostApproval = () => {
   return (
-    <Admin>PostApproval</Admin>
+    <Admin>
+      <PostApprovalContainer />
+    </Admin>
   )
 }
 

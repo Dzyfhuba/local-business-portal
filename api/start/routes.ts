@@ -45,6 +45,8 @@ Route.get('/control/user-management', 'Admin/UserManagementsController.index')
 Route.post('/control/suspend', 'Admin/SuspendUsersController.store')
 Route.delete('/control/suspend/:id', 'Admin/SuspendUsersController.destroy')
 
+Route.get('/control/post-approval', 'Admin/PostApprovalsController.unapproved')
+
 Route.get('/control/user-management/roles', 'Admin/UserManagementsController.getRoles')
 Route.put('/control/user-management/roles/:id', 'Admin/UserManagementsController.updateRole')
 

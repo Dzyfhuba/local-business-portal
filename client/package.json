@@ -26,6 +26,7 @@
         "react-head": "^3.4.0",
         "react-icons": "^4.4.0",
         "react-images-uploading": "^3.1.7",
+        "react-in-viewport": "^1.0.0-alpha.28",
         "react-lazy-load-image-component": "^1.5.5",
         "react-medium-image-zoom": "^4.4.3",
         "react-phone-number-input": "^3.2.6",

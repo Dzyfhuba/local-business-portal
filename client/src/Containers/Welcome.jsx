@@ -3,7 +3,7 @@ import React from 'react'
 const Welcome = () => {
   return (
     <section id='welcome' className={`min-h-screen bg-fixed`} style={{ backgroundImage: "url('/bululanjang-mountain.jpg')", backgroundSize: 'cover', backgroundPosition: 'top' }}>
-        <article className='absolute min-h-screen top-0 flex flex-col justify-between px-5 text-center w-full text-white pt-16 pb-3'>
+        <article className='absolute min-h-screen top-0 flex flex-col justify-between px-5 text-center w-full  pt-16 pb-3'>
             <h1 className='text-transparent'>
               Portal UMKM Desa Bululanjang, Sangkapura, Pulau Bawean, Gresik, Jawa Timur
             </h1>

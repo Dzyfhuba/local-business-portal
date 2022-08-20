@@ -81,7 +81,7 @@ export default function Navbar(props) {
   return (
     <nav className={`bg-primary h-14 flex items-center justify-between px-1 fixed w-full z-50 shadow-md${position >= 10 ? ' bg-opacity-50' : ''}`} style={{ top: 0 }}>
       <Button id='#sidebar' onClick={handleSidebarToggle}>
-        <MdMenu className='text-2xl text-white' />
+        <MdMenu className='text-2xl ' />
       </Button>
       <div id="sidebar"
         className={`${sidebarDisplay} fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 z-50`}
@@ -92,7 +92,7 @@ export default function Navbar(props) {
           onClick={e => e.stopPropagation()}
           style={{ transform: 'translateX(-100%)' }}
         >
-          <div className="block w-full text-center bg-secondary text-white">
+          <div className="block w-full text-center bg-secondary ">
             <Button onClick={handleSidebarToggle}
               className='px-8 py-4 active:shadow-2xl'
             >
@@ -100,21 +100,25 @@ export default function Navbar(props) {
             </Button>
           </div>
           <div id="content" className='w-full'>
-            <NavLink to={'/'} className='flex items-center justify-center h-11'>Home</NavLink>
-            <NavLink to={'/stall'} className='flex items-center justify-center h-11'>Stall</NavLink>
-            <NavLink to={'/post'} className='flex items-center justify-center h-11'>Posts</NavLink>
+            <NavLink to={'/'} className='flex items-center justify-center h-11 uppercase'>Home</NavLink>
+            <NavLink to={'/stall'} className='flex items-center justify-center h-11 uppercase'>UMKM</NavLink>
+            <NavLink to={'/post'} className='flex items-center justify-center h-11 uppercase'>Produk</NavLink>
             {Auth.getRole() !== 'guest' ? (
-              <NavLink to={`/control/${Auth.getRole()}`} className={'flex items-center justify-center w-full h-11 capitalize'}>{`${Auth.getRole()} Page`}</NavLink>
+              <NavLink to={`/control/${Auth.getRole()}`} className={'flex items-center justify-center w-full h-11 uppercase'}>{`${Auth.getRole()} Page`}</NavLink>
             ) : ''}
             {Auth.getRole() !== 'guest' ? (
-              <Logout className={'flex items-center justify-center w-full h-11 bg-secondary text-white'} />
+              <Logout className={'flex items-center justify-center w-full h-11 bg-secondary text-white uppercase'} />
             ) : (
-              <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary text-white'>Login</NavLink>
+              <>
+                <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary text-white uppercase'>Login</NavLink>
+                <hr />
+                <NavLink to={'/register'} className='flex items-center justify-center h-11 bg-secondary text-white uppercase'>Register</NavLink>
+              </>
             )}
           </div>
         </div>
       </div>
-      <Link to='/' className='text-white'>
+      <Link to='/' className=''>
         <Brand className='font-black text-xl'>BULULANJANG</Brand>
       </Link>
       {/* <button>
@@ -135,7 +139,7 @@ export default function Navbar(props) {
                   alt={'profile'}
                 />
               ) : (
-                <CgProfile className='text-3xl text-white' />
+                <CgProfile className='text-3xl ' />
               )
             }
           </button>

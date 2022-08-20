@@ -60,7 +60,7 @@ const Home = props => {
               <MdSearch className='text-4xl mx-auto text-neutral-300' />
             </Button>
           </div>
-          <small className='text-xs opacity-50'>Isi dengan nama UMKM atau produk</small>
+          <small className='text-xs opacity-50'>Isi dengan nama UMKM atau alamatnya</small>
         </form>
       </div>
       <div id="container" className='grid grid-cols-2 gap-1 mx-5'>

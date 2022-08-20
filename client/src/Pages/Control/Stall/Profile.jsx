@@ -128,7 +128,7 @@ const Profile = props => {
                             <Button
                                 type='button'
                                 style={isDragging ? { color: 'red' } : undefined}
-                                className={`bg-secondary text-white px-5 py-2.5 rounded shadow${editable && !images.length ? ' block' : ' hidden'}`}
+                                className={`bg-secondary  px-5 py-2.5 rounded shadow${editable && !images.length ? ' block' : ' hidden'}`}
                                 onClick={onImageUpload}
                                 {...dragProps}
                             >
@@ -146,8 +146,8 @@ const Profile = props => {
                                         <LazyLoadImage src={image['data_url']} alt="" className='h-full w-full object-contain' />
                                     </Zoom>
                                     <div className="flex flex-col justify-center gap-1 w-1/2">
-                                        <button onClick={() => onImageUpdate(index)} className={'px-5 py-2.5 bg-yellow-500 text-white rounded shadow'}>Update</button>
-                                        <button onClick={() => onImageRemove(index)} className={'px-5 py-2.5 bg-red-500 text-white rounded shadow'}>Remove</button>
+                                        <button onClick={() => onImageUpdate(index)} className={'px-5 py-2.5 bg-yellow-500  rounded shadow'}>Update</button>
+                                        <button onClick={() => onImageRemove(index)} className={'px-5 py-2.5 bg-red-500  rounded shadow'}>Remove</button>
                                     </div>
                                 </div>
                             ))}
@@ -165,7 +165,7 @@ const Profile = props => {
                 <form onSubmit={handleSubmit}>
                     <div className="flex justify-end">
                         <Button type='button' className={`px-5 py-2.5 rounded shadow bg-yellow-400${!editable ? ' block' : ' hidden'}`} onClick={() => setEditable(true)}>Edit</Button>
-                        <Button type='submit' className={`bg-secondary text-white px-5 py-2.5 rounded shadow${editable ? ' block' : ' hidden'}`}>Simpan</Button>
+                        <Button type='submit' className={`bg-secondary  px-5 py-2.5 rounded shadow${editable ? ' block' : ' hidden'}`}>Simpan</Button>
                     </div>
                     <Label htmlFor='name'>Nama</Label>
                     <Input id='name' placeholder='Nama...' onChange={e => setName(e.target.value)} readOnly={!editable} />
