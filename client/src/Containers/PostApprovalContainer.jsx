@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { FaCheck, FaEye } from "react-icons/fa"
+import swal from "sweetalert"
 import Button from "../Components/Button"
 import ButtonAnchor from "../Components/ButtonAnchor"
 import Hosts from "../Config/Hosts"
@@ -18,6 +19,33 @@ const PostApprovalContainer = () => {
     }, [])
 
     console.log(posts)
+    const approve = (e, post_id) => {
+        swal('Setujui artikel ini?', {
+            content: {
+                element: 'checkbox',
+            },
+            buttons: {
+                cancel: 'Batal',
+                agree: {
+                    text: 'Setuju',
+                    className: 'bg-green-500 text-black'
+                },
+            }
+        }).then(val => {
+            if(val === 'agree') {
+                axios.put(Hosts.main + '/control/post-approval', {
+                    id: post_id
+                }).then(res => {
+                    if (res.data.status === 'success') {
+                        e.target.closest('#list-item').remove()
+                        swal('Success', 'Telah disetujui', 'success')
+                    } else {
+                        swal('Gagal', res.data.message || res.data.data, res.data.status)
+                    }
+                })
+            }
+        })
+    }
 
     return (
         <>
@@ -27,11 +55,12 @@ const PostApprovalContainer = () => {
                         return (
                             <div id="list-item" key={post.slug} className="bg-primary rounded p-3">
                                 <h1 className="text-lg font-bold">{post.title}</h1>
+                                <h3>{post.username}</h3>
                                 <div id="control" className="flex justify-end gap-1">
-                                    <ButtonAnchor className="bg-secondary px-5 py-2.5 rounded text-white" to={'' + post.slug}>
+                                    <ButtonAnchor className="bg-secondary px-5 py-2.5 rounded text-white" to={`/post/${post.username}/${post.slug}`} target='_blank' rel='noopener'>
                                         <FaEye className="text-2xl" />
                                     </ButtonAnchor>
-                                    <Button className="bg-secondary px-5 py-2.5 rounded text-white">
+                                    <Button className="bg-secondary px-5 py-2.5 rounded text-white" onClick={(e) => approve(e, post.id)}>
                                         <FaCheck className="text-2xl" />
                                     </Button>
                                 </div>
