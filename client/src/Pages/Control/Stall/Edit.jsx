@@ -57,7 +57,7 @@ const Edit = () => {
         const data = {
             title: title,
             images: images.map((image, i) => {
-                const filename = `${title}${i}`
+                const filename = `${title}-${i}-${(new Date()).getTime()}`
                 return filename
             }).toString(),
             content: element.querySelector('#content').value
@@ -82,8 +82,9 @@ const Edit = () => {
                                 })
                             }
                             
+                            const storedDataImage  = data.images.split(',')
                             images.map(async (image, i) => {
-                                const filename = `${title}${i}`
+                                const filename = storedDataImage[i]
                                 const { error } = await supabase.storage.from('post-images').upload(filename, image.file)
                                 console.log(error);
                             })

@@ -30,7 +30,7 @@ const Create = () => {
         const data = {
             title: title,
             images: images.map((image, i) => {
-                const filename = `${title}${i}`
+                const filename = `${title}-${i}-${(new Date()).getTime()}`
                 return filename
             }).toString(),
             content: element.querySelector('#content').value
@@ -47,8 +47,9 @@ const Create = () => {
                 if (res.data.status === 'success') {
                     swal('Success', 'Post berhasil dibuat', 'success')
                         .then(async () => {
+                            const storedDataImage  = data.images.split(',')
                             images.map(async (image, i) => {
-                                const filename = `${title}${i}`
+                                const filename = storedDataImage[i]
                                 const { error } = await supabase.storage.from('post-images').upload(filename, image.file)
                                 console.log(error);
                             })
