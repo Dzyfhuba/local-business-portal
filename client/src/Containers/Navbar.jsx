@@ -17,22 +17,18 @@ import { CgProfile } from 'react-icons/cg'
 
 export default function Navbar(props) {
   const [sidebarDisplay, setSidebarDisplay] = useState('hidden')
-  const [position, setPosition] = useState(Number)
   const navigate = useNavigate()
   const [image, setImage] = useState(String)
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setPosition(window.scrollY)
-    })
     axios.get(Hosts.main + '/profile', {
       headers: {
         'Authorization': `Bearer ${Auth.getToken()}`
       },
     })
       .then(async res => {
+        console.log(res.data);
         if (res.data.status === 'success') {
-          console.log(res.data);
           if (res.data.data.profile) {
             const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
             console.log(data, error)
@@ -79,7 +75,7 @@ export default function Navbar(props) {
   ) : null
 
   return (
-    <nav className={`bg-primary h-14 flex items-center justify-between px-1 fixed w-full z-50 shadow-md${position >= 10 ? ' bg-opacity-50' : ''}`} style={{ top: 0 }}>
+    <nav className={`bg-primary h-14 flex items-center justify-between px-1 fixed w-full z-50 shadow-md`} style={{ top: 0 }}>
       <Button id='#sidebar' onClick={handleSidebarToggle}>
         <MdMenu className='text-2xl ' />
       </Button>

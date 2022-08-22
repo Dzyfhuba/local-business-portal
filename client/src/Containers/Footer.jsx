@@ -4,7 +4,7 @@ import Var from '../Config/Var'
 
 const Footer = () => {
     return (
-        <footer className='bg-secondary  p-3 shadow-md'>
+        <footer className='bg-secondary text-white p-3 shadow-md'>
             <article>
                 <h1 className='font-bold text-center text-xl mb-3'>
                     {Var.APP_NAME}

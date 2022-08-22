@@ -45,6 +45,7 @@ const Profile = props => {
                     console.log('data:', data);
                     console.log('error:', error);
                     document.querySelector('#profilePreview').setAttribute('src', data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL)
+                    res.data.data.profile = data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL
                     setProfile(res.data.data)
                 }
             })
@@ -57,7 +58,7 @@ const Profile = props => {
 
         const data = {
             name: name,
-            profile: profileFileName,
+            profile: images.length ? profileFileName : (profile.profile ? profile.profile : null),
             address: address,
             phone: phone,
             description: description,
@@ -156,7 +157,8 @@ const Profile = props => {
                 </ImageUploading>
                 <Zoom wrapStyle={{ width: '100%' }} >
                     <img
-                        src={'/profile.svg'}
+                        // src={'/profile.svg'}
+                        src={profile.profile}
                         id={'profilePreview'}
                         className={'min-h-[25vh] max-h-[33vh] object-cover shadow-md mb-3 object-center rounded-full aspect-square mx-auto'}
                         alt={'profile preview'}

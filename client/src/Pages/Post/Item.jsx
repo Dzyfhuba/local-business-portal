@@ -11,6 +11,7 @@ import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import { CgProfile } from 'react-icons/cg'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { FaWhatsapp } from 'react-icons/fa'
 
 // import PropTypes from 'prop-types'
 
@@ -18,16 +19,24 @@ const Item = props => {
     const { stall, slug } = useParams()
     const [post, setPost] = useState({})
     const [images, setImage] = useState([Image404])
+    const [profileImage, setProfileImage] = useState(String)
 
     useEffect(() => {
         axios.get(`${Hosts.main}/post/${stall}/${slug}`)
-            .then(res => {
-                console.log(res.data);
+            .then(async res => {
+                // console.log(res.data);
                 const date = new Date(res.data.data.updated_at)
                 res.data.data.updated_at = date.toLocaleString()
                 // console.log(date)
                 setPost(res.data.data)
                 getSupabaseImages(res.data.data.images)
+
+                console.log(res.data.data.profile);
+                if (res.data.data.profile) {
+                    const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
+                    if (error) return
+                    setProfileImage(data.publicURL)
+                }
             })
     }, [])
 
@@ -35,7 +44,6 @@ const Item = props => {
         images = images.slice(-1) === ';' ? images.slice(0, -1) : images
         const arrayOfImages = images.split(',')
         const supabaseImages = []
-
 
         if (!images) {
             supabaseImages.push(Image404)
@@ -52,6 +60,8 @@ const Item = props => {
         }
         setImage(supabaseImages)
     }
+
+    console.log(profileImage);
 
     return (
         <Main>
@@ -85,11 +95,30 @@ const Item = props => {
                     ))
                 }
             </Carousel>
-            <article className='mx-5 bg-white rounded p-5 flex items-center gap-1'>
-                <CgProfile className='text-3xl' />
-                <Link to={`/stall/${post.username}`}>
-                    <h1 className='font-bold text-xl'>{post.name}</h1>
-                </Link>
+            <article className='mx-5 bg-white rounded p-5 flex justify-between items-center gap-1 overflow-x-scroll'>
+                <div className='flex items-center gap-2'>
+                    {
+                        profileImage ? (
+                            <img
+                                alt={`${post.username}`}
+                                src={profileImage}
+                                className={'h-11 aspect-square object-cover rounded-full'}
+                            />
+                        ) : (
+                            <CgProfile className='text-3xl' />
+                        )
+                    }
+                    <Link to={`/stall/${post.username}`}>
+                        <h1 className='font-bold text-xl whitespace-nowrap'>{post.name}</h1>
+                    </Link>
+                    </div>
+                    <a className='aspect-square h-11 text-center bg-[#47C753] text-white rounded shadow-md p-3'
+                        href={`https://api.whatsapp.com/send?phone=${post.phone ? post.phone.replace('+', '') : null}`}
+                        rel="noopener noreferrer"
+                        target={'_blank'}
+                    >
+                        <FaWhatsapp className='mx-auto text-lg' />
+                    </a>
             </article>
             <article className='mx-5 mt-3 bg-white rounded p-5 shadow'>
                 <h1 className='font-black text-3xl'>{post.title}</h1>

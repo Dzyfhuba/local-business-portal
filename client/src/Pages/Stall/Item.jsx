@@ -8,9 +8,9 @@ import { supabase } from '../../Config/SupabaseClient'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Image404 from '../../Images/404.jpg'
 import PhoneInput from 'react-phone-number-input'
-import Button from '../../Components/Button'
-import { HiOutlineClipboardCopy } from 'react-icons/hi'
 import Zoom from 'react-medium-image-zoom'
+import ButtonAnchor from '../../Components/ButtonAnchor'
+import { FaWhatsapp } from 'react-icons/fa'
 
 const Item = props => {
     const { stall } = useParams()
@@ -19,7 +19,7 @@ const Item = props => {
     useEffect(() => {
         axios.get(`${Hosts.main}/stall/${stall}`)
             .then(async res => {
-                const { data,  } = await supabase.storage.from('profile').getPublicUrl(res.data.data.stall.profile)
+                const { data, } = await supabase.storage.from('profile').getPublicUrl(res.data.data.stall.profile)
                 res.data.data.stall.profile = data.publicURL
 
                 setItem(res.data.data.stall)
@@ -30,7 +30,7 @@ const Item = props => {
         <Main>
             <div id="container" className='mx-5 mt-3'>
                 <article>
-                    <Zoom wrapStyle={{width: '100%'}}>
+                    <Zoom wrapStyle={{ width: '100%' }}>
                         <LazyLoadImage
                             src={item.profile}
                             placeholder={<span>asdasd</span>}
@@ -46,22 +46,22 @@ const Item = props => {
                         <small>
                             {item.address}
                         </small>
-                        <div className="flex border">
+                        <div className="flex items-center justify-between h-14 border overflow-x-scroll">
                             <PhoneInput
                                 defaultCountry={'ID'}
-                                placeholder='Nomor Telepon...' value={ item.phone }
+                                placeholder='Nomor Telepon...' value={item.phone}
                                 className='focus-within:outline-secondary outline p-3 bg-white outline-none border-none'
                                 onChange={() => console.log('')}
                                 readOnly
                                 disabled
                             />
-                            <Button className='aspect-square w-1/6 text-center bg-neutral-300 rounded shadow-md m-3'
-                            onClick={() => {
-                                navigator.clipboard.writeText(item.phone)
-                            }}
+                            <a className='aspect-square h-11 text-center bg-[#47C753] text-white rounded shadow-md p-3'
+                                href={`https://api.whatsapp.com/send?phone=${item.phone ? item.phone.replace('+', '') : null}`}
+                                rel="noopener noreferrer"
+                                target={'_blank'}
                             >
-                                <HiOutlineClipboardCopy className='mx-auto ' />
-                            </Button>
+                                <FaWhatsapp className='mx-auto text-lg' />
+                            </a>
                         </div>
                     </div>
                     <div id="description" className='bg-white p-3 shadow-md'>

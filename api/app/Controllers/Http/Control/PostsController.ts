@@ -33,14 +33,17 @@ export default class PostsController {
     }
   }
 
+  // dipindah untuk non admin
   public async get ({ request, response }) {
     try {
       const { slug } = request.params()
 
       const post = await Database.from('posts').where('slug', slug)
         .join('users', 'users.id', 'posts.user_id')
+        .join('profiles', 'profiles.user_id', 'users.id')
         .select('posts.*')
-        .select('users.name').first()
+        .select(['profiles.profile', 'profiles.address', 'profiles.phone'])
+        .select(['users.name', 'users.username']).first()
 
       return response.send({
         error: false,
