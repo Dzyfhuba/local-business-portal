@@ -88,7 +88,8 @@ const Item = props => {
                                 alt={`${post.title} ${i}`}
                                 src={image} // use normal <img> attributes as props
                                 placeholderSrc={Image404}
-                                className={'h-80 w-full aspect-square'}
+                                className={'w-full h-80 object-contain'}
+                                wrapperClassName={'aspect-square'}
                             />
                             {/* <img src={image} alt={`${post.title} ${i}`} /> */}
                         </Zoom>

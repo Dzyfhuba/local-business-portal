@@ -1,7 +1,7 @@
 {
     "name": "client",
     "version": "0.1.0",
-    "private": true,
+    "private": false,
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.3",
         "@rehooks/local-storage": "^2.4.4",

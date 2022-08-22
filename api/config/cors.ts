@@ -45,6 +45,7 @@ const corsConfig: CorsConfig = {
   |
   */
   origin: [
+    'http://localhost',
     'http://localhost:3000',
     'http://192.168.1.16:3000',
     'http://192.168.1.29:3000',
