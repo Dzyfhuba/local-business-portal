@@ -109,7 +109,7 @@ const Edit = () => {
             </Helmet>
             <form className={'mx-5 my-3'} onSubmit={handleSubmit}>
                 <div id="wrap" className='text-right'>
-                    <Button type='submit' className=' bg-secondary py-2.5 px-5 rounded'>Simpan</Button>
+                    <Button type='submit' className='bg-secondary text-white'>Simpan</Button>
                 </div>
                 <Label for={'title'}>Judul</Label>
                 <Input id={'title'} placeholder={'Judul...'} required />
@@ -138,7 +138,7 @@ const Edit = () => {
                             <Button
                                 type='button'
                                 style={isDragging ? { color: 'red' } : undefined}
-                                className={`bg-secondary  px-5 py-2.5 rounded shadow`}
+                                className={`bg-secondary text-white`}
                                 onClick={onImageUpload}
                                 {...dragProps}
                             >
@@ -170,7 +170,7 @@ const Edit = () => {
                                             <button type='button' onClick={() => onImageUpdate(index)} className={'px-5 py-2.5 bg-yellow-500  rounded shadow'}>
                                                 <GrUpdate />
                                             </button>
-                                            <button type='button' onClick={() => onImageRemove(index)} className={'px-5 py-2.5 bg-red-500  rounded shadow'}>
+                                            <button type='button' onClick={() => onImageRemove(index)} className={'px-5 py-2.5 bg-red-500 text-white rounded shadow'}>
                                                 <TbTrashX />
                                             </button>
                                         </div>
