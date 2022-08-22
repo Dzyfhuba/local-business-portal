@@ -54,12 +54,12 @@ const Admin = props => {
                 >
                     <TbListCheck className='text-2xl' />
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                     to={'/control/admin'}
                     className={`w-full h-full flex justify-center items-center hover:text-black transition duration-300`}
                 >
                     <FaHome className='text-2xl' />
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                     to={'/control/admin/user-management'}
                     className={`w-full h-full flex justify-center items-center hover:text-black transition duration-300`}

@@ -33,7 +33,7 @@ export default class PostsController {
     }
   }
 
-  public async get({ request, response }) {
+  public async get ({ request, response }) {
     try {
       const { slug } = request.params()
 
@@ -56,14 +56,14 @@ export default class PostsController {
     }
   }
 
-  public async store({ request, response, auth }) {
+  public async store ({ request, response, auth }) {
     try {
       await auth.use('api').authenticate()
 
       if (auth.use('api').user!) {
         const body = request.body()
         body.user_id = auth.use('api').user.id
-        body.slug = body.title
+        body.slug = slugify(body.title)
 
         const post = await Post.create(body)
 

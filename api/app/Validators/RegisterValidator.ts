@@ -26,13 +26,10 @@ export default class RegisterValidator {
   public schema = schema.create({
     name: schema.string([
       rules.minLength(4),
-      rules.maxLength(32),
       rules.required(),
     ]),
     username: schema.string([
       rules.minLength(4),
-      rules.maxLength(12),
-      rules.regex(/^\S+$/),
       rules.required(),
     ]),
     email: schema.string([

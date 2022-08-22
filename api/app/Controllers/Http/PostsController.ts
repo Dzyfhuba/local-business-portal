@@ -17,7 +17,7 @@ export default class PostsController {
         .select('users.name')
         .select('users.username')
         .select('profiles.address')
-        .orderBy('id', 'desc')
+        .orderBy('posts.updated_at', 'desc')
       return response.send({
         error: false,
         status: 'success',

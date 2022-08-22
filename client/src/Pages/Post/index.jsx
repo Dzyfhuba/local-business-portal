@@ -76,7 +76,7 @@ const Home = props => {
               className={`bg-white p-1 rounded shadow-md${!post.images ? ' order-last' : ''}`}
             >
               {/* <img src={images[i]} alt="" /> */}
-              <Link to={`/post/${post.slug}`}>
+              <Link to={`/post/${post.username}/${post.slug}`}>
                 <LazyLoadImage
                   src={post.images}
                   placeholder={<span>asdasd</span>}

@@ -17,6 +17,7 @@ export default class PostApprovalsController {
           'users.username',
           'posts.updated_at',
         ])
+        .orderBy('posts.updated_at', 'desc')
 
       return response.json({
         error: false,

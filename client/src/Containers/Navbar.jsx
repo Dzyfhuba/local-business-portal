@@ -94,7 +94,7 @@ export default function Navbar(props) {
         >
           <div className="block w-full text-center bg-secondary ">
             <Button onClick={handleSidebarToggle}
-              className='px-8 py-4 active:shadow-2xl'
+              className='px-8 py-4 active:shadow-2xl text-white'
             >
               <MdClose className='text-2xl' />
             </Button>

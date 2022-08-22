@@ -8,6 +8,8 @@ import axios from 'axios'
 import Hosts from '../../Config/Hosts'
 import swal from 'sweetalert';
 import Auth from '../../Config/Auth'
+import { RequiredStar } from '../../Components/RequiredStar'
+import Navbar from '../../Containers/Navbar'
 
 export default function Login() {
 
@@ -23,7 +25,7 @@ export default function Login() {
       },
     })
     .then(res => {
-      console.log('asd');
+      console.log(res.data);
         if (res.data.status === 'success') {
           console.log(res.data.token.token)
           // setCookies('token', res.data.token.token)
@@ -48,6 +50,7 @@ export default function Login() {
     <div
       className='bg-base w-full h-full fixed flex justify-center items-center'
     >
+      <Navbar />
       <div id="card" className='w-4/5 bg-primary p-3 rounded '>
         <div id="header">
           <Link to={'/'}>
@@ -58,12 +61,12 @@ export default function Login() {
           <h3 className='text-center'>Login</h3>
         </div>
         <form className='' onSubmit={handleForm}>
-          <Label htmlFor='email'>Email</Label>
+          <Label htmlFor='email'>Email<RequiredStar /></Label>
           <Input id='email' name='email' placeholder='Email...' autoFocus required />
-          <Label htmlFor='password'>Password</Label>
+          <Label htmlFor='password'>Password<RequiredStar /></Label>
           <Input id='password' name='password' type='password' placeholder='Password...' autoComplete='true' required />
           <div className="text-right">
-            <Button level='secondary' type='submit'>Submit</Button>
+            <Button className='text-white bg-secondary px-5 py-2.5 rounded' type='submit'>Login</Button>
           </div>
         </form>
         <div id="footer" className='mt-5 text-center  text-opacity-70 hover:text-black underline'>

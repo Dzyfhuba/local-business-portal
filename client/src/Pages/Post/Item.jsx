@@ -22,6 +22,7 @@ const Item = props => {
     useEffect(() => {
         axios.get(`${Hosts.main}/post/${stall}/${slug}`)
             .then(res => {
+                console.log(res.data);
                 const date = new Date(res.data.data.updated_at)
                 res.data.data.updated_at = date.toLocaleString()
                 // console.log(date)
@@ -35,37 +36,41 @@ const Item = props => {
         const arrayOfImages = images.split(',')
         const supabaseImages = []
 
-        await arrayOfImages.forEach(async image => {
-            const { data, error } = await supabase.storage.from('post-images').getPublicUrl(image)
 
-            if (error) {
-                supabaseImages.push(Image404)
-            }
+        if (!images) {
+            supabaseImages.push(Image404)
+        } else {
+            await arrayOfImages.forEach(async image => {
+                const { data, error } = await supabase.storage.from('post-images').getPublicUrl(image)
 
-            supabaseImages.push(data.publicURL)
-        });
-        console.log(supabaseImages);
+                if (error) {
+                    supabaseImages.push(Image404)
+                }
+
+                supabaseImages.push(data.publicURL)
+            });
+        }
         setImage(supabaseImages)
     }
 
     return (
         <Main>
-            <Carousel 
-            showArrows={false}
-            renderThumbs={img => {
-                const result = img.map((item, i) => {
-                    return (
-                        <img 
-                        src={item.props.children.props.src}
-                        alt={item.props.children.props.alt}
-                        className='h-11 object-cover'
-                        key={i}
-                        />
-                    )
-                })
-                return result
-            }}
-             >
+            <Carousel
+                showArrows={false}
+                renderThumbs={img => {
+                    const result = img.map((item, i) => {
+                        return (
+                            <img
+                                src={item.props.children.props.src}
+                                alt={item.props.children.props.alt}
+                                className='h-11 object-cover'
+                                key={i}
+                            />
+                        )
+                    })
+                    return result
+                }}
+            >
                 {
                     images.map((image, i) => (
                         <Zoom key={i}>
@@ -80,10 +85,10 @@ const Item = props => {
                     ))
                 }
             </Carousel>
-            <article className='mx-5 bg-white rounded p-5 shadow grid  '>
+            <article className='mx-5 bg-white rounded p-5 flex items-center gap-1'>
                 <CgProfile className='text-3xl' />
-                <Link to='/'>
-                    <h1>{post.name}</h1>
+                <Link to={`/stall/${post.username}`}>
+                    <h1 className='font-bold text-xl'>{post.name}</h1>
                 </Link>
             </article>
             <article className='mx-5 mt-3 bg-white rounded p-5 shadow'>

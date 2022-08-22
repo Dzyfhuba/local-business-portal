@@ -31,7 +31,7 @@ const Router = (props: Props) => {
           <Route path='/control/stall/create' element={Auth.getRole() === 'stall' ? <ControlStallCreate /> : <>Page is not found</>} />
           <Route path='/control/stall/:id/edit' element={Auth.getRole() === 'stall' ? <ControlStallEdit /> : <>Page is not found</>} />
 
-          <Route path='/control/admin' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <ControlAdminHome /> : <>Page is not found</>} />
+          <Route path='/control/admin' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <Navigate replace to={`/control/admin/post-approval`} /> : <>Page is not found</>} />
           <Route path='/control/admin/post-approval' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <ControlAdminPostApproval /> : <>Page is not found</>} />
           <Route path='/control/admin/user-management' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <ControlAdminUserManagement /> : <>Page is not found</>} />
       </Routes>
