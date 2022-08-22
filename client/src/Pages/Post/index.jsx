@@ -12,16 +12,20 @@ import { ScrollToTop } from '../../Components/ScrollToTop'
 import Input from '../../Components/Input'
 import { MdSearch } from 'react-icons/md'
 import Button from '../../Components/Button'
+import { IoMdCloseCircle } from 'react-icons/io'
 
 const Home = props => {
   const [posts, setPosts] = useLocalStorage('posts')
   const [filter, setFilter] = useState(Object)
+  const [showClear, setShowClear] = useState(Boolean)
 
   useEffect(() => {
     axios.get(Hosts.main + '/post')
       .then(async res => {
         if (res.data.status === 'success') {
           res.data.data.forEach(async (item, i) => {
+            const date = new Date(item.updated_at)
+            res.data.data[i].updated_at = date.toLocaleDateString()
             if (!item.images) {
               res.data.data[i].images = null
               return
@@ -30,8 +34,6 @@ const Home = props => {
             const { data, } = await supabase.storage.from('post-images').getPublicUrl(imageName)
             res.data.data[i].images = data.publicURL
 
-            const date = new Date(item.updated_at)
-            res.data.data[i].updated_at = date.toLocaleDateString()
           });
           setPosts(res.data.data)
         }
@@ -42,11 +44,10 @@ const Home = props => {
 
   const searchPost = e => {
     e.preventDefault()
-    const formElement = e.target
-
     const data = {
-      title: formElement.querySelector('#title').value
+      filter: e.target.value
     }
+    console.log(data);
     setFilter(data)
   }
 
@@ -54,11 +55,20 @@ const Home = props => {
     <Main>
       <div className="mx-5 my-3">
         <form
-          onSubmit={searchPost}
+
         >
           <div className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11">
-            <Input placeholder='Search...' className='outline-none p-3 w-full' id='title' />
-            <Button className='aspect-square h-full block'>
+            <Input placeholder='Search...' className='outline-none p-3 w-full' id='title' onKeyUp={searchPost} />
+            <Button className={`aspect-square h-full block px-0 py-0${showClear ? null : ' hidden'}`}
+              onClick={e => {
+                e.preventDefault()
+                setFilter('')
+                document.getElementById('filter').value = ''
+              }
+              }>
+                <IoMdCloseCircle className='text-2xl mx-auto text-neutral-300' />
+            </Button>
+            <Button className='aspect-square h-full block px-0 py-0'>
               <MdSearch className='text-4xl mx-auto text-neutral-300' />
             </Button>
           </div>
@@ -68,7 +78,9 @@ const Home = props => {
       <div id="container" className='grid grid-cols-2 gap-1 mx-5'>
         {posts ? posts
           .filter(post => {
-            if (filter.title) return post.title.toLowerCase().includes(filter.title.toLowerCase()) || post.name.toLowerCase().includes(filter.title.toLowerCase())
+            if (filter.filter) {
+              return post.title.toLowerCase().includes(filter.filter.toLowerCase()) || post.name.toLowerCase().includes(filter.filter.toLowerCase())
+            }
             return post
           })
           .map((post, i) => (

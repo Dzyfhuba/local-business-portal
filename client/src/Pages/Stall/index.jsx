@@ -12,10 +12,12 @@ import { Link } from 'react-router-dom'
 import Input from '../../Components/Input'
 import Button from '../../Components/Button'
 import { MdSearch } from 'react-icons/md'
+import { IoMdCloseCircle } from 'react-icons/io'
 
 const Home = props => {
   const [stalls, setStalls] = useLocalStorage('stalls')
   const [filter, setFilter] = useState(Object)
+  const [showClear, setShowClear] = useState(Boolean)
 
   useEffect(() => {
     axios.get(Hosts.main + '/stall')
@@ -35,28 +37,38 @@ const Home = props => {
           setStalls(res.data.data)
         }
       })
-  }, [setStalls])
-  console.log(stalls);
+  }, [])
+  // console.log(stalls);
 
-  const searchPost = e => {
+  const searchStall = e => {
     e.preventDefault()
-    const formElement = e.target
-
     const data = {
-      username: formElement.querySelector('#username').value
+      filter: e.target.value
     }
+    console.log(data);
     setFilter(data)
+
+    setShowClear(data.filter ? true : false)
   }
 
   return (
     <Main>
       <div className="mx-5 my-3">
         <form
-          onSubmit={searchPost}
+        // onKeyUp={searchStall}
         >
           <div className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11">
-            <Input placeholder='Search...' className='outline-none p-3 w-full' id='username' />
-            <Button className='aspect-square h-full block'>
+            <Input placeholder='Search...' className='outline-none p-3 w-full' id='filter' onKeyUp={searchStall} />
+            <Button className={`aspect-square h-full block px-0 py-0${showClear ? null : ' hidden'}`}
+              onClick={e => {
+                e.preventDefault()
+                setFilter('')
+                document.getElementById('filter').value = ''
+              }
+              }>
+              <IoMdCloseCircle className='text-2xl mx-auto text-neutral-300' />
+            </Button>
+            <Button className='aspect-square h-full block px-0 py-0'>
               <MdSearch className='text-4xl mx-auto text-neutral-300' />
             </Button>
           </div>
@@ -65,9 +77,13 @@ const Home = props => {
       </div>
       <div id="container" className='grid grid-cols-2 gap-1 mx-5'>
         {stalls ? stalls
-          .filter(post => {
-            if (filter.username) return post.username.toLowerCase().includes(filter.username.toLowerCase()) || post.address.toLowerCase().includes(filter.username.toLowerCase())
-            return post
+          .filter(stall => {
+            if (filter.filter) {
+              return stall.username.toLowerCase().includes(filter.filter.toLowerCase()) ||
+                stall.address.toLowerCase().includes(filter.filter.toLowerCase()) ||
+                stall.name.toLowerCase().includes(filter.filter.toLowerCase())
+            }
+            return stall
           })
           .map((stall, i) => (
             <div id="card" key={stall.id}

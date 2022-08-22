@@ -65,7 +65,7 @@ const Home = props => {
     return (
         <Main>
             <div id="container" className='mx-5 my-6'>
-                <ButtonAnchor to='/control/stall/create' className='bg-secondary w-full mb-3'>Create</ButtonAnchor>
+                <ButtonAnchor to='/control/stall/create' className={'bg-secondary text-white mb-3'}>Create</ButtonAnchor>
 
                 <div id="table-container" className='overflow-x-scroll'>
                     <table className='w-full table-auto'>
@@ -89,8 +89,8 @@ const Home = props => {
                                                     >{post.title}</Link>
                                                 </td>
                                                 <td className='whitespace-nowrap table-cell border p-3'>{post.updated_at}</td>
-                                                <td><ButtonAnchor className={'bg-yellow-300 table-cell border p-3 text-black'} to={`/control/stall/${post.id}/edit`}>Edit</ButtonAnchor></td>
-                                                <td><Button className={'bg-red-600 table-cell border p-3 '}
+                                                <td className='p-1 table-cell border'><ButtonAnchor className={'bg-yellow-300 table-cell border text-black'} to={`/control/stall/${post.id}/edit`}>Edit</ButtonAnchor></td>
+                                                <td className='p-1 table-cell border'><Button className={'bg-red-600 table-cell border text-white'}
                                                     onClick={e => handleDelete(e.target, post.id)}
                                                 >Hapus</Button></td>
                                             </tr>
