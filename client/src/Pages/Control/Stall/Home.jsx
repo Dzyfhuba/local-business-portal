@@ -8,6 +8,8 @@ import Auth from '../../../Config/Auth'
 import { Link } from 'react-router-dom'
 import Button from '../../../Components/Button'
 import swal from 'sweetalert'
+import { Helmet } from 'react-helmet-async'
+import Var from '../../../Config/Var'
 
 const Home = props => {
     const [posts, setPosts] = useState([])
@@ -64,6 +66,10 @@ const Home = props => {
 
     return (
         <Main>
+            <Helmet>
+                <title>{`${Var.APP_NAME}`}</title>
+                <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
+            </Helmet>
             <div id="container" className='mx-5 my-6'>
                 <ButtonAnchor to='/control/stall/create' className={'bg-secondary text-white mb-3'}>Create</ButtonAnchor>
 

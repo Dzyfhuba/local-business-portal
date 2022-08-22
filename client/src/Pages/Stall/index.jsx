@@ -13,6 +13,8 @@ import Input from '../../Components/Input'
 import Button from '../../Components/Button'
 import { MdSearch } from 'react-icons/md'
 import { IoMdCloseCircle } from 'react-icons/io'
+import { Helmet } from 'react-helmet-async'
+import Var from '../../Config/Var'
 
 const Home = props => {
   const [stalls, setStalls] = useLocalStorage('stalls')
@@ -53,6 +55,10 @@ const Home = props => {
 
   return (
     <Main>
+      <Helmet>
+        <title>{`UMKM | ${Var.APP_NAME}`}</title>
+        <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
+      </Helmet>
       <div className="mx-5 my-3">
         <form
         // onKeyUp={searchStall}

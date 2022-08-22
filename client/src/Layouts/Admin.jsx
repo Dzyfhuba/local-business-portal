@@ -6,10 +6,10 @@ import axios from 'axios'
 import Hosts from '../Config/Hosts'
 import Auth from '../Config/Auth'
 import Footer from '../Containers/Footer'
-import { HeadProvider as Head, Title } from 'react-head'
-import Var from '../Config/Var'
 import { NavLink } from 'react-router-dom'
 import { TbListCheck } from 'react-icons/tb'
+import { Helmet } from 'react-helmet-async'
+import Var from '../Config/Var'
 
 const Admin = props => {
     const [, setAuth] = useState(Array)
@@ -43,9 +43,10 @@ const Admin = props => {
     
     return (
         <div className="bg-base min-h-screen">
-            <Head>
-                <Title>{Var.APP_NAME}</Title>
-            </Head>
+            <Helmet>
+                <title>{`Admin | ${Var.APP_NAME}`}</title>
+                <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
+            </Helmet>
             <Navbar auth={Auth.getUser()} />
             <nav className='fixed bottom-0 h-14 bg-secondary text-white w-full flex z-10'>
                 <NavLink

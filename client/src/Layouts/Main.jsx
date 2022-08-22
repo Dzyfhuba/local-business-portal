@@ -5,8 +5,6 @@ import axios from 'axios'
 import Hosts from '../Config/Hosts'
 import Auth from '../Config/Auth'
 import Footer from '../Containers/Footer'
-import { HeadProvider as Head, Title } from 'react-head'
-import Var from '../Config/Var'
 
 const Main = props => {
   const [, setAuth] = useState(Array)
@@ -18,7 +16,7 @@ const Main = props => {
       },
     })
       .then(res => {
-        if(res.data.status === 'success') {
+        if (res.data.status === 'success') {
           Auth.setUser(res.data.user)
           setAuth(res.data.user)
           axios.get(Hosts.main + '/profile', {
@@ -40,9 +38,6 @@ const Main = props => {
 
   return (
     <div className="bg-base min-h-screen">
-      <Head>
-        <Title>{Var.APP_NAME}</Title>
-      </Head>
       <Navbar auth={Auth.getUser()} />
       <main className='pt-14 pb-5'>{props.children}</main>
       <Footer />

@@ -17,6 +17,8 @@ import ImageUploading from 'react-images-uploading'
 import Zoom from 'react-medium-image-zoom'
 import { supabase } from '../../../Config/SupabaseClient'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
+import Var from '../../../Config/Var'
 
 const Profile = props => {
     const [name, setName] = useState()
@@ -105,6 +107,10 @@ const Profile = props => {
 
     return (
         <Main>
+            <Helmet>
+                <title>{`${Var.APP_NAME}`}</title>
+                <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
+            </Helmet>
             <div id="container" className='mx-5 mt-3'>
                 <ImageUploading
                     value={images}

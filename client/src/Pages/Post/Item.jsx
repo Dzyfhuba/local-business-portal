@@ -12,6 +12,8 @@ import 'react-medium-image-zoom/dist/styles.css'
 import { CgProfile } from 'react-icons/cg'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { FaWhatsapp } from 'react-icons/fa'
+import { Helmet } from 'react-helmet-async'
+import Var from '../../Config/Var'
 
 // import PropTypes from 'prop-types'
 
@@ -65,6 +67,10 @@ const Item = props => {
 
     return (
         <Main>
+            <Helmet>
+                <title>{`${post.title} | ${post.name} | Produk UMKM | ${Var.APP_NAME}`}</title>
+                <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
+            </Helmet>
             <Carousel
                 showArrows={false}
                 renderThumbs={img => {
@@ -112,14 +118,14 @@ const Item = props => {
                     <Link to={`/stall/${post.username}`}>
                         <h1 className='font-bold text-xl whitespace-nowrap'>{post.name}</h1>
                     </Link>
-                    </div>
-                    <a className='aspect-square h-11 text-center bg-[#47C753] text-white rounded shadow-md p-3'
-                        href={`https://api.whatsapp.com/send?phone=${post.phone ? post.phone.replace('+', '') : null}`}
-                        rel="noopener noreferrer"
-                        target={'_blank'}
-                    >
-                        <FaWhatsapp className='mx-auto text-lg' />
-                    </a>
+                </div>
+                <a className='aspect-square h-11 text-center bg-[#47C753] text-white rounded shadow-md p-3'
+                    href={`https://api.whatsapp.com/send?phone=${post.phone ? post.phone.replace('+', '') : null}`}
+                    rel="noopener noreferrer"
+                    target={'_blank'}
+                >
+                    <FaWhatsapp className='mx-auto text-lg' />
+                </a>
             </article>
             <article className='mx-5 mt-3 bg-white rounded p-5 shadow'>
                 <h1 className='font-black text-3xl'>{post.title}</h1>

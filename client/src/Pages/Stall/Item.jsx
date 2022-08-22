@@ -11,6 +11,8 @@ import PhoneInput from 'react-phone-number-input'
 import Zoom from 'react-medium-image-zoom'
 import ButtonAnchor from '../../Components/ButtonAnchor'
 import { FaWhatsapp } from 'react-icons/fa'
+import { Helmet } from 'react-helmet-async'
+import Var from '../../Config/Var';
 
 const Item = props => {
     const { stall } = useParams()
@@ -24,10 +26,14 @@ const Item = props => {
 
                 setItem(res.data.data.stall)
             })
-    }, [setItem, stall])
-
+        }, [setItem, stall])
+        
     return (
         <Main>
+            <Helmet>
+                <title>{`${item.name} | UMKM | ${Var.APP_NAME}`}</title>
+                <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
+            </Helmet>
             <div id="container" className='mx-5 mt-3'>
                 <article>
                     <Zoom wrapStyle={{ width: '100%' }}>

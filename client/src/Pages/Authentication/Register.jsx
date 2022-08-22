@@ -1,6 +1,5 @@
 import axios from "axios";
 import React from "react";
-import { HeadProvider, Title } from "react-head";
 import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import Brand from "../../Components/Brand";
@@ -45,9 +44,6 @@ export default function Register(props) {
 
     return (
         <div className="bg-base w-full h-full fixed flex justify-center items-center ">
-            {/* <HeadProvider>
-                <Title>Register</Title>
-            </HeadProvider> */}
             <Navbar />
             <div id="card" className="w-4/5 bg-primary p-3 rounded">
                 <div id="header">

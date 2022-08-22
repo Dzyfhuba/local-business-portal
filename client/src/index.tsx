@@ -4,6 +4,7 @@ import './index.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import Router from './Router'
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 const root = ReactDOM.createRoot(
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Router />
+    <HelmetProvider>
+      <Router />
+    </HelmetProvider>
   </React.StrictMode>
 );
 

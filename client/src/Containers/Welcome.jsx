@@ -15,7 +15,8 @@ const Welcome = () => {
               <a
               href={'https://www.google.com/maps/place/Bululanjang,+Kec.+Sangkapura,+Kabupaten+Gresik,+Jawa+Timur/@-5.8256514,112.617194,14z/data=!3m1!4b1!4m5!3m4!1s0x2ddf5610e03dacf3:0x42aa83c24e5c6a86!8m2!3d-5.8219198!4d112.6347636'}
               className={'border border-1 border-white w-fit px-5 py-2.5 mx-auto mt-3 hover:bg-white hover:text-black shadow transition duration-300 block'}
-              rel={'external'}
+              rel={'external noopener noreferrer'}
+              target={'_blank'}
               >
                 <span>Lokasi Geografis</span>
               </a>

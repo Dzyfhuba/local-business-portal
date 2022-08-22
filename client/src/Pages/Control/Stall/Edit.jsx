@@ -15,6 +15,8 @@ import Auth from '../../../Config/Auth'
 import swal from 'sweetalert'
 import { supabase } from '../../../Config/SupabaseClient'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
+import Var from '../../../Config/Var'
 
 const Edit = () => {
     const [images, setImages] = useState([])
@@ -101,6 +103,10 @@ const Edit = () => {
 
     return (
         <Main>
+            <Helmet>
+                <title>{`${Var.APP_NAME}`}</title>
+                <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
+            </Helmet>
             <form className={'mx-5 my-3'} onSubmit={handleSubmit}>
                 <div id="wrap" className='text-right'>
                     <Button type='submit' className=' bg-secondary py-2.5 px-5 rounded'>Simpan</Button>
