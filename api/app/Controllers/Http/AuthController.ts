@@ -1,6 +1,7 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Hash from '@ioc:Adonis/Core/Hash'
+import Profile from 'App/Models/Profile'
 import User from 'App/Models/User'
 import RegisterValidator from 'App/Validators/RegisterValidator'
 
@@ -11,11 +12,18 @@ export default class AuthController {
       const user = await User.create(body)
       await user.setRole('stall')
 
+      const profile = await Profile.create({
+        user_id: user.id,
+      })
+
       return response.send({
         error: false,
         status: 'success',
         message: 'User has been registered',
-        data: user,
+        data: {
+          user,
+          profile,
+        },
       })
     } catch (error) {
       return response.send({

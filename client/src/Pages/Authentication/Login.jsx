@@ -24,8 +24,8 @@ export default function Login() {
         'Authorization': `Bearer ${Auth.getToken()}`
       },
     })
-    .then(res => {
-      console.log(res.data);
+      .then(res => {
+        console.log(res.data);
         if (res.data.status === 'success') {
           console.log(res.data.token.token)
           // setCookies('token', res.data.token.token)
@@ -51,10 +51,10 @@ export default function Login() {
       className='bg-base w-full h-full fixed flex justify-center items-center'
     >
       <Navbar />
-      <div id="card" className='w-4/5 bg-primary p-3 rounded '>
+      <div id="card" className='w-4/5 bg-primary p-3 rounded max-w-[500px]'>
         <div id="header">
           <Link to={'/'}>
-            <h1 className='text-center text-xl'>
+            <h1 className='text-center text-xl hover:text-white transition duration-300'>
               <Brand>Bululanjang</Brand>
             </h1>
           </Link>
@@ -66,10 +66,14 @@ export default function Login() {
           <Label htmlFor='password'>Password<RequiredStar /></Label>
           <Input id='password' name='password' type='password' placeholder='Password...' autoComplete='true' required />
           <div className="text-right">
-            <Button className='text-white bg-secondary px-5 py-2.5 rounded' type='submit'>Login</Button>
+            <Button
+              className='text-white bg-secondary px-5 py-2.5 rounded hover:bg-white hover:text-blue-500 border border-blue-500 transition duration-300'
+              type='submit'>
+              Login
+            </Button>
           </div>
         </form>
-        <div id="footer" className='mt-5 text-center  text-opacity-70 hover:text-black underline'>
+        <div id="footer" className='mt-5 text-center  text-opacity-70 hover:text-blue-500 underline'>
           <Link to={'/register'}>Doesn't have any account? Register</Link>
         </div>
       </div>

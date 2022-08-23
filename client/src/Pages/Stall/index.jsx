@@ -81,7 +81,7 @@ const Home = props => {
           <small className='text-xs opacity-50'>Isi dengan nama UMKM atau alamatnya</small>
         </form>
       </div>
-      <div id="container" className='grid grid-cols-2 gap-1 mx-5'>
+      <div id="container" className='grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 place-content-center gap-3 mx-5'>
         {stalls ? stalls
           .filter(stall => {
             if (filter.filter) {

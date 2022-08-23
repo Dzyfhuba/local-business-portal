@@ -45,7 +45,7 @@ export default function Register(props) {
     return (
         <div className="bg-base w-full h-full fixed flex justify-center items-center ">
             <Navbar />
-            <div id="card" className="w-4/5 bg-primary p-3 rounded">
+            <div id="card" className="w-4/5 bg-primary p-3 rounded max-w-[500px]">
                 <div id="header">
                     <Link to={"/"}>
                         <h1 className="text-center text-xl">
@@ -80,7 +80,9 @@ export default function Register(props) {
                         required
                     />
                     <div className="text-right">
-                        <Button className='bg-secondary text-white rounded py-2.5 px-5' type="submit">
+                        <Button 
+                        className='text-white bg-secondary px-5 py-2.5 rounded hover:bg-white hover:text-blue-500 border border-blue-500 transition duration-300' 
+                        type="submit">
                             Daftar
                         </Button>
                     </div>

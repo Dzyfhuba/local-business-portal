@@ -75,8 +75,8 @@ export default function Navbar(props) {
   ) : null
 
   return (
-    <nav className={`bg-primary h-14 flex items-center justify-between px-1 fixed w-full z-50 shadow-md`} style={{ top: 0 }}>
-      <Button id='#sidebar' onClick={handleSidebarToggle}>
+    <nav className={`bg-primary h-14 flex items-center justify-between px-3 fixed w-full z-50 shadow-md`} style={{ top: 0 }}>
+      <Button id='#sidebar' onClick={handleSidebarToggle} className={'sm:hidden'}>
         <MdMenu className='text-2xl ' />
       </Button>
       <div id="sidebar"
@@ -114,12 +114,47 @@ export default function Navbar(props) {
           </div>
         </div>
       </div>
-      <Link to='/' className=''>
-        <Brand className='font-black text-xl'>BULULANJANG</Brand>
-      </Link>
-      {/* <button>
-        <CgProfile />
-      </button> */}
+      <NavLink to='/' className=''>
+        <Brand className='font-black text-xl hover:text-white transition duration-300'>BULULANJANG</Brand>
+      </NavLink>
+
+      {/* Horizontal Navigation Bar */}
+      <ul className='font-semibold hidden sm:flex gap-2'>
+        <li className='px-5 py-2.5'>
+          <NavLink
+            to={'/stall'}
+            className={'hover:text-white transition duration-300'}
+          >UMKM</NavLink>
+        </li>
+        <li className='px-5 py-2.5'>
+          <NavLink
+            to={'/post'}
+            className={'hover:text-white transition duration-300 uppercase'}
+          >
+            Produk</NavLink>
+        </li>
+        {Auth.getRole() !== 'guest' ? (
+          <li>
+            <NavLink to={`/control/${Auth.getRole()}`} className={'flex items-center justify-center w-full h-11 uppercase hover:text-white transition duration-300'}>
+              {`${Auth.getRole()} Page`}
+            </NavLink>
+          </li>
+        ) : ''}
+        {Auth.getRole() !== 'guest' ? null : (
+          <>
+            <li>
+              <NavLink to={'/login'} className='flex items-center justify-center h-11 rounded-full px-5 py-2.5 uppercase
+              border border-1 border-black
+              hover:bg-black hover:text-green-500 transition duration-300'>Login</NavLink>
+            </li>
+            {/* <li>
+              <NavLink to={'/register'} className='flex items-center justify-center h-11 rounded-full px-5 py-2.5 border-1 uppercase
+              hover:text-black transition duration-300'>Register</NavLink>
+            </li> */}
+          </>
+        )}
+      </ul>
+
       {Auth.getRole() !== 'guest' ? (
         <Dropdown
           trigger={['click']}

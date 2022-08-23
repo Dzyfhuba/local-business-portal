@@ -60,9 +60,7 @@ const Home = props => {
         <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
       </Helmet>
       <div className="mx-5 my-3">
-        <form
-
-        >
+        <form>
           <div className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11">
             <Input placeholder='Search...' className='outline-none p-3 w-full' id='title' onKeyUp={searchPost} />
             <Button className={`aspect-square h-full block px-0 py-0${showClear ? null : ' hidden'}`}
@@ -81,7 +79,7 @@ const Home = props => {
           <small className='text-xs opacity-50'>Isi dengan nama UMKM atau produk</small>
         </form>
       </div>
-      <div id="container" className='grid grid-cols-2 gap-1 mx-5'>
+      <div id="container" className='grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 place-content-center gap-3 mx-5'>
         {posts ? posts
           .filter(post => {
             if (filter.filter) {
