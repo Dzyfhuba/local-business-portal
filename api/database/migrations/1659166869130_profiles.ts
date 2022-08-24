@@ -9,9 +9,9 @@ export default class extends BaseSchema {
 
       table.integer('user_id').unsigned().references('id').inTable('users').notNullable()
       table.string('profile')
-      table.string('address').notNullable()
+      table.string('address').notNullable().defaultTo('Bululanjang')
       table.text('description')
-      table.string('phone').notNullable()
+      table.string('phone').notNullable().defaultTo('000000000')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -9,6 +9,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Image404 from '../../Images/404.jpg'
 import PhoneInput from 'react-phone-number-input'
 import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 import ButtonAnchor from '../../Components/ButtonAnchor'
 import { FaWhatsapp } from 'react-icons/fa'
 import { Helmet } from 'react-helmet-async'
@@ -26,8 +27,8 @@ const Item = props => {
 
                 setItem(res.data.data.stall)
             })
-        }, [setItem, stall])
-        
+    }, [setItem, stall])
+
     return (
         <Main>
             <Helmet>
@@ -36,15 +37,17 @@ const Item = props => {
             </Helmet>
             <div id="container" className='mx-5 mt-3'>
                 <article>
-                    <Zoom wrapStyle={{ width: '100%' }}>
-                        <LazyLoadImage
-                            src={item.profile}
-                            placeholder={<span>asdasd</span>}
-                            placeholderSrc={Image404}
-                            width={'100%'}
-                            className={'min-h-[25vh] max-h-[33vh] object-cover shadow-md mb-3'}
-                        />
-                    </Zoom>
+                    <div className='text-center '>
+                        <Zoom>
+                            <LazyLoadImage
+                                src={item.profile}
+                                placeholder={<span>asdasd</span>}
+                                placeholderSrc={Image404}
+                                className={'h-80 object-contain text-center'}
+                                // wrapperClassName={'aspect-square'}
+                            />
+                        </Zoom>
+                    </div>
                     <div id="header" className='p-3 bg-white mb-3 shadow-md'>
                         <h1 id="title" className='text-3xl font-bold'>
                             {item.name}
@@ -52,7 +55,7 @@ const Item = props => {
                         <small>
                             {item.address}
                         </small>
-                        <div className="flex items-center justify-between h-14 border overflow-x-scroll">
+                        <div className="flex items-center justify-between h-14 border overflow-x-scroll sm:overflow-hidden">
                             <PhoneInput
                                 defaultCountry={'ID'}
                                 placeholder='Nomor Telepon...' value={item.phone}

@@ -69,7 +69,6 @@ const Admin = props => {
                 </NavLink>
             </nav>
             <main className='pt-14 pb-5'>{props.children}</main>
-            <Footer />
         </div>
     )
 }

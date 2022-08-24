@@ -95,14 +95,14 @@ const Item = props => {
                                 src={image} // use normal <img> attributes as props
                                 placeholderSrc={Image404}
                                 className={'w-full h-80 object-contain'}
-                                wrapperClassName={'aspect-square'}
+                                wrapperClassName={''}
                             />
                             {/* <img src={image} alt={`${post.title} ${i}`} /> */}
                         </Zoom>
                     ))
                 }
             </Carousel>
-            <article className='mx-5 bg-white rounded p-5 flex justify-between items-center gap-1 overflow-x-scroll'>
+            <article className='mx-5 bg-white rounded p-5 flex justify-between items-center gap-1 overflow-x-scroll sm:overflow-hidden'>
                 <div className='flex items-center gap-2'>
                     {
                         profileImage ? (

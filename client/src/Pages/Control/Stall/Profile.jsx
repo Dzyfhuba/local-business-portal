@@ -60,7 +60,7 @@ const Profile = props => {
 
         const data = {
             name: name,
-            profile: images.length ? profileFileName : (profile.profile ? profile.profile : null),
+            profile: images.length ? profileFileName : undefined,
             address: address,
             phone: phone,
             description: description,
@@ -135,7 +135,7 @@ const Profile = props => {
                             <Button
                                 type='button'
                                 style={isDragging ? { color: 'red' } : undefined}
-                                className={`bg-secondary  px-5 py-2.5 rounded shadow${editable && !images.length ? ' block' : ' hidden'}`}
+                                className={`bg-secondary text-white px-5 py-2.5 rounded shadow${editable && !images.length ? ' block' : ' hidden'}`}
                                 onClick={onImageUpload}
                                 {...dragProps}
                             >
@@ -148,32 +148,30 @@ const Profile = props => {
                             )}
                             &nbsp;
                             {imageList.map((image, index) => (
-                                <div key={index} className="flex justify-between w-full mb-3 gap-1">
-                                    <Zoom wrapStyle={{ width: '50%', maxHeight: 100, objectFit: 'contain', overflow: 'hidden' }}>
-                                        <LazyLoadImage src={image['data_url']} alt="" className='h-full w-full object-contain' />
-                                    </Zoom>
-                                    <div className="flex flex-col justify-center gap-1 w-1/2">
+                                <div key={index} className="flex justify-center w-full mb-3 gap-1">
+                                    <img src={image['data_url']} alt="" className='h-24 object-contain' />
+                                    <div className="flex flex-col justify-center gap-1">
                                         <button onClick={() => onImageUpdate(index)} className={'px-5 py-2.5 bg-yellow-500  rounded shadow'}>Update</button>
-                                        <button onClick={() => onImageRemove(index)} className={'px-5 py-2.5 bg-red-500  rounded shadow'}>Remove</button>
+                                        <button onClick={() => onImageRemove(index)} className={'px-5 py-2.5 bg-red-500 text-white rounded shadow'}>Remove</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     )}
                 </ImageUploading>
-                <Zoom wrapStyle={{ width: '100%' }} >
+                <div className="text-center">
                     <img
                         // src={'/profile.svg'}
                         src={profile.profile}
                         id={'profilePreview'}
-                        className={'min-h-[25vh] max-h-[33vh] object-cover shadow-md mb-3 object-center rounded-full aspect-square mx-auto'}
+                        className={'shadow-md mb-3 rounded-full h-80 aspect-square mx-auto'}
                         alt={'profile preview'}
                     />
-                </Zoom>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div className="flex justify-end">
                         <Button type='button' className={`px-5 py-2.5 rounded shadow bg-yellow-400${!editable ? ' block' : ' hidden'}`} onClick={() => setEditable(true)}>Edit</Button>
-                        <Button type='submit' className={`bg-secondary  px-5 py-2.5 rounded shadow${editable ? ' block' : ' hidden'}`}>Simpan</Button>
+                        <Button type='submit' className={`bg-secondary text-white px-5 py-2.5 rounded shadow${editable ? ' block' : ' hidden'}`}>Simpan</Button>
                     </div>
                     <Label htmlFor='name'>Nama</Label>
                     <Input id='name' placeholder='Nama...' onChange={e => setName(e.target.value)} readOnly={!editable} />

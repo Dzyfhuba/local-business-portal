@@ -107,8 +107,8 @@ export default function Navbar(props) {
             ) : (
               <>
                 <NavLink to={'/login'} className='flex items-center justify-center h-11 bg-secondary text-white uppercase'>Login</NavLink>
-                <hr />
-                <NavLink to={'/register'} className='flex items-center justify-center h-11 bg-secondary text-white uppercase'>Register</NavLink>
+                {/* <hr /> */}
+                {/* <NavLink to={'/register'} className='flex items-center justify-center h-11 bg-secondary text-white uppercase'>Register</NavLink> */}
               </>
             )}
           </div>
@@ -166,7 +166,7 @@ export default function Navbar(props) {
               image ? (
                 <LazyLoadImage
                   src={image}
-                  className={'w-full aspect-square object-cover shadow-md rounded-full'}
+                  className={'h-11 w-11 aspect-square object-cover shadow-md rounded-full'}
                   alt={'profile'}
                 />
               ) : (

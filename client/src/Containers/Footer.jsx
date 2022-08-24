@@ -1,34 +1,35 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { FaRegCopyright } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import Var from '../Config/Var'
 
 const Footer = () => {
+    const footerRef = useRef()
+    const [isAbsolute, setIsAbsolute] = useState()
+
+    useEffect(() => {
+        let {y: yPos} = footerRef.current.getBoundingClientRect()
+        const screen = window.screen.height
+        yPos = yPos + 300
+        console.log(yPos, screen)
+        setIsAbsolute(yPos < screen)
+    }, [])
+
     return (
-        <footer className='bg-secondary text-white p-3 shadow-md'>
+        <footer className={`bg-secondary text-white p-3 shadow-md w-full${isAbsolute ? ' absolute bottom-0' : 0}`} ref={footerRef}>
             <article>
-                <h1 className='font-bold text-center text-xl mb-3'>
+                <h1 className='font-bold text-center text-xl'>
                     {Var.APP_NAME}
                 </h1>
-                <section className='grid grid-cols-2 gap-3'>
-                    <div className='flex flex-col justify-around'>
-                        <NavLink className={'hover:text-blue-500 underline'}
-                            to={'/'}>Beranda</NavLink>
-                        <NavLink className={'hover:text-blue-500 underline'}
-                            to={'/stall'}>Daftar UMKM</NavLink>
-                        <NavLink className={'hover:text-blue-500 underline'}
-                            to={'/post'}>Daftar Produk</NavLink>
-                        <NavLink className={'hover:text-blue-500 underline'}
-                            to={'/contact'}>Kontak Kami</NavLink>
-                    </div>
-                    <div>
-                        <a 
-                        href="https://www.google.com/maps/place/Bululanjang,+Kec.+Sangkapura,+Kabupaten+Gresik,+Jawa+Timur/@-5.8256514,112.617194,14z/data=!3m1!4b1!4m5!3m4!1s0x2ddf5610e03dacf3:0x42aa83c24e5c6a86!8m2!3d-5.8219198!4d112.6347636"
-                        className='underline'
-                        >
-                            Bululanjang, Gresik, Jawa Timur
-                        </a>
-                    </div>
-                </section>
+                <small className='flex text-xs items-center justify-center gap-1 text-center'>
+                    <FaRegCopyright />KKN Bululanjang
+                </small>
+                <small className='flex text-xs items-center justify-center gap-1 text-center'>
+                    Universitas Muhammadiyah Gresik
+                </small>
+                <small className='flex text-xs items-center justify-center gap-1 text-center'>
+                    2022
+                </small>
             </article>
         </footer>
     )

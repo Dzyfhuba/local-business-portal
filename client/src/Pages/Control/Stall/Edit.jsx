@@ -17,10 +17,11 @@ import { supabase } from '../../../Config/SupabaseClient'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import Var from '../../../Config/Var'
+import { nanoid } from '@reduxjs/toolkit'
 
 const Edit = () => {
     const [images, setImages] = useState([])
-    const [prevImages, setPrevImages] = useState([])
+    const [prevImagesFileName, setPrevImagesFileName] = useState([])
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -32,21 +33,22 @@ const Edit = () => {
                     document.querySelector('input#title').value = res.data.data.title || ''
                     document.querySelector('textarea#content').value = res.data.data.content || ''
                     // setPost(res.data.data)
-                    // const imagesList = await res.data.data.images.split(',')
-                    // const imagesListMapped = await imagesList.map(async image => {
-                    //     const { data, error } = await supabase.storage.from('post-images').getPublicUrl(imagesList)
-                    //     console.log('data:', data);
-                    //     console.log('error:', error);
-                    //     return data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL
-                    // })
-                    // // document.querySelector('#profilePreview').setAttribute('src', data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL)
-                    // setImages(imagesListMapped)
-                    setPrevImages(res.data.data.images.split(','))
+                    const imagesList = await res.data.data.images.split(',')
+                    const supabaseImages = []
+                    await imagesList.forEach(async image => {
+                        const { data, error } = await supabase.storage.from('post-images').getPublicUrl(image)
+                        // console.log('data:', data);
+                        // console.log('error:', error);
+                        supabaseImages.push(data.publicURL)
+                    })
+                    setImages(supabaseImages)
+                    // document.querySelector('#profilePreview').setAttribute('src', data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL)
+                    setPrevImagesFileName(res.data.data.images.split(','))
                 }
             })
     }, [])
 
-    console.log(prevImages);
+    console.log(prevImagesFileName);
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -59,14 +61,21 @@ const Edit = () => {
         const data = {
             title: title,
             images: images.map((image, i) => {
-                const filename = `${title}-${i}-${(new Date()).getTime()}`
+                console.log(image);
+                if (image.file) {
+                    return `${title}-${nanoid()}`
+                }
+                const filename = image.split('/').pop()
                 return filename
             }).toString(),
             content: element.querySelector('#content').value
         }
 
-        data.images = data.images === '' ? prevImages.toString() : data.images
+        const updated_images = data.images.split(',').map((image, index) => {
+            return prevImagesFileName[index] !== image
+        })
 
+        console.log(updated_images);
         console.log('data: ', data);
 
         axios.put(Hosts.main + '/control/post/' + id, data, {
@@ -79,17 +88,21 @@ const Edit = () => {
                     swal('Success', 'Post berhasil dibuat', 'success')
                         .then(async () => {
                             if (images.length) {
-                                prevImages.forEach(async image => {
-                                    const { error: errorImage } = await supabase.storage.from('post-images').remove(image)
+                                updated_images.forEach(async (isUpdated, index) => {
+                                    if (isUpdated) {
+                                        const {data: dataRemove, error: errorRemove} = await supabase.storage.from('post-images').remove(prevImagesFileName[index])
+                                        console.log({
+                                            dataRemove,
+                                            errorRemove
+                                        })
+                                        const {data: dataUpload, error: errorUpload} = await supabase.storage.from('post-images').upload(data.images.split(',')[index], images[index].file)
+                                        console.log({
+                                            dataUpload,
+                                            errorUpload
+                                        });
+                                    }
                                 })
                             }
-                            
-                            const storedDataImage  = data.images.split(',')
-                            images.map(async (image, i) => {
-                                const filename = storedDataImage[i]
-                                const { error } = await supabase.storage.from('post-images').upload(filename, image.file)
-                                console.log(error);
-                            })
                             navigate('/control')
                         })
                 } else if (res.data.status === 'error') {
@@ -99,6 +112,7 @@ const Edit = () => {
                 }
                 console.log(res.data);
             })
+        console.log(images);
     }
 
     return (
@@ -164,7 +178,7 @@ const Edit = () => {
                                 {imageList.map((image, index) => (
                                     <div key={index} className="flex flex-col items-center w-full gap-1 snap-center">
                                         <Zoom wrapStyle={{ height: 96, width: '100%', objectFit: 'cover' }}>
-                                            <img src={image['data_url']} alt="" className='h-full w-full object-cover' />
+                                            <img src={image['data_url'] || images[index]} alt={document.querySelector('#title').value} className='h-full w-full object-cover' />
                                         </Zoom>
                                         <div className="flex justify-center gap-1">
                                             <button type='button' onClick={() => onImageUpdate(index)} className={'px-5 py-2.5 bg-yellow-500  rounded shadow'}>

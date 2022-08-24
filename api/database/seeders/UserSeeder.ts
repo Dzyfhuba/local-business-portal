@@ -1,4 +1,5 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
+import Profile from 'App/Models/Profile'
 import User from 'App/Models/User'
 
 export default class extends BaseSeeder {
@@ -13,6 +14,9 @@ export default class extends BaseSeeder {
       },
     )
     await admin.setRole('superadmin')
+    await Profile.create({
+      user_id: admin.id,
+    })
 
     const stall = await User.create({
       name: 'Ubaidillah',
@@ -22,5 +26,8 @@ export default class extends BaseSeeder {
     })
 
     await stall.setRole('stall')
+    await Profile.create({
+      user_id: stall.id,
+    })
   }
 }
