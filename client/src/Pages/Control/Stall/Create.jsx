@@ -16,6 +16,8 @@ import { supabase } from '../../../Config/SupabaseClient'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import Var from '../../../Config/Var'
+import { RequiredStar } from '../../../Components/RequiredStar'
+import { nanoid } from '@reduxjs/toolkit'
 
 const Create = () => {
     const [images, setImages] = useState([])
@@ -32,7 +34,7 @@ const Create = () => {
         const data = {
             title: title,
             images: images.map((image, i) => {
-                const filename = `${title}-${i}-${(new Date()).getTime()}`
+                const filename = `${title}-${nanoid()}`
                 return filename
             }).toString(),
             content: element.querySelector('#content').value
@@ -78,7 +80,7 @@ const Create = () => {
                 <div id="wrap" className='text-right'>
                     <Button type='submit' className=' bg-secondary text-white'>Simpan</Button>
                 </div>
-                <Label for={'title'}>Judul</Label>
+                <Label for={'title'}>Judul<RequiredStar /></Label>
                 <Input id={'title'} placeholder={'Judul...'} required />
                 <Label for={'images'}>Images</Label>
                 <ImageUploading
@@ -123,8 +125,8 @@ const Create = () => {
                             >
                                 
                                 {imageList.map((image, index) => (
-                                    <div key={index} className="flex flex-col items-center w-full mb-3 gap-1 snap-center">
-                                        <Zoom wrapStyle={{ height: 96, width: '100%', objectFit: 'cover' }}>
+                                    <div key={index} className="flex flex-col items-center mb-3 gap-1 snap-center">
+                                        <Zoom wrapStyle={{ height: 96, width: '116px', objectFit: 'cover' }}>
                                             <img src={image['data_url']} alt="" className='h-full w-full object-cover' />
                                         </Zoom>
                                         <div className="flex justify-center gap-1">
@@ -141,7 +143,7 @@ const Create = () => {
                         </div>
                     )}
                 </ImageUploading>
-                <Label for='content'>Konten / Deskripsi Produk</Label>
+                <Label for='content'>Konten / Deskripsi Produk<RequiredStar /></Label>
                 <Textarea id='content' placeholder={'Konten atau deskripsi produk...'} required />
             </form>
         </Main>
