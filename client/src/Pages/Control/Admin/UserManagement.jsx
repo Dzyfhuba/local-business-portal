@@ -260,13 +260,13 @@ const UserManagement = () => {
     <Admin>
       <div id="container" className='mx-5 my-6'>
         <Modal
-          triggerClassName={'bg-secondary px-5 py-2.5 w-full  rounded mb-3 shadow-2xl sticky top-16 z-10'}
+          triggerClassName={'bg-secondary px-5 py-2.5 w-full text-white rounded mb-3 shadow-2xl sticky top-16 z-10'}
           head={'Tangguhkan Pengguna'}
           triggerBody={'Tangguhkan Pengguna'}
           body={suspendForm}
         />
 
-        <div id="table-container" className='overflow-x-scroll'>
+        <div id="table-container" className='overflow-x-scroll pb-24'>
           <table className='w-full table-auto'>
             <colgroup>
               <col />
@@ -329,6 +329,7 @@ const UserManagement = () => {
                                 }
                               })
                             }
+                            
                           />
                         </td>
                         <td className='whitespace-nowrap table-cell border'>
@@ -388,13 +389,13 @@ const UserManagement = () => {
                           />
                         </td>
                         <td className='whitespace-nowrap table-cell border p-3'>{new Date(user.updated_at).toLocaleString()}</td>
-                        <td>
-                          <ButtonAnchor className={'bg-yellow-300 table-cell border p-3 text-black'} to={`/control/stall/${user.id}/edit`}>
+                        <td className='table-cell border text-center'>
+                          <ButtonAnchor className={'bg-yellow-300 w-min mx-auto p-3 text-black'} to={`/control/stall/${user.id}/edit`}>
                             Edit
                           </ButtonAnchor>
                         </td>
-                        <td>
-                          <Button className={'bg-red-600 table-cell border p-3 '}
+                        <td className='table-cell border text-center'>
+                          <Button className={'bg-red-600 p-3 text-white rounded'}
                             onClick={e => handleDelete(e.target, user.id)}
                           >Hapus</Button>
                         </td>

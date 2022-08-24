@@ -32,12 +32,14 @@ const PostApprovalContainer = () => {
                 },
             }
         }).then(val => {
-            if(val === 'agree') {
+            if (val === 'agree') {
                 axios.put(Hosts.main + '/control/post-approval', {
                     id: post_id
                 }).then(res => {
                     if (res.data.status === 'success') {
-                        e.target.closest('#list-item').remove()
+                        // e.target.closest('#list-item').remove()
+                        const remainingPost = posts.filter(post => post.id !== post_id)
+                        setPosts(remainingPost)
                         swal('Success', 'Telah disetujui', 'success')
                     } else {
                         swal('Gagal', res.data.message || res.data.data, res.data.status)
@@ -47,11 +49,19 @@ const PostApprovalContainer = () => {
         })
     }
 
+    const emptyState = (
+        <div className="h-80 flex justify-center items-center text-5xl select-none p-5">
+            <p className='text-center font-mono font-extrabold tracking-widest opacity-50'>
+                Tidak Ada Postingan Yang Sedang Membutuhkan Persetujuan
+            </p>
+        </div>
+    )
+
     return (
         <>
             <div id="list" className="grid grid-cols-1 gap-1 mx-5 mt-3">
                 {
-                    [posts.length ? posts.map(post => {
+                    posts.length ? posts.map(post => {
                         return (
                             <div id="list-item" key={post.slug} className="bg-primary rounded p-3">
                                 <h1 className="text-lg font-bold">{post.title}</h1>
@@ -66,7 +76,7 @@ const PostApprovalContainer = () => {
                                 </div>
                             </div>
                         )
-                    }) : null]
+                    }) : emptyState
                 }
             </div>
         </>
