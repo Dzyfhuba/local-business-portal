@@ -39,7 +39,7 @@ const Home = props => {
           setStalls(res.data.data)
         }
       })
-  }, [])
+  }, [setStalls])
   // console.log(stalls);
 
   const searchStall = e => {

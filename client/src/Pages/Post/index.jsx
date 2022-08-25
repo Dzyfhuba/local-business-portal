@@ -19,7 +19,7 @@ import Var from '../../Config/Var'
 const Home = props => {
   const [posts, setPosts] = useLocalStorage('posts')
   const [filter, setFilter] = useState(Object)
-  const [showClear, setShowClear] = useState(Boolean)
+  const [showClear] = useState(Boolean)
 
   useEffect(() => {
     axios.get(Hosts.main + '/post')

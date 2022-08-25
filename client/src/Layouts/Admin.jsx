@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { FaHome, FaUsersCog } from 'react-icons/fa'
-import Navbar from '../Containers/Navbar'
 import axios from 'axios'
-import Hosts from '../Config/Hosts'
-import Auth from '../Config/Auth'
-import Footer from '../Containers/Footer'
-import { NavLink } from 'react-router-dom'
-import { TbListCheck } from 'react-icons/tb'
+import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { FaUsersCog } from 'react-icons/fa'
+import { TbListCheck } from 'react-icons/tb'
+import { NavLink } from 'react-router-dom'
+import Auth from '../Config/Auth'
+import Hosts from '../Config/Hosts'
 import Var from '../Config/Var'
+import Navbar from '../Containers/Navbar'
 
 const Admin = props => {
     const [, setAuth] = useState(Array)
@@ -40,7 +39,7 @@ const Admin = props => {
                 }
             })
     }, [])
-    
+
     return (
         <div className="bg-base min-h-screen">
             <Helmet>

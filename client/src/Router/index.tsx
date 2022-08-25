@@ -1,8 +1,6 @@
-import * as React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Auth from '../Config/Auth';
 import {
-  ControlAdminHome,
   ControlAdminPostApproval,
   ControlAdminUserManagement,
   ControlStallCreate,

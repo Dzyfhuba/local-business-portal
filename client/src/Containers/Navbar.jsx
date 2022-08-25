@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import anime from 'animejs'
+import axios from 'axios'
+import Dropdown from 'rc-dropdown'
+import 'rc-dropdown/assets/index.css'
+import Menu, { Divider, Item as MenuItem } from 'rc-menu'
+import { useEffect, useState } from 'react'
+import { CgProfile } from 'react-icons/cg'
+import { MdClose, MdMenu } from 'react-icons/md'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Brand from '../Components/Brand'
 import Button from '../Components/Button'
-import { MdClose, MdMenu } from 'react-icons/md'
-import anime from 'animejs'
 import Logout from '../Components/Logout'
-import Dropdown from 'rc-dropdown'
-import Menu, { Divider, Item as MenuItem } from 'rc-menu'
-import 'rc-dropdown/assets/index.css'
-import axios from 'axios'
-import Hosts from '../Config/Hosts'
 import Auth from '../Config/Auth'
+import Hosts from '../Config/Hosts'
 import { supabase } from '../Config/SupabaseClient'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { CgProfile } from 'react-icons/cg'
+import LogoImage from '../Images/icon-512x512.png'
 
 export default function Navbar(props) {
   const [sidebarDisplay, setSidebarDisplay] = useState('hidden')
@@ -115,7 +116,14 @@ export default function Navbar(props) {
         </div>
       </div>
       <NavLink to='/' className=''>
-        <Brand className='font-black text-xl hover:text-white transition duration-300'>BULULANJANG</Brand>
+        <Brand className='font-black text-xl hover:text-white transition duration-300 whitespace-nowrap flex items-center gap-2'>
+          <LazyLoadImage
+            src={LogoImage}
+            className={'h-11 w-11 aspect-square object-cover shadow-md rounded-full inline'}
+            alt={'Logo Gresik'}
+          />
+          BULULANJANG
+        </Brand>
       </NavLink>
 
       {/* Horizontal Navigation Bar */}

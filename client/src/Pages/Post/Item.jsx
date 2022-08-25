@@ -33,14 +33,15 @@ const Item = props => {
                 setPost(res.data.data)
                 getSupabaseImages(res.data.data.images)
 
-                console.log(res.data.data.profile);
+                console.log(res.data.data);
                 if (res.data.data.profile) {
                     const { data, error } = await supabase.storage.from('profile').getPublicUrl(res.data.data.profile)
                     if (error) return
                     setProfileImage(data.publicURL)
                 }
             })
-    }, [])
+            
+    }, [slug, stall])
 
     const getSupabaseImages = async (images) => {
         images = images.slice(-1) === ';' ? images.slice(0, -1) : images

@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import Input from '../../../Components/Input'
-import Image404 from '../../../Images/404.jpg'
-import Label from '../../../Components/Label'
-import Main from '../../../Layouts/Main'
-import ImageUploading from 'react-images-uploading'
-import Button from '../../../Components/Button'
-import Zoom from 'react-medium-image-zoom'
+import { nanoid } from '@reduxjs/toolkit'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { GrUpdate } from 'react-icons/gr'
 import { TbTrashX } from 'react-icons/tb'
-import Textarea from '../../../Components/Textarea'
-import axios from 'axios'
-import Hosts from '../../../Config/Hosts'
-import Auth from '../../../Config/Auth'
-import swal from 'sweetalert'
-import { supabase } from '../../../Config/SupabaseClient'
+import ImageUploading from 'react-images-uploading'
+import Zoom from 'react-medium-image-zoom'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
+import swal from 'sweetalert'
+import Button from '../../../Components/Button'
+import Input from '../../../Components/Input'
+import Label from '../../../Components/Label'
+import Textarea from '../../../Components/Textarea'
+import Auth from '../../../Config/Auth'
+import Hosts from '../../../Config/Hosts'
+import { supabase } from '../../../Config/SupabaseClient'
 import Var from '../../../Config/Var'
-import { nanoid } from '@reduxjs/toolkit'
+import Main from '../../../Layouts/Main'
 
 const Edit = () => {
     const [images, setImages] = useState([])
@@ -36,7 +35,7 @@ const Edit = () => {
                     const imagesList = await res.data.data.images.split(',')
                     const supabaseImages = []
                     await imagesList.forEach(async image => {
-                        const { data, error } = await supabase.storage.from('post-images').getPublicUrl(image)
+                        const { data } = await supabase.storage.from('post-images').getPublicUrl(image)
                         // console.log('data:', data);
                         // console.log('error:', error);
                         supabaseImages.push(data.publicURL)
@@ -46,7 +45,7 @@ const Edit = () => {
                     setPrevImagesFileName(res.data.data.images.split(','))
                 }
             })
-    }, [])
+    }, [id])
 
     console.log(prevImagesFileName);
 
@@ -137,7 +136,7 @@ const Edit = () => {
                                 // delete image from server
                                 forServer.filter(item => item.action === 'delete')
                                     .forEach(async item => {
-                                        const { data: dataDelete, error: errorDelete } = await supabase.storage.from('post-images').remove(item.name)
+                                        const { error: errorDelete } = await supabase.storage.from('post-images').remove(item.name)
                                         if (errorDelete) console.error(errorDelete)
                                     })
 
@@ -145,13 +144,12 @@ const Edit = () => {
                                 forServer.filter(item => item.action === 'upload')
                                     .forEach(async (item, index) => {
                                         const {
-                                            data: dataUpload,
                                             error: errorUpload
                                         } = await supabase.storage.from('post-images').upload(item.name, ImageFilesInImages[index].file)
                                         if (errorUpload) console.error(errorUpload)
                                     })
                             }
-                            // navigate('/control')
+                            navigate('/control')
                         })
                 } else if (res.data.status === 'error') {
                     swal('Error', 'Post gagal dibuat, perisksa kembali', 'error')
