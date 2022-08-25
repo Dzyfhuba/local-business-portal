@@ -58,6 +58,8 @@ const Edit = () => {
         console.log('images: ', images);
 
         const title = element.querySelector('#title').value
+        const ImageFilesInImages = images.filter(image => image.file)
+        console.log(ImageFilesInImages);
         const data = {
             title: title,
             images: images.map((image, i) => {
@@ -71,12 +73,23 @@ const Edit = () => {
             content: element.querySelector('#content').value
         }
 
-        const updated_images = data.images.split(',').map((image, index) => {
-            return prevImagesFileName[index] !== image
-        })
+        // const updated_images = data.images.split(',').map((image, index) => {
+        //     return prevImagesFileName[index] !== image
+        // })
 
-        console.log(updated_images);
+        // const imageFiles = images.map((image, index) => {
+        //     const dataImages = data.images.split(',')
+        //     if (image.file) {
+        //         image.file.name = dataImages[index]
+        //         return {
+        //             ...image,
+        //         }
+        //     }
+        // })
+
+        // console.log(updated_images);
         console.log('data: ', data);
+        // console.log('imageFiles: ', imageFiles);
 
         axios.put(Hosts.main + '/control/post/' + id, data, {
             headers: {
@@ -88,29 +101,64 @@ const Edit = () => {
                     swal('Success', 'Post berhasil dibuat', 'success')
                         .then(async () => {
                             if (images.length) {
-                                updated_images.forEach(async (isUpdated, index) => {
-                                    if (isUpdated) {
-                                        const {data: dataRemove, error: errorRemove} = await supabase.storage.from('post-images').remove(prevImagesFileName[index])
-                                        console.log({
-                                            dataRemove,
-                                            errorRemove
+                                // const {data: dataImagesOnServerRaw, errorImagesOnServerRaw} = await supabase.storage.from('post-images').list('')
+                                const dataImagesOnServer = prevImagesFileName
+                                const dataImagesOnClient = data.images.split(',')
+                                const forServer = []
+
+                                // for delete
+                                dataImagesOnServer.forEach(item => {
+                                    if (!dataImagesOnClient.includes(item)) {
+                                        forServer.push({
+                                            name: item,
+                                            action: 'delete'
                                         })
-                                        const {data: dataUpload, error: errorUpload} = await supabase.storage.from('post-images').upload(data.images.split(',')[index], images[index].file)
-                                        console.log({
-                                            dataUpload,
-                                            errorUpload
-                                        });
                                     }
                                 })
+
+                                // for upload
+                                dataImagesOnClient.forEach(item => {
+                                    if (!dataImagesOnServer.includes(item)) {
+                                        forServer.push({
+                                            name: item,
+                                            action: 'upload'
+                                        })
+                                    }
+                                })
+
+                                console.log({
+                                    dataImagesOnServer,
+                                    dataImagesOnClient,
+                                    forServer,
+                                });
+
+                                console.log(forServer.filter(item => item.action === 'upload').length === ImageFilesInImages.length)
+
+                                // delete image from server
+                                forServer.filter(item => item.action === 'delete')
+                                    .forEach(async item => {
+                                        const { data: dataDelete, error: errorDelete } = await supabase.storage.from('post-images').remove(item.name)
+                                        if (errorDelete) console.error(errorDelete)
+                                    })
+
+                                // upload image from server
+                                forServer.filter(item => item.action === 'upload')
+                                    .forEach(async (item, index) => {
+                                        const {
+                                            data: dataUpload,
+                                            error: errorUpload
+                                        } = await supabase.storage.from('post-images').upload(item.name, ImageFilesInImages[index].file)
+                                        if (errorUpload) console.error(errorUpload)
+                                    })
                             }
-                            navigate('/control')
+                            // navigate('/control')
                         })
                 } else if (res.data.status === 'error') {
                     swal('Error', 'Post gagal dibuat, perisksa kembali', 'error')
                 } else {
                     swal('Warning', res.data.message, res.data.status)
                 }
-                console.log(res.data);
+                //     console.log(res.data);
             })
         console.log(images);
     }
@@ -159,9 +207,9 @@ const Edit = () => {
                                 Click or Drop here
                             </Button>
                             <Button
-                            type='button'
-                            className={`border border-secondary bg-transparent text-secondary px-5 py-2.5 rounded shadow${imageList.length ? '' : ' hidden'}`}
-                            onClick={onImageRemoveAll}
+                                type='button'
+                                className={`border border-secondary bg-transparent text-secondary px-5 py-2.5 rounded shadow${imageList.length ? '' : ' hidden'}`}
+                                onClick={onImageRemoveAll}
                             >
                                 Delete All
                             </Button>
