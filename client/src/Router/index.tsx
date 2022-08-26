@@ -9,6 +9,7 @@ import {
   ControlStallProfile,
   Home,
   Login,
+  Page404,
   Post,
   PostItem,
   Register,
@@ -39,14 +40,14 @@ const Router = (props: Props) => {
           <Route path='/control' element={<Navigate replace to={`/control/${Auth.getRole()}`} />} />
           <Route path='/control/superadmin' element={<Navigate replace to={`/control/admin`} />} />
 
-          <Route path='/control/stall' element={Auth.getRole() === 'stall' ? <ControlStallHome /> : <>Page is not found</>} />
-          <Route path='/control/stall/profile' element={Auth.getRole() === 'stall' ? <ControlStallProfile /> : <>Page is not found</>} />
-          <Route path='/control/stall/create' element={Auth.getRole() === 'stall' ? <ControlStallCreate /> : <>Page is not found</>} />
-          <Route path='/control/stall/:id/edit' element={Auth.getRole() === 'stall' ? <ControlStallEdit /> : <>Page is not found</>} />
+          <Route path='/control/stall' element={Auth.getRole() === 'stall' ? <ControlStallHome /> : <Page404 />} />
+          <Route path='/control/stall/profile' element={Auth.getRole() === 'stall' ? <ControlStallProfile /> : <Page404 />} />
+          <Route path='/control/stall/create' element={Auth.getRole() === 'stall' ? <ControlStallCreate /> : <Page404 />} />
+          <Route path='/control/stall/:id/edit' element={Auth.getRole() === 'stall' ? <ControlStallEdit /> : <Page404 />} />
 
-          <Route path='/control/admin' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <Navigate replace to={`/control/admin/post-approval`} /> : <>Page is not found</>} />
-          <Route path='/control/admin/post-approval' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <ControlAdminPostApproval /> : <>Page is not found</>} />
-          <Route path='/control/admin/user-management' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <ControlAdminUserManagement /> : <>Page is not found</>} />
+          <Route path='/control/admin' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <Navigate replace to={`/control/admin/post-approval`} /> : <Page404 />} />
+          <Route path='/control/admin/post-approval' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <ControlAdminPostApproval /> : <Page404 />} />
+          <Route path='/control/admin/user-management' element={Auth.getRole() === 'admin' || Auth.getRole() === 'superadmin' ? <ControlAdminUserManagement /> : <Page404 />} />
       </Routes>
     </BrowserRouter>
   );

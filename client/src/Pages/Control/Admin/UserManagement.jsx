@@ -13,6 +13,7 @@ import Hosts from '../../../Config/Hosts'
 import Admin from '../../../Layouts/Admin'
 import { RequiredStar } from '../../../Components/RequiredStar'
 import Input from '../../../Components/Input'
+import Auth from '../../../Config/Auth'
 
 const UserManagement = () => {
   const [users, setUsers] = useState([])
@@ -274,8 +275,6 @@ const UserManagement = () => {
               <col />
               <col />
               <col />
-              <col />
-              <col />
             </colgroup>
             <thead className='bg-primary '>
               <tr className={`h-11`}>
@@ -284,8 +283,6 @@ const UserManagement = () => {
                 <th>Peran</th>
                 <th>Ditangguhkan</th>
                 <th>Terakhir Diubah</th>
-                <th>Edit</th>
-                <th>Hapus</th>
               </tr>
             </thead>
             <tbody>
@@ -329,14 +326,14 @@ const UserManagement = () => {
                                 }
                               })
                             }
-                            
+                            isDisabled={Auth.getRole() !== 'superadmin'}
                           />
                         </td>
-                        <td className='whitespace-nowrap table-cell border'>
+                        <td className='whitespace-nowrap table-cell border p-1 text-center'>
                           <Modal
                             head={'Atur Penangguhan'}
                             triggerBody={user.suspend_end ? (new Date(user.suspend_end).toLocaleString()) : 'Tidak Ditangguhkan'}
-                            triggerClassName={'shadow-md px-5 py-2.5 w-full'}
+                            triggerClassName={'shadow-md px-5 py-2.5 w-min bg-secondary text-white'}
                             body={
                               (
                                 <form onSubmit={suspendFormSubmitUpdate}>
@@ -389,16 +386,6 @@ const UserManagement = () => {
                           />
                         </td>
                         <td className='whitespace-nowrap table-cell border p-3'>{new Date(user.updated_at).toLocaleString()}</td>
-                        <td className='table-cell border text-center'>
-                          <ButtonAnchor className={'bg-yellow-300 w-min mx-auto p-3 text-black'} to={`/control/stall/${user.id}/edit`}>
-                            Edit
-                          </ButtonAnchor>
-                        </td>
-                        <td className='table-cell border text-center'>
-                          <Button className={'bg-red-600 p-3 text-white rounded'}
-                            onClick={e => handleDelete(e.target, user.id)}
-                          >Hapus</Button>
-                        </td>
                       </tr>
                     ))
                   ) : null

@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaRegCopyright } from 'react-icons/fa'
-import { NavLink } from 'react-router-dom'
 import Var from '../Config/Var'
 
 const Footer = () => {

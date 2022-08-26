@@ -12,6 +12,7 @@ import ControlAdminHome from './Control/Admin/Home'
 import ControlAdminUserManagement from './Control/Admin/UserManagement'
 import ControlAdminPostApproval from './Control/Admin/PostApproval'
 import ControlStallProfile from './Control/Stall/Profile'
+import Page404 from './Page404'
 
 export {
     Home,
@@ -28,4 +29,5 @@ export {
     ControlStallProfile,
     ControlAdminPostApproval,
     ControlAdminUserManagement,
+    Page404
 }
