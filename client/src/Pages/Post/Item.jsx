@@ -1,27 +1,35 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { CgProfile } from 'react-icons/cg'
+import { FaWhatsapp } from 'react-icons/fa'
+import 'react-medium-image-zoom/dist/styles.css'
+import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Link, useParams } from 'react-router-dom'
+import { Swiper, SwiperSlide } from "swiper/react"
 import Hosts from '../../Config/Hosts'
 import { supabase } from '../../Config/SupabaseClient'
-import Main from '../../Layouts/Main'
-import Image404 from '../../Images/404.jpg'
-import { Carousel } from 'react-responsive-carousel'
-import "react-responsive-carousel/lib/styles/carousel.min.css"
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
-import { CgProfile } from 'react-icons/cg'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { FaWhatsapp } from 'react-icons/fa'
-import { Helmet } from 'react-helmet-async'
 import Var from '../../Config/Var'
+import Image404 from '../../Images/404.jpg'
+import Main from '../../Layouts/Main'
+// Import Swiper React components
 
-// import PropTypes from 'prop-types'
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/zoom";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import required modules
+import { Lazy, Pagination, Navigation, Zoom } from "swiper";
 
 const Item = props => {
     const { stall, slug } = useParams()
     const [post, setPost] = useState({})
     const [images, setImage] = useState([Image404])
     const [profileImage, setProfileImage] = useState(String)
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     useEffect(() => {
         axios.get(`${Hosts.main}/post/${stall}/${slug}`)
@@ -40,7 +48,7 @@ const Item = props => {
                     setProfileImage(data.publicURL)
                 }
             })
-            
+
     }, [slug, stall])
 
     const getSupabaseImages = async (images) => {
@@ -64,45 +72,38 @@ const Item = props => {
         setImage(supabaseImages)
     }
 
-    console.log(profileImage);
-
     return (
         <Main>
             <Helmet>
                 <title>{`${post.title} | ${post.name} | Produk UMKM | ${Var.APP_NAME}`}</title>
                 <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
             </Helmet>
-            <Carousel
-                showArrows={false}
-                renderThumbs={img => {
-                    const result = img.map((item, i) => {
-                        return (
-                            <img
-                                src={item.props.children.props.src}
-                                alt={item.props.children.props.alt}
-                                className='h-11 object-cover'
-                                key={i}
-                            />
-                        )
-                    })
-                    return result
+            <Swiper
+                zoom={true}
+                navigation={true}
+                loop={true}
+                pagination={{
+                    clickable: true,
                 }}
+                modules={[Zoom, Navigation, Pagination]}
+                className={'h-80'}
             >
                 {
                     images.map((image, i) => (
-                        <Zoom key={i}>
-                            <LazyLoadImage
-                                alt={`${post.title} ${i}`}
-                                src={image} // use normal <img> attributes as props
-                                placeholderSrc={Image404}
-                                className={'w-full h-80 object-cover'}
-                                wrapperClassName={''}
-                            />
-                            {/* <img src={image} alt={`${post.title} ${i}`} /> */}
-                        </Zoom>
+                        <SwiperSlide key={post.title + ' ' + i} className='flex items-center'>
+                            <div className="swiper-zoom-container">
+                                <img
+                                    src={image}
+                                    className="object-contain object-center w-full"
+                                    alt={post.titile}
+                                />
+                            </div>
+                        </SwiperSlide>
                     ))
+
                 }
-            </Carousel>
+
+            </Swiper>
             <article className='mx-5 bg-white rounded p-5 flex justify-between items-center gap-1 overflow-x-scroll sm:overflow-hidden'>
                 <div className='flex items-center gap-2'>
                     {
