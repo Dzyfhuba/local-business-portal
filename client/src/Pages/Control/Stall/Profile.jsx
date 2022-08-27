@@ -147,7 +147,7 @@ const Profile = props => {
                             &nbsp;
                             {imageList.map((image, index) => (
                                 <div key={index} className="flex justify-center w-full mb-3 gap-1">
-                                    <img src={image['data_url']} alt="" className='h-24 object-contain' />
+                                    <img src={image['data_url']} alt="" className='h-24 object-cover' />
                                     <div className="flex flex-col justify-center gap-1">
                                         <button onClick={() => onImageUpdate(index)} className={'px-5 py-2.5 bg-yellow-500  rounded shadow'}>Update</button>
                                         <button onClick={() => onImageRemove(index)} className={'px-5 py-2.5 bg-red-500 text-white rounded shadow'}>Remove</button>

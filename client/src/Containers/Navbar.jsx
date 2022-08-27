@@ -76,7 +76,7 @@ export default function Navbar(props) {
   ) : null
 
   return (
-    <nav className={`bg-primary h-14 flex items-center justify-between px-3 fixed w-full z-50 shadow-md`} style={{ top: 0 }}>
+    <nav className={`bg-primary h-14 flex items-center justify-between px-1 md:px-3 fixed w-full z-50 shadow-md`} style={{ top: 0 }}>
       <Button id='#sidebar' onClick={handleSidebarToggle} className={'sm:hidden'}>
         <MdMenu className='text-2xl ' />
       </Button>
@@ -119,7 +119,7 @@ export default function Navbar(props) {
         <Brand className='font-black text-xl hover:text-white transition duration-300 whitespace-nowrap flex items-center gap-2'>
           <LazyLoadImage
             src={LogoImage}
-            className={'h-11 w-11 aspect-square object-cover shadow-md rounded-full inline'}
+            className={'h-11 w-11 aspect-square object-cover shadow-md rounded-full hidden sm:inline'}
             alt={'Logo Gresik'}
           />
           BULULANJANG

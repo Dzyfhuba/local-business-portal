@@ -7,16 +7,26 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import PhoneInput from 'react-phone-number-input'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Hosts from '../../Config/Hosts'
 import { supabase } from '../../Config/SupabaseClient'
 import Var from '../../Config/Var'
 import Image404 from '../../Images/404.jpg'
 import Main from '../../Layouts/Main'
+import Button from '../../Components/Button'
+import { MdKeyboardArrowDown } from 'react-icons/md'
+import LazyLoad from 'parm-react-lazyload';
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 
 const Item = props => {
     const { stall } = useParams()
     const [item, setItem] = useState({})
+    const [posts, setPosts] = useState([])
+    const [expand, setExpand] = useState(false)
 
     useEffect(() => {
         axios.get(`${Hosts.main}/stall/${stall}`)
@@ -25,6 +35,23 @@ const Item = props => {
                 res.data.data.stall.profile = data.publicURL
 
                 setItem(res.data.data.stall)
+
+                res.data.data.posts = await Promise.all(res.data.data.posts.map(async post => {
+                    let image = post.images.split(',')[Math.floor(Math.random() * 100) % (post.images.split(',').length - 1)] || post.images || '/404.jpg'
+
+                    if (image !== '/404.jpg') {
+                        const { data } = await supabase.storage.from('post-images').getPublicUrl(image)
+                        image = data.publicURL || '/404.jpg'
+                    }
+                    return {
+                        ...post,
+                        image
+                    }
+                }))
+
+                console.log(res.data.data.posts);
+
+                setPosts(res.data.data.posts)
             })
     }, [setItem, stall])
 
@@ -34,8 +61,8 @@ const Item = props => {
                 <title>{`${item.name} | UMKM | ${Var.APP_NAME}`}</title>
                 <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
             </Helmet>
-            <div id="container" className='mx-5 mt-3'>
-                <article>
+            <div id="container" className='mt-3'>
+                <article id='stall-profile' className='mx-5 mb-3'>
                     <div className='text-center '>
                         <Zoom>
                             <LazyLoadImage
@@ -43,7 +70,7 @@ const Item = props => {
                                 placeholder={<span>asdasd</span>}
                                 placeholderSrc={Image404}
                                 className={'h-80 object-contain text-center'}
-                                // wrapperClassName={'aspect-square'}
+                            // wrapperClassName={'aspect-square'}
                             />
                         </Zoom>
                     </div>
@@ -76,13 +103,73 @@ const Item = props => {
                         <h2 className='text-xl font-semibold'>
                             Deskripsi
                         </h2>
-                        {item.description}
+                        {(
+                            <>
+                                <p className={`${expand ? '' : 'line-clamp-3 '}`}>
+                                    {item.description}
+                                </p>
+                                <Button
+                                    className='mx-auto block shadow rounded-full hover:font-bold hover:shadow-xl'
+                                    onClick={() => setExpand(!expand)}
+                                >
+                                    {expand ? 'Persempit' : 'Perluas'} <MdKeyboardArrowDown className={`inline text-2xl${expand ? ' -rotate-180 ' : ''}transition duration-300`} />
+                                </Button>
+                            </>
+                        ) || (
+                                <div id="empty-description" className='border-dashed border-4 p-3 leading-10 text-center text-neutral-500'>
+                                    Tidak ada deskripsi dari UMKM ini
+                                </div>
+                            )}
                     </div>
                 </article>
-                <section>
+                <section id='posts' className='p-3 bg-white shadow-md overflow-hidden mx-5'>
+                    <h1 className='text-xl font-semibold mb-3'>
+                        Produk Terkait UMKM Ini
+                    </h1>
+                    <Swiper id="post-list"
+                        slidesPerView={3}
+                        centeredSlides={true}
+                        spaceBetween={10}
+                        modules={[Pagination]}
+                        className={''}
+                    >
+                        {
+                            posts.length ? (
+                                posts.map(post => (
+                                    // <LazyLoadImage
+                                    //     src={post.image}
+                                    //     placeholder={<span>asdasd</span>}
+                                    //     placeholderSrc={Image404}
+                                    //     wrapperClassName='w-20'
+                                    //     className={'h-24 object-cover'}
+                                    //     alt={post.title}
+                                    // />
+                                    <SwiperSlide className='h-44 shadow-md rounded border'
+                                        key={post.id}>
+                                        <Link to={`/post/${item.username}/${post.slug}`}>
+                                            <img
+                                                src={post.image}
+                                                className={'w-full h-4/5 object-cover rounded-t'}
+                                                alt={post.title}
+                                            />
+                                        </Link>
+                                        <div className='px-3'>
+                                            <h1 className='font-bold text-xl underline hover:text-blue-500'>
+                                                <Link to={`/post/${item.username}/${post.slug}`}>
+                                                    {post.title}
+                                                </Link>
+                                            </h1>
+                                        </div>
+                                    </SwiperSlide>
+                                ))
+                            ) : (
+                                <p>Tidak Ada Produk Yang Dipublikasikan</p>
+                            )
+                        }
+                    </Swiper>
                 </section>
             </div>
-        </Main>
+        </Main >
     )
 }
 

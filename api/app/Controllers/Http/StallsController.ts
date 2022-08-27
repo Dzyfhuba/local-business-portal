@@ -52,6 +52,7 @@ export default class StallsController {
       const posts = await Database.from('posts')
         .join('users', 'users.id', 'posts.user_id')
         .where('users.username', stall)
+        .select('posts.id')
         .select('posts.title')
         .select('posts.images')
         .select('posts.slug')

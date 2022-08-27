@@ -33,6 +33,7 @@ const UserManagement = () => {
             suspend_end,
           }
         })
+        console.log(res.data.data);
         setUsers(mapped)
       })
     axios.get(Hosts.main + '/control/user-management/roles')
@@ -332,7 +333,7 @@ const UserManagement = () => {
                         <td className='whitespace-nowrap table-cell border p-1 text-center'>
                           <Modal
                             head={'Atur Penangguhan'}
-                            triggerBody={user.suspend_end ? (new Date(user.suspend_end).toLocaleString()) : 'Tidak Ditangguhkan'}
+                            triggerBody={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString() : 'Tidak Ditangguhkan'}
                             triggerClassName={'shadow-md px-5 py-2.5 w-min bg-secondary text-white'}
                             body={
                               (

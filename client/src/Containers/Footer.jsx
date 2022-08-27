@@ -1,21 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { FaRegCopyright } from 'react-icons/fa'
 import Var from '../Config/Var'
 
 const Footer = () => {
     const footerRef = useRef()
-    const [isAbsolute, setIsAbsolute] = useState()
-
-    useEffect(() => {
-        let {y: yPos} = footerRef.current.getBoundingClientRect()
-        const screen = window.screen.height
-        yPos = yPos + 300
-        console.log(yPos, screen)
-        setIsAbsolute(yPos < screen)
-    }, [])
 
     return (
-        <footer className={`bg-secondary text-white p-3 shadow-md w-full${isAbsolute ? ' absolute bottom-0' : 0}`} ref={footerRef}>
+        <footer className={`bg-secondary text-white p-3 shadow-md w-full`} ref={footerRef}>
             <article>
                 <h1 className='font-bold text-center text-xl'>
                     {Var.APP_NAME}

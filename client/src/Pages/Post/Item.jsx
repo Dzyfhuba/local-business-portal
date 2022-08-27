@@ -95,7 +95,7 @@ const Item = props => {
                                 alt={`${post.title} ${i}`}
                                 src={image} // use normal <img> attributes as props
                                 placeholderSrc={Image404}
-                                className={'w-full h-80 object-contain'}
+                                className={'w-full h-80 object-cover'}
                                 wrapperClassName={''}
                             />
                             {/* <img src={image} alt={`${post.title} ${i}`} /> */}

@@ -5,8 +5,8 @@ import Main from '../../../Layouts/Main'
 import ImageUploading from 'react-images-uploading'
 import Button from '../../../Components/Button'
 import Zoom from 'react-medium-image-zoom'
-import {GrUpdate} from 'react-icons/gr'
-import {TbTrashX} from 'react-icons/tb'
+import { GrUpdate } from 'react-icons/gr'
+import { TbTrashX } from 'react-icons/tb'
 import Textarea from '../../../Components/Textarea'
 import axios from 'axios'
 import Hosts from '../../../Config/Hosts'
@@ -22,7 +22,7 @@ import { nanoid } from '@reduxjs/toolkit'
 const Create = () => {
     const [images, setImages] = useState([])
     const navigate = useNavigate()
-    
+
     const handleSubmit = async e => {
         e.preventDefault()
 
@@ -44,14 +44,14 @@ const Create = () => {
 
         axios.post(Hosts.main + '/control/post', data, {
             headers: {
-              'Authorization': `Bearer ${Auth.getToken()}`
+                'Authorization': `Bearer ${Auth.getToken()}`
             }
-          })
+        })
             .then(res => {
                 if (res.data.status === 'success') {
                     swal('Success', 'Post berhasil dibuat', 'success')
                         .then(async () => {
-                            const storedDataImage  = data.images.split(',')
+                            const storedDataImage = data.images.split(',')
                             images.map(async (image, i) => {
                                 const filename = storedDataImage[i]
                                 const { error } = await supabase.storage.from('post-images').upload(filename, image.file)
@@ -120,10 +120,10 @@ const Create = () => {
                             )}
                             &nbsp;
                             <div
-                            id="selected-image"
-                            className='flex snap-x overflow-x-scroll justify-start gap-1'
+                                id="selected-image"
+                                className='flex snap-x overflow-x-scroll justify-start gap-1'
                             >
-                                
+
                                 {imageList.map((image, index) => (
                                     <div key={index} className="flex flex-col items-center mb-3 gap-1 snap-center">
                                         <Zoom wrapStyle={{ height: 96, width: '116px', objectFit: 'cover' }}>
