@@ -19,7 +19,11 @@ const Auth = {
         const token = localStorage.getItem('token')
         if (token === 'undefined') return null
         return token
-        
+
+    },
+    reset: () => {
+        localStorage.clear()
+        localStorage.setItem('user', JSON.stringify({ user: 'guest' }))
     }
 }
 

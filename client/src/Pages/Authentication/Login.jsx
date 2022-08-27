@@ -43,6 +43,9 @@ export default function Login() {
         } else if (res.data.error) {
           swal('Error', res.data.message, res.data.status)
         }
+      }).catch(({response}) => {
+        swal('Error', "" + response.data.message, response.data.status)
+        console.log(response);
       })
   }
 

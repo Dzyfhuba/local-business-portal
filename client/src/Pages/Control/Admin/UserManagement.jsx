@@ -172,9 +172,9 @@ const UserManagement = () => {
     }
 
     if (before === 'Tidak Ditangguhkan') {
-      data.suspend = before
+      data.suspend = suspendDurationUpdate.value
       data.username = e.target.querySelector('#username').value
-      data.suspend = moment().add(data.suspend.split(' ')[0], data.suspend.split(' ')[1])
+      data.suspend = moment().add(data.suspend.split(' ')[0], data.suspend.split(' ')[1]).toISOString()
     } else {
       data.username = e.target.querySelector('#username').value
       data.suspend = suspendDurationUpdate.value
@@ -183,6 +183,8 @@ const UserManagement = () => {
         .add(data.suspend.split(' ')[0], data.suspend.split(' ')[1])
         .toISOString()
     }
+
+    console.log(data);
 
     axios.post(Hosts.main + '/control/suspend', data)
       .then(res => {
@@ -333,7 +335,7 @@ const UserManagement = () => {
                         <td className='whitespace-nowrap table-cell border p-1 text-center'>
                           <Modal
                             head={'Atur Penangguhan'}
-                            triggerBody={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString() : 'Tidak Ditangguhkan'}
+                            triggerBody={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString('id-ID', {hour12: false}) : 'Tidak Ditangguhkan'}
                             triggerClassName={'shadow-md px-5 py-2.5 w-min bg-secondary text-white'}
                             body={
                               (
@@ -346,7 +348,7 @@ const UserManagement = () => {
                                   <Label for='suspend_end'>Penangguhan Berakhir</Label>
                                   <Input
                                     id='suspend_end'
-                                    defaultValue={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString() : 'Tidak Ditangguhkan'}
+                                    defaultValue={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString('id-ID', {hour12: false}) : 'Tidak Ditangguhkan'}
                                     readOnly
                                   />
 
@@ -373,20 +375,20 @@ const UserManagement = () => {
                                     className={'mb-3'}
                                   />
                                   <div className="text-end">
-                                    <Button type='submit' className='bg-secondary  px-5 py-2.5 rounded'>Submit</Button>
+                                    <Button type='submit' className='bg-secondary text-white px-5 py-2.5 rounded'>Submit</Button>
                                   </div>
                                 </form>
                               )
                             }
                             foot={(
                               <Button
-                                className='px-5 py-2.5 bg-red-600  rounded w-full'
+                                className='px-5 py-2.5 bg-red-600 text-white rounded w-full'
                                 onClick={() => removeSuspend(user.id)}
                               >Hapus Penangguhan</Button>
                             )}
                           />
                         </td>
-                        <td className='whitespace-nowrap table-cell border p-3'>{new Date(user.updated_at).toLocaleString()}</td>
+                        <td className='whitespace-nowrap table-cell border p-3'>{new Date(user.updated_at).toLocaleString('id-ID', {hour12: false})}</td>
                       </tr>
                     ))
                   ) : null

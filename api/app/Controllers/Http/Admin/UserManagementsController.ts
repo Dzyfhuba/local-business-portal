@@ -22,7 +22,7 @@ export default class UserManagementsController {
           'users.suspend_end',
         ])
 
-      const usersRemoveExpiredSuspend = users.map(user => {
+      const mapped = users.map(user => {
         const remainingSuspension = new Date(user.suspend_end - Date.now())
         return {
           ...user,
@@ -33,7 +33,7 @@ export default class UserManagementsController {
       return response.json({
         error: false,
         status: 'success',
-        data: usersRemoveExpiredSuspend,
+        data: mapped,
       })
     } catch (error) {
       return response.status(400).json({

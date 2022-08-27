@@ -5,9 +5,12 @@ import axios from 'axios'
 import Hosts from '../Config/Hosts'
 import Auth from '../Config/Auth'
 import Footer from '../Containers/Footer'
+import swal from 'sweetalert'
+import { useNavigate } from 'react-router-dom'
 
 const Main = props => {
   const [, setAuth] = useState(Array)
+  const navigate = useNavigate()
 
   useEffect(() => {
     axios.get(Hosts.main + '/auth/check', {
@@ -32,6 +35,22 @@ const Main = props => {
           Auth.setUser({
             role: 'guest'
           })
+        }
+      }).catch(({ response }) => {
+        if (response.data.data.remainingSuspension) {
+          swal('Ditangguhkan', response.data.message, 'error')
+            .then(() => {
+              axios.post(Hosts.main + '/logout')
+                .then(res => {
+                  if (res.data.status === 'success') {
+                    swal('Success', res.data.message, res.data.status)
+                      .then(() => {
+                        Auth.reset()
+                        navigate(0)
+                      })
+                  }
+                })
+            })
         }
       })
   }, [])

@@ -100,10 +100,10 @@ export default function Navbar(props) {
             <NavLink to={'/'} className='flex items-center justify-center h-11 uppercase'>Home</NavLink>
             <NavLink to={'/stall'} className='flex items-center justify-center h-11 uppercase'>UMKM</NavLink>
             <NavLink to={'/post'} className='flex items-center justify-center h-11 uppercase'>Produk</NavLink>
-            {Auth.getRole() !== 'guest' ? (
+            {(Auth.getRole() !== 'guest' && Auth.getRole()) ? (
               <NavLink to={`/control/${Auth.getRole()}`} className={'flex items-center justify-center w-full h-11 uppercase'}>{`${Auth.getRole()} Page`}</NavLink>
             ) : ''}
-            {Auth.getRole() !== 'guest' ? (
+            {(Auth.getRole() !== 'guest' && Auth.getRole()) ? (
               <Logout className={'flex items-center justify-center w-full h-11 bg-secondary text-white uppercase'} />
             ) : (
               <>
@@ -141,14 +141,14 @@ export default function Navbar(props) {
           >
             Produk</NavLink>
         </li>
-        {Auth.getRole() !== 'guest' ? (
+        {(Auth.getRole() !== 'guest' && Auth.getRole()) ? (
           <li>
             <NavLink to={`/control/${Auth.getRole()}`} className={'flex items-center justify-center w-full h-11 uppercase hover:text-white transition duration-300'}>
               {`${Auth.getRole()} Page`}
             </NavLink>
           </li>
         ) : ''}
-        {Auth.getRole() !== 'guest' ? null : (
+        {(Auth.getRole() !== 'guest' && Auth.getRole()) ? null : (
           <>
             <li>
               <NavLink to={'/login'} className='flex items-center justify-center h-11 rounded-full px-5 py-2.5 uppercase
@@ -163,7 +163,7 @@ export default function Navbar(props) {
         )}
       </ul>
 
-      {Auth.getRole() !== 'guest' ? (
+      {(Auth.getRole() !== 'guest' && Auth.getRole()) ? (
         <Dropdown
           trigger={['click']}
           overlay={menu}

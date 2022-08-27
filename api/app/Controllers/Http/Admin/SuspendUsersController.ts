@@ -14,6 +14,7 @@ export default class SuspendUsersController {
         error: false,
         status: 'success',
         data: user,
+        suspend,
       })
     } catch (error) {
       return response.json({
