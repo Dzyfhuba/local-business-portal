@@ -1,27 +1,29 @@
-import React, { useState } from 'react'
-import Input from '../../../Components/Input'
-import Label from '../../../Components/Label'
-import Main from '../../../Layouts/Main'
-import ImageUploading from 'react-images-uploading'
-import Button from '../../../Components/Button'
-import Zoom from 'react-medium-image-zoom'
+import { nanoid } from '@reduxjs/toolkit'
+import axios from 'axios'
+import "easymde/dist/easymde.min.css"
+import { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { GrUpdate } from 'react-icons/gr'
 import { TbTrashX } from 'react-icons/tb'
-import Textarea from '../../../Components/Textarea'
-import axios from 'axios'
-import Hosts from '../../../Config/Hosts'
-import Auth from '../../../Config/Auth'
-import swal from 'sweetalert'
-import { supabase } from '../../../Config/SupabaseClient'
+import ImageUploading from 'react-images-uploading'
+import Zoom from 'react-medium-image-zoom'
 import { useNavigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
-import Var from '../../../Config/Var'
+import swal from 'sweetalert'
+import Button from '../../../Components/Button'
+import Input from '../../../Components/Input'
+import Label from '../../../Components/Label'
 import { RequiredStar } from '../../../Components/RequiredStar'
-import { nanoid } from '@reduxjs/toolkit'
+import Auth from '../../../Config/Auth'
+import Hosts from '../../../Config/Hosts'
+import { supabase } from '../../../Config/SupabaseClient'
+import Var from '../../../Config/Var'
+import SimpleMDE, { SimpleMdeReact } from "react-simplemde-editor";
+import Main from '../../../Layouts/Main'
 
 const Create = () => {
     const [images, setImages] = useState([])
     const navigate = useNavigate()
+    const [content, setContent] = useState('')
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -37,7 +39,7 @@ const Create = () => {
                 const filename = `${title}-${nanoid()}`
                 return filename
             }).toString(),
-            content: element.querySelector('#content').value
+            content
         }
 
         console.log('data: ', data);
@@ -144,7 +146,8 @@ const Create = () => {
                     )}
                 </ImageUploading>
                 <Label for='content'>Konten / Deskripsi Produk<RequiredStar /></Label>
-                <Textarea id='content' placeholder={'Konten atau deskripsi produk...'} required />
+                {/* <Textarea id='content' placeholder={'Konten atau deskripsi produk...'} required /> */}
+                <SimpleMDE value={content} onChange={value => setContent(value)} className='z-50' placeholder={'Tulis deskripsi di sini'} />
             </form>
         </Main>
     )

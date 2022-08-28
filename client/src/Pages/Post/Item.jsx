@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { CgProfile } from 'react-icons/cg'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -23,6 +23,7 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Lazy, Pagination, Navigation, Zoom } from "swiper";
+import SimpleMdeReact from 'react-simplemde-editor'
 
 const Item = props => {
     const { stall, slug } = useParams()
@@ -48,7 +49,6 @@ const Item = props => {
                     setProfileImage(data.publicURL)
                 }
             })
-
     }, [slug, stall])
 
     const getSupabaseImages = async (images) => {
@@ -135,9 +135,11 @@ const Item = props => {
                 {/* <h3>{post.name}</h3> */}
                 <section id='description'>
                     <h2 className='font-bold text-lg'>Dekripsi Produk</h2>
-                    <p>
-                        {post.content}
-                    </p>
+                    <SimpleMdeReact value={post.content} options={{toolbar: false}} 
+                    getMdeInstance={SimpleMdeReact => {
+                        console.log(SimpleMdeReact.codemirror.getValue());
+                    }}
+                    />
                 </section>
             </article>
         </Main>

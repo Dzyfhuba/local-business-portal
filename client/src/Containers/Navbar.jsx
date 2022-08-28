@@ -76,7 +76,7 @@ export default function Navbar(props) {
   ) : null
 
   return (
-    <nav className={`bg-primary h-14 flex items-center justify-between px-1 md:px-3 fixed w-full z-50 shadow-md`} style={{ top: 0 }}>
+    <nav className={`bg-primary h-14 flex items-center justify-between px-1 md:px-3 sticky w-full z-[7] shadow-md`} style={{ top: 0 }}>
       <Button id='#sidebar' onClick={handleSidebarToggle} className={'sm:hidden'}>
         <MdMenu className='text-2xl ' />
       </Button>
