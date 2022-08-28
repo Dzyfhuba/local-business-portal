@@ -13,6 +13,7 @@ import Var from '../../Config/Var'
 import Image404 from '../../Images/404.jpg'
 import Main from '../../Layouts/Main'
 // Import Swiper React components
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 // Import Swiper styles
 import "swiper/css";
@@ -133,13 +134,14 @@ const Item = props => {
                 <h1 className='font-black text-3xl'>{post.title}</h1>
                 <small>{post.updated_at}</small>
                 {/* <h3>{post.name}</h3> */}
-                <section id='description'>
+                <section id='content'>
                     <h2 className='font-bold text-lg'>Dekripsi Produk</h2>
-                    <SimpleMdeReact value={post.content} options={{toolbar: false}} 
+                    {/* <SimpleMdeReact value={post.content} options={{toolbar: false}} 
                     getMdeInstance={SimpleMdeReact => {
                         console.log(SimpleMdeReact.codemirror.getValue());
                     }}
-                    />
+                    /> */}
+                    <MarkdownPreview source={post.content || ''} warpperElement='light' />
                 </section>
             </article>
         </Main>

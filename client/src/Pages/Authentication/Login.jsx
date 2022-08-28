@@ -51,10 +51,10 @@ export default function Login() {
 
   return (
     <div
-      className='bg-base w-full h-full fixed flex justify-center items-center'
+      className='bg-base w-full h-full'
     >
       <Navbar />
-      <div id="card" className='w-4/5 bg-primary p-3 rounded max-w-[500px]'>
+      <div id="card" className='w-4/5 bg-primary p-3 rounded max-w-[500px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
         <div id="header">
           <Link to={'/'}>
             <h1 className='text-center text-xl hover:text-white transition duration-300'>

@@ -7,6 +7,7 @@ import { TbTrashX } from 'react-icons/tb'
 import ImageUploading from 'react-images-uploading'
 import Zoom from 'react-medium-image-zoom'
 import { useNavigate, useParams } from 'react-router-dom'
+import SimpleMdeReact from 'react-simplemde-editor'
 import swal from 'sweetalert'
 import Button from '../../../Components/Button'
 import Input from '../../../Components/Input'
@@ -23,6 +24,7 @@ const Edit = () => {
     const [prevImagesFileName, setPrevImagesFileName] = useState([])
     const navigate = useNavigate()
     const { id } = useParams()
+    const [content, setContent] = useState()
 
     useEffect(() => {
         axios.get(Hosts.main + '/control/post/' + id)
@@ -30,7 +32,7 @@ const Edit = () => {
                 console.log(res.data)
                 if (res.data.status === 'success') {
                     document.querySelector('input#title').value = res.data.data.title || ''
-                    document.querySelector('textarea#content').value = res.data.data.content || ''
+                    // document.querySelector('textarea#content').value = res.data.data.content || ''
                     // setPost(res.data.data)
                     const imagesList = await res.data.data.images.split(',')
                     const supabaseImages = []
@@ -40,6 +42,7 @@ const Edit = () => {
                         // console.log('error:', error);
                         supabaseImages.push(data.publicURL)
                     })
+                    setContent(res.data.data.content || '')
                     setImages(supabaseImages)
                     // document.querySelector('#profilePreview').setAttribute('src', data.publicURL.includes('null') && !error ? ProfileSVG : data.publicURL)
                     setPrevImagesFileName(res.data.data.images.split(','))
@@ -69,7 +72,7 @@ const Edit = () => {
                 const filename = image.split('/').pop()
                 return filename
             }).toString(),
-            content: element.querySelector('#content').value
+            content
         }
 
         // const updated_images = data.images.split(',').map((image, index) => {
@@ -241,7 +244,8 @@ const Edit = () => {
                     )}
                 </ImageUploading>
                 <Label for='content'>Konten / Deskripsi Produk</Label>
-                <Textarea id='content' placeholder={'Konten atau deskripsi produk...'} required />
+                {/* <Textarea id='content' placeholder={'Konten atau deskripsi produk...'} required /> */}
+                <SimpleMdeReact value={content} onChange={value => setContent(value)} />
             </form>
         </Main>
     )
