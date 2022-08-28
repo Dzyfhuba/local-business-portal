@@ -51,7 +51,7 @@ const Modal = props => {
                 >
                     <div className='p-3 flex flex-nowrap justify-between'>
                         <span className='self-center text-lg font-semibold'>{props.head}</span>
-                        <Button className='h-11 aspect-square' onClick={() => toggle(false)}>
+                        <Button className='h-11 aspect-square modal-close' onClick={() => toggle(false)}>
                             <MdClose className='text-3xl mx-auto' />
                         </Button>
                     </div>

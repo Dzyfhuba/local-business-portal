@@ -4,6 +4,7 @@ type Props = {
     type?: string,
     id?: string,
     className?: string,
+    [rest: string]: any,
 }
 
 type State = {}
@@ -15,13 +16,13 @@ export default class Input extends Component<Props, State> {
     state = {}
     
     render() {
+        const {type, id, className, ...rest} = this.props
         return (
             <input 
-            type={this.props.type}
-            className={`w-full rounded p-3 mb-3 focus:outline-secondary outline outline-1 outline-slate-300 block text-black ${this.props.className}`} 
-            id={this.props.id} 
-            name={this.props.id} 
-            {...this.props}/>
+            type={type}
+            className={`w-full rounded p-3 mb-3 focus:outline-secondary outline outline-1 outline-slate-300 block text-black ${className}`} 
+            id={id} 
+            {...rest}/>
             )
         }
     }

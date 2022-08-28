@@ -14,6 +14,10 @@ import Admin from '../../../Layouts/Admin'
 import { RequiredStar } from '../../../Components/RequiredStar'
 import Input from '../../../Components/Input'
 import Auth from '../../../Config/Auth'
+import { nanoid } from '@reduxjs/toolkit'
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs'
+import { HiOutlineClipboardCopy } from 'react-icons/hi'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([])
@@ -22,6 +26,12 @@ const UserManagement = () => {
   const [suspendDurationUpdate, setSuspendDurationUpdate] = useState(null)
   const [roles, setRoles] = useState([])
   const navigate = useNavigate()
+  const [newPassword, setNewPassword] = useState(String)
+  const [newPasswordConfirmation, setNewPasswordConfirmation] = useState(String)
+  const [showPassword, setShowPassword] = useState({
+    new_password: false,
+    new_password_confirmation: false,
+  })
 
   useEffect(() => {
     axios.get(Hosts.main + '/control/user-management')
@@ -42,37 +52,6 @@ const UserManagement = () => {
       })
   }, [])
   console.log(roles);
-
-  const handleDelete = async (target, id) => {
-    swal({
-      title: "Yakin ingin dihapus?",
-      text: "Setelah dihapus, Anda tidak akan dapat memulihkan post ini!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          axios.delete(Hosts.main + '/control/user-management/' + id)
-            .then(res => {
-              if (res.data.status === 'success') {
-                swal('Success', 'Berhasil dihapus', 'success')
-                  .then(() => {
-                    // console.log(target);
-                    target.closest('tr').remove()
-                  })
-              } else if (res.data.status === 'error') {
-                swal('Error', 'Gagal dihapus', 'error')
-              } else {
-                swal('Warning', res.data.message, res.data.status)
-              }
-              console.log(res.data);
-            })
-        } else {
-          swal("Penghapusan dibatalkan");
-        }
-      });
-  }
 
   const suspendFormSubmit = e => {
     e.preventDefault()
@@ -260,6 +239,43 @@ const UserManagement = () => {
       });
   }
 
+  const handlePasswordUpdate = e => {
+    e.preventDefault()
+
+    if (e.target.tagName !== 'FORM') return
+
+    const data = {
+      username: e.target.querySelector('[name="username"]').value,
+      newPassword,
+      newPasswordConfirmation
+    }
+
+    if (data.newPassword !== data.newPasswordConfirmation) {
+      swal('Password tidak sama', '', 'warning')
+      return
+    }
+    if (!data.newPassword || !data.newPasswordConfirmation) {
+      swal('Kolom Input Belum Diisi', '', 'warning',)
+      return
+    }
+
+    axios.put(Hosts.main + '/control/user-management/update-password', data)
+      .then(res => {
+        if (res.data.status === 'success') {
+          swal('Success', res.data.message, res.data.status)
+            .then(() => {
+              e.target.reset()
+              e.target.closest('.modal-core').querySelector('.modal-close').click()
+              setNewPassword('')
+              setNewPasswordConfirmation('')
+            })
+        }
+      })
+    // setNewPassword('')
+    // setNewPasswordConfirmation('')
+    // console.log(e.target.reset());
+  }
+
   return (
     <Admin>
       <div id="container" className='mx-5 my-6'>
@@ -278,6 +294,7 @@ const UserManagement = () => {
               <col />
               <col />
               <col />
+              <col />
             </colgroup>
             <thead className='bg-primary '>
               <tr className={`h-11`}>
@@ -286,6 +303,7 @@ const UserManagement = () => {
                 <th>Peran</th>
                 <th>Ditangguhkan</th>
                 <th>Terakhir Diubah</th>
+                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -335,7 +353,7 @@ const UserManagement = () => {
                         <td className='whitespace-nowrap table-cell border p-1 text-center'>
                           <Modal
                             head={'Atur Penangguhan'}
-                            triggerBody={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString('id-ID', {hour12: false}) : 'Tidak Ditangguhkan'}
+                            triggerBody={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString('id-ID', { hour12: false }) : 'Tidak Ditangguhkan'}
                             triggerClassName={'shadow-md px-5 py-2.5 w-min bg-secondary text-white'}
                             body={
                               (
@@ -348,7 +366,7 @@ const UserManagement = () => {
                                   <Label for='suspend_end'>Penangguhan Berakhir</Label>
                                   <Input
                                     id='suspend_end'
-                                    defaultValue={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString('id-ID', {hour12: false}) : 'Tidak Ditangguhkan'}
+                                    defaultValue={user.suspend_end ? (new Date(user.suspend_end)).toLocaleString('id-ID', { hour12: false }) : 'Tidak Ditangguhkan'}
                                     readOnly
                                   />
 
@@ -388,7 +406,64 @@ const UserManagement = () => {
                             )}
                           />
                         </td>
-                        <td className='whitespace-nowrap table-cell border p-3'>{new Date(user.updated_at).toLocaleString('id-ID', {hour12: false})}</td>
+                        <td className='whitespace-nowrap table-cell border p-3'>{new Date(user.updated_at).toLocaleString('id-ID', { hour12: false })}</td>
+                        <td className='table-cell border p-3'>
+                          <Modal
+                            triggerBody={'Edit'}
+                            triggerClassName={'bg-yellow-400 rounded mx-auto block'}
+                            head={'Sunting Akun Pengguna'}
+                            body={(
+                              <form onSubmit={handlePasswordUpdate} id={`password_update_${user.id}`}>
+                                <Input name={`username`} defaultValue={user.username} className='hidden' />
+                                <Button className='block bg-secondary text-white rounded' type='button' onClick={() => {
+                                  const password = nanoid(Math.floor((Math.random() * 100 % 5) + 8))
+                                  setNewPassword(password)
+                                }}
+                                >
+                                  Hasilkan Sandi Acak
+                                </Button>
+                                <Label htmlFor='new_password'>Password Baru<RequiredStar /></Label>
+                                <div id="wrapper" className='flex items-center relative mb-3'>
+                                  <Input name='new_password' type={showPassword.new_password ? 'text' : 'password'} defaultValue={newPassword} className='mb-0' onKeyUp={e => setNewPassword(e.target.value)} />
+                                  <Button type='button' tabIndex='-1' className='h-full absolute right-0 text-neutral-400' onClick={() => setShowPassword({ new_password: !showPassword.new_password, new_password_confirmation: showPassword.new_password_confirmation })}>
+                                    {
+                                      showPassword.new_password ? (
+                                        <BsEyeFill className='text-2xl' />
+                                      ) : (
+                                        <BsEyeSlashFill className='text-2xl' />
+                                      )
+                                    }
+                                  </Button>
+                                </div>
+                                <Label htmlFor='new_password_confirmation'>Konfirmasi Password Baru<RequiredStar /></Label>
+                                <div id="wrapper" className='flex items-center relative mb-3'>
+                                  <Input name='new_password_confirmation' type={showPassword.new_password_confirmation ? 'text' : 'password'} defaultValue={newPasswordConfirmation} className='mb-0' onKeyUp={e => setNewPasswordConfirmation(e.target.value)} />
+                                  <Button type='button' tabIndex='-1' className='h-full absolute right-0 text-neutral-400' onClick={() => setShowPassword({ new_password_confirmation: !showPassword.new_password_confirmation, new_password: showPassword.new_password })}>
+                                    {
+                                      showPassword.new_password_confirmation ? (
+                                        <BsEyeFill className='text-2xl' />
+                                      ) : (
+                                        <BsEyeSlashFill className='text-2xl' />
+                                      )
+                                    }
+                                  </Button>
+                                </div>
+                                <CopyToClipboard text={newPassword}
+                                  onCopy={e => {
+                                    swal('Success', `Berhasil menyalin ${e}`, 'success')
+                                  }}
+                                >
+                                  <Button type='button'
+                                    className='bg-secondary rounded text-white transition-colors duration-1000 active:bg-green-500'
+                                  >
+                                    Salin <HiOutlineClipboardCopy className='text-2xl inline' />
+                                  </Button>
+                                </CopyToClipboard>
+                                <Button type={'submit'} className='bg-secondary rounded block text-white ml-auto'>Simpan</Button>
+                              </form>
+                            )}
+                          />
+                        </td>
                       </tr>
                     ))
                   ) : null

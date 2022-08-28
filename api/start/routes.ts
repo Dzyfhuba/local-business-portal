@@ -50,6 +50,7 @@ Route.put('/control/post-approval', 'Admin/PostApprovalsController.approve')
 
 Route.get('/control/user-management/roles', 'Admin/UserManagementsController.getRoles')
 Route.put('/control/user-management/roles/:id', 'Admin/UserManagementsController.updateRole')
+Route.put('/control/user-management/update-password', 'Admin/UserManagementsController.updatePassword')
 
 Route.get('/control/:stall/profile', 'Control/ProfilesController.get')
 Route.put('/control/:stall/profile', 'Control/ProfilesController.update')

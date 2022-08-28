@@ -2,6 +2,7 @@
 
 import Database from '@ioc:Adonis/Lucid/Database'
 import Role from 'App/Models/Role'
+import User from 'App/Models/User'
 import UserHasRole from 'App/Models/UserHasRole'
 
 export default class UserManagementsController {
@@ -83,6 +84,40 @@ export default class UserManagementsController {
         error: true,
         status: 'error',
         daa: error,
+      })
+    }
+  }
+
+  public async updatePassword ({request, response}) {
+    try {
+      const {username, newPassword, newPasswordConfirmation} = request.body()
+
+      if (newPassword !== newPasswordConfirmation) {
+        return response.status(400).json({
+          error: true,
+          status: 'error',
+          message: 'Password was not same',
+        })
+      }
+
+      const user = await User.query()
+        .where('username', username)
+        .firstOrFail()
+
+      user.password = newPassword
+
+      await user.save()
+
+      return response.status(201).json({
+        error: false,
+        status: 'success',
+        message: 'Password berhasil diubah',
+      })
+    } catch (error) {
+      return response.json({
+        error: true,
+        status: 'error',
+        data: error,
       })
     }
   }
