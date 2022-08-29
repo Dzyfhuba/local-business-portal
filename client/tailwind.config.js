@@ -12,7 +12,7 @@ module.exports = {
             },
         },
     },
-    // important: true,
+    important: true,
     plugins: [
         require('@tailwindcss/line-clamp'),
     ],

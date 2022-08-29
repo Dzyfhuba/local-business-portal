@@ -20,7 +20,7 @@ export default class Input extends Component<Props, State> {
         return (
             <input 
             type={type}
-            className={`w-full rounded p-3 mb-3 focus:outline-secondary outline outline-1 outline-slate-300 block text-black ${className}`} 
+            className={`w-full rounded p-3 focus:outline-secondary text-black ${className}`} 
             id={id} 
             {...rest}/>
             )

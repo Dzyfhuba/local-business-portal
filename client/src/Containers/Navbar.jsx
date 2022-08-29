@@ -66,7 +66,11 @@ export default function Navbar(props) {
   // console.log(props.auth);
   const menu = props.auth ? (
     <Menu>
-      <MenuItem key={1} className='px-5 py-2.5 border-b hover:cursor-pointer text-center' onClick={() => navigate(`/control/${Auth.getRole()}/profile`)}>Profile</MenuItem>
+      {
+        !['admin', 'superadmin'].includes(Auth.getRole()) ? (
+          <MenuItem key={1} className='px-5 py-2.5 border-b hover:cursor-pointer text-center' onClick={() => navigate(`/control/${Auth.getRole()}/profile`)}>Profile</MenuItem>
+        ) : null
+      }
       <Divider />
       <MenuItem key={2} className='px-5 py-2.5 capitalize hover:cursor-pointer text-center' onClick={() => navigate(`/control/${Auth.getRole()}`)}>
         {`${Auth.getRole()} Page`}

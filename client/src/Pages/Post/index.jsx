@@ -19,7 +19,7 @@ import Var from '../../Config/Var'
 const Home = props => {
   const [posts, setPosts] = useLocalStorage('posts')
   const [filter, setFilter] = useState(Object)
-  const [showClear] = useState(Boolean)
+  const [showClear, setShowClear] = useState(Boolean)
 
   useEffect(() => {
     axios.get(Hosts.main + '/post')
@@ -51,6 +51,8 @@ const Home = props => {
     }
     console.log(data);
     setFilter(data)
+
+    setShowClear(data.filter ? true : false)
   }
 
   return (
@@ -60,24 +62,19 @@ const Home = props => {
         <meta name='description' content='Portal UMKM Desa Bululanjang Sangkapura Bawean adalah sebuah aplikasi website yang menampung sejumlah informasi-informasi tentang UMKM di desa Bululanjang untuk mempromosikannya ke internet dengan lebih luas dan membawa nama Bululanjang sebagai pusat bisnisnya.' />
       </Helmet>
       <div className="mx-5 my-3">
-        <form>
-          <div className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11">
-            <Input placeholder='Search...' className='outline-none p-3 w-full' id='title' onKeyUp={searchPost} />
-            <Button className={`aspect-square h-full block px-0 py-0${showClear ? null : ' hidden'}`}
+      <div className="input-group flex items-center bg-white outline outline-1 outline-slate-200 rounded h-11 relative">
+            <Input placeholder='Search...' className='outline-none absolute h-inherit mb-0' id='filter' onKeyUp={searchPost} />
+            <Button className={`aspect-square h-full block z-[1] ml-auto px-0 py-0${showClear ? null : ' hidden'}`}
               onClick={e => {
                 e.preventDefault()
                 setFilter('')
                 document.getElementById('filter').value = ''
-              }
-              }>
-                <IoMdCloseCircle className='text-2xl mx-auto text-neutral-300' />
-            </Button>
-            <Button className='aspect-square h-full block px-0 py-0'>
-              <MdSearch className='text-4xl mx-auto text-neutral-300' />
+              }}
+              >
+              <IoMdCloseCircle className='text-2xl mx-auto text-neutral-300' />
             </Button>
           </div>
-          <small className='text-xs opacity-50'>Isi dengan nama UMKM atau produk</small>
-        </form>
+          <small className='text-xs opacity-50'>Isi dengan nama UMKM atau produknya</small>
       </div>
       <div id="container" className='grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 place-content-center gap-3 mx-5'>
         {posts ? posts

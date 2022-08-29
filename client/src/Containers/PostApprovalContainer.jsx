@@ -50,7 +50,7 @@ const PostApprovalContainer = () => {
     }
 
     const emptyState = (
-        <div className="h-80 flex justify-center items-center text-5xl select-none p-5">
+        <div className="h-80 flex justify-center items-center md:text-5xl select-none p-5">
             <p className='text-center font-mono font-extrabold tracking-widest opacity-50'>
                 Tidak Ada Postingan Yang Sedang Membutuhkan Persetujuan
             </p>

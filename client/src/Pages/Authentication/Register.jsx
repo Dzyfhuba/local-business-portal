@@ -44,7 +44,7 @@ export default function Register(props) {
 
     return (
         <div className="bg-base w-full h-full fixed">
-            <Navbar />
+            {/* <Navbar /> */}
             <div id="card" className="w-4/5 bg-primary p-3 rounded max-w-[500px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div id="header">
                     <Link to={"/"}>
@@ -54,7 +54,7 @@ export default function Register(props) {
                     </Link>
                     <h2 className="text-center">Buat Akun Baru</h2>
                 </div>
-                <form className="" onSubmit={handleSubmit}>
+                <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
                     <Label htmlFor="name">Name<RequiredStar /></Label>
                     <Input id="name" placeholder="Name..." autoFocus required />
                     <small className="opacity-50 block -mt-3">Mininal 4 karakter</small>

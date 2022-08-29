@@ -162,7 +162,7 @@ const Profile = props => {
                         // src={'/profile.svg'}
                         src={profile.profile}
                         id={'profilePreview'}
-                        className={'shadow-md mb-3 rounded-full h-80 aspect-square mx-auto'}
+                        className={'shadow-md mb-3 rounded-full h-80 aspect-square mx-auto object-cover'}
                         alt={'profile preview'}
                     />
                 </div>

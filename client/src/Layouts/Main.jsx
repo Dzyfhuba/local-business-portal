@@ -58,7 +58,7 @@ const Main = props => {
   return (
     <div className="bg-base min-h-screen">
       <Navbar auth={Auth.getUser()} />
-      <main className='pt-14 pb-5'>{props.children}</main>
+      <main className='pt-3 pb-5'>{props.children}</main>
       <Footer />
     </div>
   )

@@ -8,18 +8,18 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-ul,
-ol {
+.wmde-markdown ul,
+.wmde-markdown ol {
     display: block;
     list-style: disc outside none;
     margin: 1em 0;
     padding: 0 0 0 40px;
 }
 
-ol {
+.wmde-markdown ol {
     list-style-type: decimal;
 }
 
-li {
+.wmde-markdown li {
     display: list-item;
 }

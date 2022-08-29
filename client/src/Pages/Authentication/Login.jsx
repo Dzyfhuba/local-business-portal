@@ -53,7 +53,7 @@ export default function Login() {
     <div
       className='bg-base w-full h-full'
     >
-      <Navbar />
+      {/* <Navbar /> */}
       <div id="card" className='w-4/5 bg-primary p-3 rounded max-w-[500px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
         <div id="header">
           <Link to={'/'}>
@@ -63,7 +63,7 @@ export default function Login() {
           </Link>
           <h3 className='text-center'>Login</h3>
         </div>
-        <form className='' onSubmit={handleForm}>
+        <form className='flex flex-col gap-3' onSubmit={handleForm}>
           <Label htmlFor='email'>Email<RequiredStar /></Label>
           <Input id='email' name='email' placeholder='Email...' autoFocus required />
           <Label htmlFor='password'>Password<RequiredStar /></Label>

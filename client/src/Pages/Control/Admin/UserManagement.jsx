@@ -280,7 +280,7 @@ const UserManagement = () => {
     <Admin>
       <div id="container" className='mx-5 my-6'>
         <Modal
-          triggerClassName={'bg-secondary px-5 py-2.5 w-full text-white rounded mb-3 shadow-2xl sticky top-16 z-10'}
+          triggerClassName={'bg-secondary px-5 py-2.5 w-full text-white rounded mb-3 shadow-2xl sticky top-16 z-5'}
           head={'Tangguhkan Pengguna'}
           triggerBody={'Tangguhkan Pengguna'}
           body={suspendForm}
