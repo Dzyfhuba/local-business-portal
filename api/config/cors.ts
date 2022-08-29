@@ -52,6 +52,7 @@ const corsConfig: CorsConfig = {
     'http://192.168.1.26:3000',
     'http://192.168.1.14:3000',
     'http://20.20.20.240:3000',
+    'http://20.20.20.227:3000',
     'http://127.0.0.1:3000',
     'https://kknbululanjang.hafidzubaidillah.com',
     'http://kknbululanjang.hafidzubaidillah.com',

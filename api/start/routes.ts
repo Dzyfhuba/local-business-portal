@@ -30,7 +30,9 @@ Route.post('/logout', 'AuthController.logout')
 Route.get('/auth/check', 'AuthController.authCheck')
 
 Route.get('/post', 'PostsController.index')
+Route.get('/post/few', 'PostsController.few')
 Route.get('/stall', 'StallsController.index')
+Route.get('/stall/few', 'StallsController.few')
 Route.get('/stall/:stall', 'StallsController.show')
 
 Route.get('/post/all-by-stall', 'Control/PostsController.allByStall')
