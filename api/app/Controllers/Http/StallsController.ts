@@ -1,7 +1,6 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Database from '@ioc:Adonis/Lucid/Database'
-import Logger from '@ioc:Adonis/Core/Logger'
 import shuffleArray from '../Helper/shuffleArray'
 
 export default class StallsController {
@@ -31,7 +30,7 @@ export default class StallsController {
     }
   }
 
-  public async few ({request, response}) {
+  public async few ({response}) {
     try {
       const ids = await Database.from('users')
         .join('profiles', 'profiles.user_id', 'users.id')

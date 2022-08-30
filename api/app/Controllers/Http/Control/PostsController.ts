@@ -76,7 +76,7 @@ export default class PostsController {
           data: post,
           request: request,
         })
-      } F
+      }
     } catch (error) {
       return response.json({
         error: true,

@@ -32,7 +32,7 @@ export default class PostsController {
     }
   }
 
-  public async few ({request, response}) {
+  public async few ({response}) {
     try {
       const ids = await Database.from('posts')
         .join('users', 'users.id', 'posts.user_id')
