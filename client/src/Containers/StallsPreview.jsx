@@ -35,7 +35,7 @@ const StallsPreview = (props) => {
   }, [])
   
   return (
-    <div>
+    <>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}
@@ -63,7 +63,7 @@ const StallsPreview = (props) => {
       >
         {stalls.length
           ? stalls.map((stall, index) => (
-              <SwiperSlide className="h-80 shadow rounded my-3 overflow-y-hidden" key={index}>
+              <SwiperSlide className="h-80 shadow rounded my-3 overflow-y-hidden bg-white" key={'stall'+ index}>
                 <Link to={`/stall/${stall.username}`}>
                 <LazyLoadImage
                   src={
@@ -85,7 +85,7 @@ const StallsPreview = (props) => {
             ))
           : null}
       </Swiper>
-    </div>
+    </>
   )
 }
 

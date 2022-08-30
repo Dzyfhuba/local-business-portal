@@ -73,7 +73,7 @@ const PostsPreview = (props) => {
         {posts.length
           ? posts.map((post, index) => (
               <SwiperSlide
-                className="h-80 shadow rounded my-3 overflow-y-hidden"
+                className="h-80 shadow rounded my-3 overflow-y-hidden bg-white"
                 key={index}
               >
                 <Link to={`/post/${post.username}/${post.slug}`}>

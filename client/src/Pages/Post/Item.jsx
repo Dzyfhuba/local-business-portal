@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { CgProfile } from 'react-icons/cg'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -13,18 +13,17 @@ import Var from '../../Config/Var'
 import Image404 from '../../Images/404.jpg'
 import Main from '../../Layouts/Main'
 // Import Swiper React components
-import MarkdownPreview from '@uiw/react-markdown-preview';
+import MarkdownPreview from '@uiw/react-markdown-preview'
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/lazy";
-import "swiper/css/zoom";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import "swiper/css"
+import "swiper/css/lazy"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import "swiper/css/zoom"
 
 // import required modules
-import { Lazy, Pagination, Navigation, Zoom } from "swiper";
-import SimpleMdeReact from 'react-simplemde-editor'
+import { Mousewheel, Navigation, Pagination, Zoom } from "swiper"
 
 const Item = props => {
     const { stall, slug } = useParams()
@@ -73,6 +72,8 @@ const Item = props => {
         setImage(supabaseImages)
     }
 
+    console.log(images);
+
     return (
         <Main>
             <Helmet>
@@ -86,17 +87,19 @@ const Item = props => {
                 pagination={{
                     clickable: true,
                 }}
-                modules={[Zoom, Navigation, Pagination]}
+                direction={'horizontal'}
+                mousewheel={(true, {forceToAxis:true})}
+                modules={[Zoom, Navigation, Pagination, Mousewheel]}
                 className={'h-80'}
             >
                 {
                     images.map((image, i) => (
-                        <SwiperSlide key={post.title + ' ' + i} className='flex items-center'>
+                        <SwiperSlide className='flex items-center' key={i}>
                             <div className="swiper-zoom-container">
                                 <img
                                     src={image}
                                     className="object-contain object-center w-full"
-                                    alt={post.titile}
+                                    alt={post.title}
                                 />
                             </div>
                         </SwiperSlide>
@@ -136,12 +139,7 @@ const Item = props => {
                 {/* <h3>{post.name}</h3> */}
                 <section id='content'>
                     <h2 className='font-bold text-lg'>Dekripsi Produk</h2>
-                    {/* <SimpleMdeReact value={post.content} options={{toolbar: false}} 
-                    getMdeInstance={SimpleMdeReact => {
-                        console.log(SimpleMdeReact.codemirror.getValue());
-                    }}
-                    /> */}
-                    <MarkdownPreview source={post.content || ''} warpperElement='light' />
+                    <MarkdownPreview source={post.content} />
                 </section>
             </article>
         </Main>
