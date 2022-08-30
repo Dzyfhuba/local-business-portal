@@ -30,7 +30,6 @@ const Item = props => {
     const [post, setPost] = useState({})
     const [images, setImage] = useState([Image404])
     const [profileImage, setProfileImage] = useState(String)
-    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     useEffect(() => {
         axios.get(`${Hosts.main}/post/${stall}/${slug}`)

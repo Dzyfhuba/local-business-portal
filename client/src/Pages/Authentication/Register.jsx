@@ -8,7 +8,6 @@ import Input from "../../Components/Input";
 import Label from "../../Components/Label";
 import { RequiredStar } from "../../Components/RequiredStar";
 import Hosts from "../../Config/Hosts";
-import Navbar from "../../Containers/Navbar";
 
 export default function Register(props) {
     const navigate = useNavigate()

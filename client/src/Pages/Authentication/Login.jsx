@@ -1,15 +1,13 @@
-import React from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
+import swal from 'sweetalert'
 import Brand from '../../Components/Brand'
 import Button from '../../Components/Button'
 import Input from '../../Components/Input'
 import Label from '../../Components/Label'
-import axios from 'axios'
-import Hosts from '../../Config/Hosts'
-import swal from 'sweetalert';
-import Auth from '../../Config/Auth'
 import { RequiredStar } from '../../Components/RequiredStar'
-import Navbar from '../../Containers/Navbar'
+import Auth from '../../Config/Auth'
+import Hosts from '../../Config/Hosts'
 
 export default function Login() {
 

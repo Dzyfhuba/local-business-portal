@@ -24,7 +24,7 @@ const PostsPreview = (props) => {
           const mapped = await Promise.all(
             res.data.data.map(async (post) => {
               const images = post.images.split(",");
-              const { data, error } = await supabase.storage
+              const { data } = await supabase.storage
                 .from("post-images")
                 .getPublicUrl(
                   images[Math.floor(Math.random() * images.length)]

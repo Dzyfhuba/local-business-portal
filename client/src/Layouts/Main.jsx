@@ -53,7 +53,7 @@ const Main = props => {
             })
         }
       })
-  }, [])
+  }, [navigate])
 
   return (
     <div className="bg-base min-h-screen">

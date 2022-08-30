@@ -8,6 +8,7 @@ import { TbTrashX } from 'react-icons/tb'
 import ImageUploading from 'react-images-uploading'
 import Zoom from 'react-medium-image-zoom'
 import { useNavigate } from 'react-router-dom'
+import SimpleMDE from "react-simplemde-editor"
 import swal from 'sweetalert'
 import Button from '../../../Components/Button'
 import Input from '../../../Components/Input'
@@ -17,7 +18,6 @@ import Auth from '../../../Config/Auth'
 import Hosts from '../../../Config/Hosts'
 import { supabase } from '../../../Config/SupabaseClient'
 import Var from '../../../Config/Var'
-import SimpleMDE, { SimpleMdeReact } from "react-simplemde-editor";
 import Main from '../../../Layouts/Main'
 
 const Create = () => {
